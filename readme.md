@@ -1,2 +1,13 @@
-Kolaborativn� pr�ce v Latex p�es Git
-------------------------------------
+# Kolaborativní práce v Latex přes Git
+
+## Závislosti
+
+- [Node.js](https://nodejs.org/)
+
+## Instalace
+
+`npm install`
+
+## Spuštění
+
+`npm start`
