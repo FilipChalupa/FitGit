@@ -3,6 +3,7 @@
 ## Závislosti
 
 - [Node.js](https://nodejs.org/)
+- [Mango-cli](http://mangocli.org/)
 
 ## Instalace
 
