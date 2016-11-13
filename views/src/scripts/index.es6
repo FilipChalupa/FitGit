@@ -18,7 +18,7 @@ var onJQueryMissing = () => {
 
 
 jQueryFallbackProvider(
-	`${__dirname}/node_modules/jquery/dist/jquery.min.js`,
+	'node_modules/jquery/dist/jquery.min.js', // Doen't work - @TODO - fixit
 	onJQueryAvailable,
 	onJQueryMissing
 )
