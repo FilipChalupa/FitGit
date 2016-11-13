@@ -21,6 +21,7 @@ buildstamp:
 dependencies:
   - stylus-normalize
   - jquery
+  - bootstrap
 data:
   global: src/data/global.json
 hooks:
