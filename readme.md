@@ -7,8 +7,19 @@
 
 ## Instalace
 
-`npm install`
+```bash
+npm install
+cd views
+npm install -g mango-cli
+mango install
+cd ..
+```
 
 ## Spuštění
 
-`npm start`
+```bash
+cd views
+mango build
+cd ..
+npm start
+```
