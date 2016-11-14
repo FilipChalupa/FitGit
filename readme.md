@@ -15,11 +15,17 @@ mango install
 cd ..
 ```
 
-## Spuštění
+## Spuštění pro vývoj
 
 ```bash
 cd views
 mango build
 cd ..
 npm start
+```
+
+## Zabalení aplikace pro deploy
+
+```bask
+npm run pack
 ```
