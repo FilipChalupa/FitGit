@@ -8,6 +8,8 @@ app/public
 ._*
 .Trashes
 
+dist
+
 npm-debug.log
 
 mango.local.yaml
