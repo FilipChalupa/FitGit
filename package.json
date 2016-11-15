@@ -1,11 +1,13 @@
 {
-  "name": "electron-quick-start",
+  "name": "latex-git",
+  "productName": "Latex-Git",
   "version": "1.0.0",
   "description": "A minimal Electron application",
   "main": "app/main.js",
   "scripts": {
     "start": "electron ./app/main.js",
-    "pack": "node pack.js"
+    "pack": "node pack.js",
+    "dist": "build --dir"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -18,6 +20,11 @@
   "devDependencies": {
     "asar": "^0.12.3",
     "electron": "^1.4.1",
+    "electron-builder": "^8.6.0",
     "mango-cli": "^0.28.0"
+  },
+  "build": {
+    "appId": "cz.cvut.chalufil.bp",
+    "files": "app"
   }
 }
