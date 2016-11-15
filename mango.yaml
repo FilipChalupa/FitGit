@@ -1,5 +1,5 @@
 src_folder: src
-dist_folder: ../public
+dist_folder: app/public
 styles:
   - src/styles/index.styl
 scripts:

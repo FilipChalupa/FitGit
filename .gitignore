@@ -1,2 +1,13 @@
 node_modules
-public
+app/public
+
+[Tt]humbs.db
+[Dd]esktop.ini
+*.DS_store
+.DS_store?
+._*
+.Trashes
+
+npm-debug.log
+
+mango.local.yaml
