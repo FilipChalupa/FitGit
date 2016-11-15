@@ -15,9 +15,6 @@ static:
   - node_modules/jquery/dist/jquery.min.js
 templates:
   - src/templates/*.jade
-buildstamp:
-  - ../public/styles/*.css
-  - ../public/scripts/index.js
 dependencies:
   - stylus-normalize
   - jquery
