@@ -17,6 +17,7 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "asar": "^0.12.3",
-    "electron": "^1.4.1"
+    "electron": "^1.4.1",
+    "mango-cli": "^0.28.0"
   }
 }
