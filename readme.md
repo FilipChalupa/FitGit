@@ -1,4 +1,4 @@
-# Kolaborativní práce v Latex přes Git
+# Kolaborativní práce v Latex přes Git (Work in progress!)
 
 ## Závislosti
 
