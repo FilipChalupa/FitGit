@@ -1,4 +1,5 @@
-# Kolaborativní práce v Latex přes Git (Work in progress!)
+# Kolaborativní práce v Latex přes Git (Work in progress!) [![Build Status](https://travis-ci.org/Onset/git-latex.svg?branch=master)](https://travis-ci.org/Onset/git-latex) [![Build status](https://ci.appveyor.com/api/projects/status/w48htrgwosvd42eq/branch/master?svg=true)](https://ci.appveyor.com/project/Onset/git-latex/branch/master)
+
 
 ## Závislosti
 
