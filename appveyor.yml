@@ -19,9 +19,14 @@ install:
   - npm install
   - npm prune
 
+environment:
+  GH_TOKEN:
+    secure: Ay7kOpI0QRhbqqH+FgJsvDGSB1o9e+YNMYreVdYLXhd4fo6pZ4D5F5Y/2a/GjHm9
+
 build_script:
   - node --version
   - npm --version
   - npm run pack
+  - .\.publish_to_github.bat
 
 test: off
