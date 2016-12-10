@@ -3,7 +3,7 @@ console.log('Packing app')
 var exec = require('child_process').exec
 
 var start = function() {
-	installMangoDependencies()
+	buildMango()
 }
 
 var buildMango = function() {
