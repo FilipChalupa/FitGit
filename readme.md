@@ -22,3 +22,7 @@ npm start
 ```bash
 npm run pack
 ```
+
+## Předpřipravené balíčky s aktuálním buildem aplikace
+
+S pushem do masteru se automaticky spouští buildy na Travis CI a AppVeyor. Hotové balíčky jsou k nalezení ve větvích s prefixem `package/`. Tedy například aktuální build pro Windows je zde: https://github.com/Onset/git-latex/tree/package/windows
