@@ -6,14 +6,6 @@ var start = function() {
 	installMangoDependencies()
 }
 
-// @TODO: better `mango install`
-var installMangoDependencies = function() {
-	exec('node node_modules/mango-cli/bin/mango install', function(error, stdout, stderr) {
-		console.log(stdout)
-		buildMango()
-	})
-}
-
 var buildMango = function() {
 	exec('node node_modules/mango-cli/bin/mango build', function(error, stdout, stderr) {
 		if (error instanceof Error) {

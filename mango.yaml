@@ -15,10 +15,6 @@ static:
   - node_modules/jquery/dist/jquery.min.js
 templates:
   - src/templates/*.jade
-dependencies:
-  - stylus-normalize
-  - jquery
-  - bootstrap
 data:
   global: src/data/global.json
 hooks:
