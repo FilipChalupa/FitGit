@@ -11,15 +11,9 @@ html
 		title=title
 
 		link(rel='stylesheet', href='styles/index.css', media='screen')
+		link(rel='stylesheet', href='node_modules/bootstrap/dist/css/bootstrap.min.css')
 
-		//- Bootstrap
-		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
-
-		//- Queue of JS components to initialize
-		script.
-			initComponents = [
-				{ name: 'shapes', data: { url: './sprites/shapes.svg' } }
-			]
+		script(src='scripts/index.js')
 
 	body
 
@@ -29,6 +23,4 @@ html
 		block content
 		block footer
 
-		//- Application init
-		script(src='https://code.jquery.com/jquery-2.2.4.min.js', defer)
-		script(src='scripts/index.js', defer)
+		script(src='node_modules/bootstrap/dist/js/bootstrap.min.js', defer)

@@ -2,19 +2,17 @@ src_folder: src
 dist_folder: app/public
 styles:
   - src/styles/index.styl
-scripts:
-  - src/scripts/index.es6
 images:
   - src/images/**/*.{jpg,png}
-sprites:
-  -
-    path: src/images/sources/*.svg
-    name: false
 static:
+  - node_modules/bootstrap/dist/css/bootstrap.min.css
+  - node_modules/bootstrap/dist/js/bootstrap.min.js
   - src/fonts/**
-  - node_modules/jquery/dist/jquery.min.js
+  - src/scripts/**
 templates:
   - src/templates/*.jade
+watch:
+  - src/scripts/**
 data:
   global: src/data/global.json
 hooks:

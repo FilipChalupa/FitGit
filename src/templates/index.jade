@@ -4,3 +4,10 @@ append vars
 	- var page = 'index'
 
 block content
+	button#tryNotification(type='button', class='btn btn-default') Vyzkoušet upozornění (notifikace)
+	script.
+		new Notifier('#tryNotification')
+
+	button#tryRepo(type='button', class='btn btn-default') Vyzkoušet vytvoření repozitáře
+	script.
+		new Repo('#tryRepo')
