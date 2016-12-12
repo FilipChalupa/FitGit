@@ -18,14 +18,16 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^1.4.1",
-    "electron-builder": "^8.6.0",
+    "electron": "1.4.1",
+    "electron-builder": "8.6.0",
     "mango-cli": "^0.28.0"
   },
   "dependencies": {
-    "stylus-normalize": "^3.0.0",
+    "bootstrap": "^3.3.7",
+    "fs-extra-promise": "^0.4.1",
     "jquery": "^3.1.1",
-    "bootstrap": "^3.3.7"
+    "nodegit": "^0.16.0",
+    "stylus-normalize": "^3.0.0"
   },
   "build": {
     "appId": "cz.cvut.chalufil.bp",

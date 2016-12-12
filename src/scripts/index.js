@@ -1,9 +1,8 @@
-const fs = require('fs')
+const fse = require('fs-extra-promise')
+const path = require('path')
 
-const WORKING_DIR = `${__dirname}/user_data`
-if (!fs.existsSync(WORKING_DIR)) {
-	fs.mkdirSync(WORKING_DIR)
-}
+const WORKING_DIR = path.join(__dirname, 'user_data')
+fse.ensureDirSync(WORKING_DIR)
 
 
 jQuery = $ = require('jquery')
