@@ -9,3 +9,4 @@ jQuery = $ = require('jquery')
 
 Notifier = require('./scripts/components/notifier')
 Repo = require('./scripts/components/repo')
+GitInfo = require('./scripts/components/gitInfo')

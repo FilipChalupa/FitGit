@@ -8,6 +8,10 @@ block content
 	script.
 		new Notifier('#tryNotification')
 
-	button#tryRepo(type='button', class='btn btn-default') Vyzkoušet vytvoření repozitáře
+	button#tryRepo(type='button', class='btn btn-primary') Vyzkoušet vytvoření repozitáře
 	script.
 		new Repo('#tryRepo')
+
+	button#tryGitInfo(type='button', class='btn btn-success') Zjist nastavení Gitu
+	script.
+		new GitInfo('#tryGitInfo')
