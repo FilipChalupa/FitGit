@@ -93,6 +93,7 @@ module.exports = class {
 		})
 		.then((id) => {
 			console.log(`Commit s id ${id} byl úspěšně vytvořen.`)
+			alert('Test se zdařil.')
 		})
 		.catch((e) => {
 			console.error('Během testu vytváření commitů došlo k chybě.')
