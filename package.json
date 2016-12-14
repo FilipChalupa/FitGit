@@ -9,7 +9,7 @@
     "pack": "node pack.js",
     "dist": "build --dir"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/Onset/git-latex",
   "keywords": [
     "Electron",
     "Git",
