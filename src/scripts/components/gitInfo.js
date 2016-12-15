@@ -11,7 +11,17 @@ module.exports = class {
 	}
 
 	test() {
-		alert('test git info')
+		let config
+		Git.Config.openDefault().then((c) => {
+			config = c
+			return config.getString('user.name')
+		}).then((username) => {
+			console.log(`User.name: ${username}`)
+			alert(`Uživatelské jméno: ${username}`)
+			return config.getString('user.email')
+		}).then((email) => {
+			console.log(`User.email: ${email}`)
+		})
 	}
 
 }
