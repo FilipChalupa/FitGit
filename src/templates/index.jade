@@ -4,18 +4,18 @@ append vars
 	- var page = 'index'
 
 block content
-	button#tryNotification(type='button', class='btn btn-default') Vyzkoušet upozornění (notifikace)
+	button#tryNotification(style='margin-bottom: 15px;', type='button', class='btn btn-block btn-warning') Vyzkoušet upozornění (notifikace)
 	script.
 		new Notifier('#tryNotification')
 
-	button#tryRepo(type='button', class='btn btn-primary') Vyzkoušet vytvoření repozitáře
+	button#tryRepo(style='margin-bottom: 15px;', type='button', class='btn btn-block btn-primary') Vyzkoušet vytvoření repozitáře
 	script.
 		new Repo('#tryRepo')
 
-	button#tryGitInfo(type='button', class='btn btn-success') Zjist nastavení Gitu
+	button#tryGitInfo(style='margin-bottom: 15px;', type='button', class='btn btn-block btn-success') Zjist nastavení Gitu
 	script.
 		new GitInfo('#tryGitInfo')
 
-	button#tryUserData(type='button', class='btn btn-info') Otestovat uživatelskou složku
+	button#tryUserData(style='margin-bottom: 15px;', type='button', class='btn btn-block btn-danger') Otestovat uživatelskou složku
 	script.
 		new UserData('#tryUserData')
