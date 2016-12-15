@@ -17,7 +17,7 @@ module.exports = class {
 			return config.getString('user.name')
 		}).then((username) => {
 			console.log(`User.name: ${username}`)
-			alert(`Uživatelské jméno: ${username}`)
+			alert(`Uživatelské jméno: ${username}`, 'user.name')
 			return config.getString('user.email')
 		}).then((email) => {
 			console.log(`User.email: ${email}`)

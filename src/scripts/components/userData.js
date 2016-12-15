@@ -18,11 +18,13 @@ module.exports = class {
 		const userDir = path.join(app.getPath('userData'), 'User Data')
 		fse.ensureDirSync(userDir)
 
+		const testFile = path.join(userDir, 'test.txt')
+
 		console.log(`Uživatelská složka: ${userDir}`)
 
-		fse.writeFileSync(path.join(userDir, 'test.txt'), 'Hello World! ☃☃☃\n')
+		fse.writeFileSync(testFile, 'Hello World! ☃☃☃\n')
 		console.log('Nyní by měl existovat soubor test.txt v uživatelské složce.')
-		alert('Test dokončen')
+		alert(testFile, 'Test dokončen')
 
 	}
 
