@@ -1,5 +1,5 @@
-node_modules
-app/public
+node_modules/
+app/node_modules/
 
 [Tt]humbs.db
 [Dd]esktop.ini
@@ -8,8 +8,6 @@ app/public
 ._*
 .Trashes
 
-dist
+dist/
 
 npm-debug.log
-
-mango.local.yaml

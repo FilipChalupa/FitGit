@@ -6,8 +6,7 @@
   "main": "app/main.js",
   "scripts": {
     "start": "electron ./app/main.js",
-    "pack": "node pack.js",
-    "dist": "build --dir"
+    "pack": "build --dir"
   },
   "repository": "https://github.com/Onset/git-latex",
   "keywords": [
@@ -15,22 +14,18 @@
     "Git",
     "LaTeX"
   ],
-  "author": "GitHub",
+  "author": "Filip Chalupa",
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "1.4.1",
-    "electron-builder": "8.6.0",
-    "mango-cli": "^0.28.0"
-  },
-  "dependencies": {
-    "bootstrap": "^3.3.7",
-    "fs-extra-promise": "^0.4.1",
-    "jquery": "^3.1.1",
-    "nodegit": "^0.16.0",
-    "stylus-normalize": "^3.0.0"
+    "electron-builder": "14.1.1"
   },
   "build": {
-    "appId": "cz.cvut.chalufil.bp",
-    "files": "app"
+    "appId": "cz.cvut.chalufil.bp"
+  },
+  "xdependencies": {
+    "bootstrap": "^3.3.7",
+    "fs-extra-promise": "^0.4.1",
+    "jquery": "^3.1.1"
   }
 }

@@ -1,0 +1,15 @@
+{
+  "name": "latex-git",
+  "productName": "Latex-Git",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "author": "Filip Chalupa",
+  "license": "CC0-1.0",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "fs-extra-promise": "^0.4.1",
+    "jquery": "^3.1.1",
+		"nodegit": "^0.17.0"
+  }
+}
