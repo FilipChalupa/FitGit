@@ -1,8 +1,5 @@
-const remote = require('electron').remote
 const fse = require('fs-extra-promise')
 const path = require('path')
-
-const app = remote.getGlobal('app')
 
 module.exports = class {
 
@@ -15,7 +12,7 @@ module.exports = class {
 	}
 
 	test() {
-		const userDir = path.join(app.getPath('userData'), 'User Data')
+		const userDir = path.join(WORKING_DIR, 'tests', 'userData')
 		fse.ensureDirSync(userDir)
 
 		const testFile = path.join(userDir, 'test.txt')

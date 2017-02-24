@@ -13,7 +13,7 @@ module.exports = class {
 	}
 
 	test() {
-		const repoDir = path.join(WORKING_DIR, Date.now().toString())
+		const repoDir = path.join(WORKING_DIR, 'tests', 'repo', Date.now().toString())
 
 		fse.ensureDirSync(repoDir)
 
