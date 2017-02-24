@@ -18,6 +18,10 @@ cache:
     - $HOME/.electron
     - $HOME/.cache
 
+env:
+  global:
+    - secure: "m4HJnP/OHWzxl2xrgzBU6pAqwR77M1gPNDeJ4QunIi3MRhFehLPQ5JMW8thTnO8zAeWhdr5zXs0WxgGjcifALtWT9ushezjp3AAT/fk0Btoia5fXrqMDs2x7NDMci8026IYRK2SzpR29OggPfdMHk+hODEOuldPmgEI8tQMp1ytJlwsGyGwH+PwZNrQTZ85bhKUGsgFHIMH9RzvzmlKJP2WCuIV5nhCu+OQt1V4qhYdrCmwBpoW6JCY3Pi+QTLZK3dJVBJfKl9eC3RBnes52vl9xyCNMLC+ui+YYpq59wBOhkNcb24+JJIbf8LQ4Lv20lDS/jpp6w8MS5n6/vj5rDpRoBsRIEIO5jvNi0nmYDDoEFqNFkwszAcWzEh3GtSifdijum4dA73m9RfX0q0i46+jucsRAnozEFo5/fzxl0Y2yJjbr9fLuNPfIQQWtG3fQKZG9vnBUN9jt95JOBYoi49IfgsWsXXT//lrzS/qdzcIjWeAjNII5q2QVdXgFpow4hX+3yTyh+f0X2MX3ywpyc0QXG5cm+AF86hc2x8Pc0lld9l96iQSxaZPcQcIv68XYks9xGSU94aPO5um/WFnaXabHM0lQPZLXpLKOfZ8IJgFb0m1CkDEuH4cYURGg/QhMsk1FRAWy88Z6JRRFUfNf7HXaJdDiQXdFIdFf0eYBsLE="
+
 addons:
   apt:
     packages:
