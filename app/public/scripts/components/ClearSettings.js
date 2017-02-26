@@ -9,8 +9,11 @@ module.exports = class ClearSettings {
 	}
 
 	clear() {
-		settings.clearSync() // @TODO: do it async
-		alert('Nastavení smazáno.')
-		location.reload()
+		settings.clear().then(() => {
+			return settings.applyDefaults()
+		}).then(() => {
+			alert('Nastavení smazáno.')
+			location.reload()
+		})
 	}
 }

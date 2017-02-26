@@ -29,8 +29,18 @@
         </div>
       </div>
     </nav>
-    <div class="container">Projekty
-    </div>
+    <section class="container">
+			<h1>Projekty</h1>
+			<div class="list-group" id="projectsList"></div>
+			<script>
+				new ProjectsList('#projectsList')
+			</script>
+			<button id="projectAdd" style="margin-bottom: 15px;" type="button" class="btn btn-block btn-success">Přidat projekt</button>
+			<script>
+				new ProjectAdd('#projectAdd')
+			</script>
+    </section>
+
     <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js" defer></script>
   </body>
 </html>
