@@ -1,6 +1,6 @@
 const Git = require('nodegit')
 
-module.exports = class {
+module.exports = class GitInfo {
 
 	constructor(query) {
 		this.$el = $(query)

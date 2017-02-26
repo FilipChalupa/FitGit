@@ -1,4 +1,4 @@
-module.exports = class {
+module.exports = class Restart {
 
 	constructor(query) {
 		this.$el = $(query)

@@ -2,7 +2,7 @@ const Git = require('nodegit')
 const fse = require('fs-extra-promise')
 const path = require('path')
 
-module.exports = class {
+module.exports = class Repo {
 
 	constructor(query) {
 		this.$el = $(query)

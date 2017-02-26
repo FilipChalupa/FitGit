@@ -1,6 +1,6 @@
 const notification = require('../utils/notification')
 
-module.exports = class {
+module.exports = class Notifier {
 
 	constructor(query) {
 		this.$el = $(query)

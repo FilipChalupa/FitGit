@@ -9,8 +9,8 @@ fse.ensureDirSync(WORKING_DIR)
 
 jQuery = $ = require('jquery')
 
-Notifier = require('./scripts/components/notifier')
-Repo = require('./scripts/components/repo')
-GitInfo = require('./scripts/components/gitInfo')
-UserData = require('./scripts/components/userData')
-Restart = require('./scripts/components/restart')
+Notifier = require('./scripts/components/Notifier')
+Repo = require('./scripts/components/Repo')
+GitInfo = require('./scripts/components/GitInfo')
+UserData = require('./scripts/components/UserData')
+Restart = require('./scripts/components/Restart')

@@ -1,7 +1,7 @@
 const fse = require('fs-extra-promise')
 const path = require('path')
 
-module.exports = class {
+module.exports = class UserData {
 
 	constructor(query) {
 		this.$el = $(query)
