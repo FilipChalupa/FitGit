@@ -5,7 +5,7 @@
   "description": "A minimal Electron application",
   "main": "app/main.js",
   "scripts": {
-    "start": "electron ./app/main.js",
+    "start": "cross-env NODE_ENV=development electron ./app/main.js",
     "pack": "build --dir"
   },
   "repository": "https://github.com/Onset/git-latex",
@@ -17,15 +17,11 @@
   "author": "Filip Chalupa",
   "license": "CC0-1.0",
   "devDependencies": {
+    "cross-env": "^3.1.4",
     "electron": "1.4.1",
     "electron-builder": "14.1.1"
   },
   "build": {
     "appId": "cz.cvut.chalufil.bp"
-  },
-  "xdependencies": {
-    "bootstrap": "^3.3.7",
-    "fs-extra-promise": "^0.4.1",
-    "jquery": "^3.1.1"
   }
 }

@@ -2,6 +2,7 @@ const path = require('path')
 const fse = require('fs-extra-promise')
 const remote = require('electron').remote
 const app = remote.getGlobal('app')
+const DEBUG = remote.getGlobal('DEBUG')
 
 const WORKING_DIR = path.join(app.getPath('userData'), 'latex git')
 fse.ensureDirSync(WORKING_DIR)
