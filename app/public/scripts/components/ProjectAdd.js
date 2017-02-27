@@ -31,15 +31,19 @@ module.exports = class ClearSettings {
 			return
 		}
 		const repoDirectory = dialogDirectories[0] // @TODO: Validate repository exists
-		settings.get('projects').then((projects) => {
-			projects.push({ // @TODO: do it dry
-				id: sha1(repoDirectory),
+		let projects = []
+		let id = sha1(repoDirectory)
+		settings.get('projects').then((p) => {
+			projects = p
+			projects[id] = { // @TODO: do it dry
+				id: id,
 				name: path.basename(repoDirectory),
 				path: repoDirectory,
-			})
+			}
 			return settings.set('projects', projects)
 		}).then(() => {
-			this.$window.trigger('projects-new')
+			this.$window.trigger('projects-new', [projects[id]])
+			this.$window.trigger('projects-select', [projects[id]])
 			this.setState(this.$fromLocal, false)
 		}).catch(() => {
 			this.setState(this.$fromLocal, false)
@@ -64,6 +68,8 @@ module.exports = class ClearSettings {
 			}
 
 			const repoDirectory = dialogDirectories[0]
+			let projects = []
+			let id = sha1(repoDirectory)
 			Git.Repository.init(repoDirectory, 0)
 			.then((repo) => {
 				return Git.Remote.create(repo, 'origin', url)
@@ -71,15 +77,17 @@ module.exports = class ClearSettings {
 			.then((remote) => {
 				return settings.get('projects')
 			})
-			.then((projects) => {
-				projects.push({ // @TODO: do it dry
-					id: sha1(repoDirectory),
+			.then((p) => {
+				projects = p
+				projects[id] = { // @TODO: do it dry
+					id: id,
 					name: path.basename(repoDirectory),
 					path: repoDirectory,
-				})
+				}
 				return settings.set('projects', projects)
 			}).then(() => {
-				this.$window.trigger('projects-new')
+				this.$window.trigger('projects-new', [projects[id]])
+				this.$window.trigger('projects-select', [projects[id]])
 				this.setState(this.$fromUrl, false)
 			}).catch(() => {
 				this.setState(this.$fromUrl, false)

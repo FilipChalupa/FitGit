@@ -1,6 +1,6 @@
 const settings = require('electron-settings')
 
 settings.defaults({
-	projects: [],
+	projects: {},
 	activeProjectId: null,
 })
