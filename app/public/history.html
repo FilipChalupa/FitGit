@@ -7,6 +7,7 @@
     <title>Git+LaTeX</title>
     <link rel="stylesheet" href="styles/index.css" media="screen">
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../node_modules/gitgraph.js/build/gitgraph.css">
     <script src="scripts/index.js"></script>
   </head>
   <body>
@@ -29,13 +30,14 @@
         </div>
       </div>
     </nav>
-    <div class="container">Historie
-      <script>
-        initComponents.push({
-        	name: 'notifications'
-        })
-      </script>
-    </div>
+    <section class="container">
+			<h1>Historie</h1>
+			<canvas id="graphCanvas"></canvas>
+			<script>
+				new GraphViewer('graphCanvas')
+			</script>
+    </section>
+		<!--<script src="../node_modules/gitgraph.js/build/gitgraph.min.js"></script>-->
     <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js" defer></script>
   </body>
 </html>
