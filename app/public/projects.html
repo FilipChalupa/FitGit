@@ -35,9 +35,14 @@
 			<script>
 				new ProjectsList('#projectsList')
 			</script>
-			<button id="projectAdd" style="margin-bottom: 15px;" type="button" class="btn btn-block btn-success">Přidat projekt</button>
+			<button id="projectFromLocal" style="margin-bottom: 15px;" type="button" class="btn btn-block btn-success">Přidat lokální projekt</button>
+			<button id="projectFromUrl" style="margin-bottom: 15px;" type="button" class="btn btn-block btn-info">Přidat projekt z URL</button>
+			<div class="form-group">
+				<label for="projectFromUrlInput">URL projektu</label>
+				<input type="url" class="form-control" id="projectFromUrlInput">
+			</div>
 			<script>
-				new ProjectAdd('#projectAdd')
+				new ProjectAdd('#projectFromLocal', '#projectFromUrl', '#projectFromUrlInput')
 			</script>
     </section>
 

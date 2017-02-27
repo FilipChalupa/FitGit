@@ -18,13 +18,17 @@ module.exports = class ClearSettings {
 			return settings.get('projects')
 		}).then((projects) => {
 			this.$el.empty()
+			const addedIds = []
 			projects.forEach((project) => {
-				this.$el.append(`
-					<a href="#" class="list-group-item ${project.id === activeProjectId ? 'active' : ''}" data-id="${project.id}">
-						<h4 class="list-group-item-heading">${project.name || '<i>Projekt bez názvu</i>'}</h4>
-						<p class="list-group-item-text">${project.path}</p>
-					</a>
-				`)
+				if (addedIds.indexOf(project.id) === -1) { // @TODO: check duplicates while adding
+					addedIds.push(project.id)
+					this.$el.append(`
+						<a href="#" class="list-group-item ${project.id === activeProjectId ? 'active' : ''}" data-id="${project.id}">
+							<h4 class="list-group-item-heading">${project.name || '<i>Projekt bez názvu</i>'}</h4>
+							<p class="list-group-item-text">${project.path}</p>
+						</a>
+					`)
+				}
 			})
 		})
 	}
