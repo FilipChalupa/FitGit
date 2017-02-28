@@ -29,8 +29,18 @@
         </div>
       </div>
     </nav>
-    <div class="container">Commit
-    </div>
+    <section class="container">
+			<h1>Commit</h1>
+			<section id="commitList" class="list-group"></section>
+			<button id="submitCommit" style="margin-bottom: 15px;" type="button" class="btn btn-block btn-success">Vytvořit commit</button>
+			<div class="form-group">
+				<label for="messageInput">Titulek commitu</label>
+				<input type="url" class="form-control" id="messageInput">
+			</div>
+			<script>
+				new Commit('#commitList', '#submitCommit', '#messageInput')
+			</script>
+    </section>
     <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js" defer></script>
   </body>
 </html>
