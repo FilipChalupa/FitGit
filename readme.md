@@ -9,6 +9,9 @@
 
 ```bash
 npm install
+cd app
+npm install
+cd ..
 ```
 
 ## Spuštění pro vývoj
