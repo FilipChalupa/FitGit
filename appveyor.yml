@@ -50,12 +50,12 @@ test_script:
   #- npm run test-e2e
   - npm run package
   - SET ARCHIVE=app-%PLATFORM%-%APPVEYOR_REPO_TAG_NAME%.zip
-  - 7z a xxx.zip release
+  - 7z a %ARCHIVE% release
   - dir
   - echo test deploy
 
 artifacts:
-  - path: xxx.zip
+  - path: $(ARCHIVE)
     name: release-archive
 
 deploy:
