@@ -53,11 +53,11 @@ test_script:
 before_deploy:
   - echo test deploy
   - SET ARCHIVE=app-%PLATFORM%-%APPVEYOR_REPO_TAG_NAME%.zip
-  - 7z a %ARCHIVE% release
+  - 7z a xxx.zip release
   - dir
 
 artifacts:
-  - path: %ARCHIVE%
+  - path: xxx.zip
     name: release-archive
 
 deploy:
