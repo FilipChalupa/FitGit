@@ -61,11 +61,11 @@ script:
 before_deploy:
   - ARCHIVE=app-$TRAVIS_OS_NAME-$TRAVIS_TAG.zip
   - cd $TRAVIS_BUILD_DIR && zip -r $ARCHIVE release
-deploy:
-  provider: releases
-  api_key:
-    secure: "oIHZfYBiyInUAWd4/KmrIXT+DSS/qAy63Iawq8c5eKDbzAe93qLzyTFnbAJjFpLgf43chn2HvPEOdGLi16oYhsqQR+tQi4ursvI5TzyL2uXE+2OZS9I1FzDwlvLIkVKSVs6/Op8Q4CKHMtsTiyfzKpjFpojDSFUMyFwm/tg0FcWsV4Ao7zyS/eDqTv3Q76vFY1lhvMkBeARCtHD7Br4rkeFGWG9ItyGiMy8AaJks8pjJZFE1Wrli/uv1WDOwiELikDrXI4Ke/L61zvk7es7d/RJYXw0auNH0IBv1QAEDz8pWD8nJvloMrh/r4nJ+dAXbKhImTR9Qc1zM2hgW8gCtqsTn/rZLOGCVTcD42hKQ0eHA6nHq81dPxFJ1dBnh5Q3AeCKY+LNwTwBFt7ZQeT8IG2HFI9G4zDwlKDDCbyuJcd+TBANhwep7giplJBL5DetzpXtuajmfeAQxM6ZnXCtxqqvCIYtkLfmjuObdpuZx6/5XYhazxXVUwukiepTcgIKNSMdmuDFkLyVepO+h6PwNN8THcNrSs+lbBl87gkhdH+cXlWOD7EKzuE3a5qmZ8XeFCiJS7wh+dQFOCVHkokL6OF3KHK+Rozbqer3GnvYgm7OkQhtqPJeI007NpHHU7eE4TcRPhnQN7fZuK4bno12CV6mYaXEj9IEsvvRLHQgT/mI="
-  file: $ARCHIVE
-  skip_cleanup: true
-  on:
-    tags: true
+#deploy:
+#  provider: releases
+#  api_key:
+#    secure: "oIHZfYBiyInUAWd4/KmrIXT+DSS/qAy63Iawq8c5eKDbzAe93qLzyTFnbAJjFpLgf43chn2HvPEOdGLi16oYhsqQR+tQi4ursvI5TzyL2uXE+2OZS9I1FzDwlvLIkVKSVs6/Op8Q4CKHMtsTiyfzKpjFpojDSFUMyFwm/tg0FcWsV4Ao7zyS/eDqTv3Q76vFY1lhvMkBeARCtHD7Br4rkeFGWG9ItyGiMy8AaJks8pjJZFE1Wrli/uv1WDOwiELikDrXI4Ke/L61zvk7es7d/RJYXw0auNH0IBv1QAEDz8pWD8nJvloMrh/r4nJ+dAXbKhImTR9Qc1zM2hgW8gCtqsTn/rZLOGCVTcD42hKQ0eHA6nHq81dPxFJ1dBnh5Q3AeCKY+LNwTwBFt7ZQeT8IG2HFI9G4zDwlKDDCbyuJcd+TBANhwep7giplJBL5DetzpXtuajmfeAQxM6ZnXCtxqqvCIYtkLfmjuObdpuZx6/5XYhazxXVUwukiepTcgIKNSMdmuDFkLyVepO+h6PwNN8THcNrSs+lbBl87gkhdH+cXlWOD7EKzuE3a5qmZ8XeFCiJS7wh+dQFOCVHkokL6OF3KHK+Rozbqer3GnvYgm7OkQhtqPJeI007NpHHU7eE4TcRPhnQN7fZuK4bno12CV6mYaXEj9IEsvvRLHQgT/mI="
+#  file: $ARCHIVE
+#  skip_cleanup: true
+#  on:
+#    tags: true
