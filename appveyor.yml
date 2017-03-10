@@ -52,15 +52,20 @@ test_script:
 
 before_deploy:
   - echo test deploy
-  - SET ARCHIVE=app-$(PLATFORM)-$(APPVEYOR_REPO_TAG_NAME).zip
+  - SET ARCHIVE=app-%PLATFORM%-%APPVEYOR_REPO_TAG_NAME%.zip
   - 7z a %ARCHIVE% release
   - dir
+
+artifacts:
+  - path: %ARCHIVE%
+    name: release-archive
+
 deploy:
   description: 'Release description'
   provider: GitHub
   auth_token:
     secure: /7T74glgVe7tT6igUGJXrvGhyyOkCz1IZExWehPM5QqzSC2E3PfrGTN7n87+ebWk
-  artifact: $(ARCHIVE)
+  artifact: release-archive
   draft: false
   prerelease: false
   on:
