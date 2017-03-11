@@ -49,7 +49,7 @@ test_script:
   #- npm run build
   #- npm run test-e2e
   - npm run package
-  - SET ARCHIVE=app-$(PLATFORM)-$(APPVEYOR_REPO_TAG_NAME).zip
+  - SET ARCHIVE=app-%PLATFORM%-%appveyor_repo_tag_name%.zip
   - 7z a %ARCHIVE% release
 
 artifacts:
@@ -57,7 +57,7 @@ artifacts:
     name: release-archive
 
 deploy:
-  description: 'Release description'
+  description: ''
   provider: GitHub
   auth_token:
     secure: /7T74glgVe7tT6igUGJXrvGhyyOkCz1IZExWehPM5QqzSC2E3PfrGTN7n87+ebWk
