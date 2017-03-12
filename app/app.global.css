@@ -1,11 +1,10 @@
 @import "~font-awesome/css/font-awesome.css";
-@import "~bootstrap/dist/css/bootstrap.css";
 
 body {
   position: relative;
-  color: #FFFFFF;
+  color: #000000;
   height: 100vh;
-  background-color: #000000;
+  background-color: #FFFFFF;
   font-family: Arial, Helvetica, Helvetica Neue, serif;
   overflow-y: hidden;
 }

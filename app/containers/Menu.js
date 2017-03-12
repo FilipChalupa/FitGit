@@ -1,26 +1,50 @@
 // @flow
-import React, { Component } from 'react';
-import { Link } from 'react-router';
-import styles from './Menu.css';
+import React, { Component } from 'react'
+import { Link, browserHistory } from 'react-router'
+
+import AppBar from 'material-ui/AppBar'
+import Drawer from 'material-ui/Drawer'
+import MenuItem from 'material-ui/MenuItem'
+import RaisedButton from 'material-ui/RaisedButton'
 
 export default class MenuPage extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {open: false}
+  }
+
+  handleToggle = () => this.setState({open: !this.state.open})
+
+
   render() {
     return (
-      <nav className="navbar navbar-default">
-        <div className="container-fluid">
-          <div className="navbar-header">
-            <button type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" className="navbar-toggle collapsed"><span className="sr-only">Toggle navigation</span><span className="icon-bar"></span><span className="icon-bar"></span><span className="icon-bar"></span></button>
-            <Link to="/" className="navbar-brand">Git+LaTeX</Link>
-          </div>
-          <div id="bs-example-navbar-collapse-1" className="collapse navbar-collapse">
-            <ul className="nav navbar-nav">
-              <li><Link to="/commit">Commit</Link></li>
-              <li><Link to="/projects">Projekty</Link></li>
-              <li><Link to="/history">Historie</Link></li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+      <div>
+        <AppBar
+          onLeftIconButtonTouchTap={this.handleToggle}
+          title="Git+LaTeX"
+          iconClassNameRight="muidocs-icon-navigation-expand-more"
+        />
+
+        <Drawer
+          open={this.state.open}
+          docked ={false}
+          onRequestChange={(open) => this.setState({open})}
+        >
+          <MenuItem
+            containerElement={<Link to="/commit" />}
+            primaryText="Commit"
+          />
+          <MenuItem
+            containerElement={<Link to="/projects" />}
+            primaryText="Projekty"
+          />
+          <MenuItem
+            containerElement={<Link to="/history" />}
+            primaryText="Historie"
+          />
+        </Drawer>
+      </div>
     );
   }
 }
