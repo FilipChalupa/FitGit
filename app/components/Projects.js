@@ -4,11 +4,12 @@ import styles from './Projects.css';
 import ProjectsList from './ProjectsList';
 
 export default class Projects extends Component {
+
   render() {
     return (
-      <div className="container">
-        <h1>Projekty</h1>
-        <ProjectsList />
+      <div>
+        <h1>Projekty{this.props.activeProject ? `: ${this.props.activeProject.name}` : ''}</h1>
+        <ProjectsList setActiveProject={this.props.setActiveProject} />
       </div>
     );
   }

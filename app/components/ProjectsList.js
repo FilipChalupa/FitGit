@@ -26,17 +26,12 @@ export default class ProjectsList extends Component {
 
   constructor(props) {
     super(props)
+
     this.state = {
       addType: 'new',
       openAddModal: false,
       addDirectoryPath: '',
-      projects: [{
-        name: 'Test',
-        note: 'dummy',
-      },{
-        name: 'Lumen',
-        note: 'dummy',
-      }],
+      projects: [],
     }
   }
 
@@ -83,7 +78,10 @@ export default class ProjectsList extends Component {
               showExpandableButton={true}
             />
             <CardActions>
-              <FlatButton label="Zvolit" />
+              <FlatButton
+                label="Zvolit"
+                onTouchTap={() => this.props.setActiveProject(project)}
+              />
             </CardActions>
             <CardText expandable={true}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.

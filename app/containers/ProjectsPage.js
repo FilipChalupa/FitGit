@@ -1,11 +1,17 @@
 // @flow
-import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import Projects from '../components/Projects';
+import * as ActiveProjectActions from '../actions/activeProject';
 
-export default class ProjectsPage extends Component {
-  render() {
-    return (
-      <Projects />
-    );
-  }
+function mapStateToProps(state) {
+  return {
+    activeProject: state.activeProject
+  };
 }
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(ActiveProjectActions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Projects);

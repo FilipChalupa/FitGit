@@ -11,7 +11,9 @@ export default class App extends Component {
     return (
       <div>
         <Menu />
-        {this.props.children}
+        <div className="container">
+          {this.props.children}
+        </div>
       </div>
     );
   }
