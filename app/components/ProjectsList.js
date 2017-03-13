@@ -11,21 +11,13 @@ import RaisedButton from 'material-ui/RaisedButton'
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton'
 import TextField from 'material-ui/TextField'
 
+const dialog = require('electron').remote.dialog
+
 const iconAdd = <IconAdd />
 
 const styles = {
   uploadButton: {
     verticalAlign: 'middle',
-  },
-  uploadInput: {
-    cursor: 'pointer',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    right: 0,
-    left: 0,
-    width: '100%',
-    opacity: 0,
   },
 }
 
@@ -34,8 +26,9 @@ export default class ProjectsList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedIndex: 0,
+      addType: 'from_url',
       openAddModal: false,
+      addDirectoryPath: '',
       projects: [{
         name: 'Test'
       },{
@@ -46,6 +39,26 @@ export default class ProjectsList extends Component {
 
   openAddModal = (open) => {
     const newState = Object.assign({}, this.state, { openAddModal: open })
+    this.setState(newState)
+  }
+
+  handleTypeChange = (e, value) => {
+    const newState = Object.assign({}, this.state, { addType: value })
+    this.setState(newState)
+  }
+
+  getDirectory = () => {
+    const dialogDirectories = dialog.showOpenDialog({properties: ['openDirectory']})
+		if (!dialogDirectories) {
+			return
+		}
+    const repoDirectory = dialogDirectories[0] // @TODO: Validate repository exists
+
+    this.handlePathChange(null, repoDirectory)
+  }
+
+  handlePathChange = (e, value) => {
+    const newState = Object.assign({}, this.state, { addDirectoryPath: value })
     this.setState(newState)
   }
 
@@ -73,6 +86,41 @@ export default class ProjectsList extends Component {
     })
   }
 
+  addOptions() {
+    if (this.state.addType === 'from_url') {
+      return (
+        <TextField
+          name="url"
+          type="url"
+          hintText="git@github.com:Onset/git-latex.git"
+        />
+      )
+    } else {
+      return (
+        <div>
+          <TextField
+            name="path"
+            hintText="cesta"
+            value={this.state.addDirectoryPath}
+            onChange={this.handlePathChange}
+          />
+          <FlatButton
+            label="Zvolit adresář"
+            style={styles.uploadButton}
+            onTouchTap={this.getDirectory}
+          >
+          </FlatButton>
+        </div>
+      )
+    }
+
+  }
+
+  addProject = () => {
+    alert('add')
+    this.openAddModal(false)
+  }
+
   render() {
     const projects = this.renderProjects()
 
@@ -80,8 +128,7 @@ export default class ProjectsList extends Component {
       <FlatButton
         label="Přidat"
         primary={true}
-        disabled={true}
-        onTouchTap={this.openAddModal}
+        onTouchTap={this.addProject}
       />,
       <FlatButton
         label="Cancel"
@@ -100,7 +147,11 @@ export default class ProjectsList extends Component {
           open={this.state.openAddModal}
         >
 
-          <RadioButtonGroup name="addType" defaultSelected="from_url">
+          <RadioButtonGroup
+            name="addType"
+            valueSelected={this.state.addType}
+            onChange={this.handleTypeChange}
+          >
             <RadioButton
               value="from_url"
               label="Z URL"
@@ -111,24 +162,7 @@ export default class ProjectsList extends Component {
             />
           </RadioButtonGroup>
 
-          <TextField
-            name="url"
-            type="url"
-            hintText="git@github.com:Onset/git-latex.git"
-          />
-          <TextField
-            name="path"
-            hintText="cesta"
-          />
-          <FlatButton
-            label="Vybrat adresář"
-            labelPosition="before"
-            style={styles.uploadButton}
-            containerElement="label"
-            onTouchTap={() => this.openAddModal(false)}
-          >
-            <input type="file" style={styles.uploadInput} />
-          </FlatButton>
+          {this.addOptions()}
 
         </Dialog>
 
