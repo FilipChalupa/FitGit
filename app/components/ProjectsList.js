@@ -26,7 +26,7 @@ export default class ProjectsList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      addType: 'from_url',
+      addType: 'new',
       openAddModal: false,
       addDirectoryPath: '',
       projects: [{
@@ -87,33 +87,29 @@ export default class ProjectsList extends Component {
   }
 
   addOptions() {
-    if (this.state.addType === 'from_url') {
-      return (
+    return (
+      <div>
         <TextField
           name="url"
           type="url"
-          hintText="git@github.com:Onset/git-latex.git"
+          hintText="Adresa repozitáře"
+          disabled={this.state.addType !== 'from_url'}
         />
-      )
-    } else {
-      return (
-        <div>
-          <TextField
-            name="path"
-            hintText="cesta"
-            value={this.state.addDirectoryPath}
-            onChange={this.handlePathChange}
-          />
-          <FlatButton
-            label="Zvolit adresář"
-            style={styles.uploadButton}
-            onTouchTap={this.getDirectory}
-          >
-          </FlatButton>
-        </div>
-      )
-    }
-
+        <br />
+        <TextField
+          name="path"
+          hintText="Umístění v tomto zařízení"
+          value={this.state.addDirectoryPath}
+          onChange={this.handlePathChange}
+        />
+        <FlatButton
+          label="Zvolit adresář"
+          style={styles.uploadButton}
+          onTouchTap={this.getDirectory}
+        >
+        </FlatButton>
+      </div>
+    )
   }
 
   addProject = () => {
@@ -152,6 +148,10 @@ export default class ProjectsList extends Component {
             valueSelected={this.state.addType}
             onChange={this.handleTypeChange}
           >
+            <RadioButton
+              value="new"
+              label="Vytvořit nový"
+            />
             <RadioButton
               value="from_url"
               label="Z URL"
