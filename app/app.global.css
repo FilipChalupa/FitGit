@@ -37,3 +37,7 @@ a:hover {
   text-decoration: none;
   cursor: pointer;
 }
+
+.container {
+  padding: 15px;
+}

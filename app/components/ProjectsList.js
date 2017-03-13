@@ -12,6 +12,7 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton'
 import TextField from 'material-ui/TextField'
 
 const dialog = require('electron').remote.dialog
+const path = require('path')
 
 const iconAdd = <IconAdd />
 
@@ -30,9 +31,11 @@ export default class ProjectsList extends Component {
       openAddModal: false,
       addDirectoryPath: '',
       projects: [{
-        name: 'Test'
+        name: 'Test',
+        note: 'dummy',
       },{
-        name: 'Lumen'
+        name: 'Lumen',
+        note: 'dummy',
       }],
     }
   }
@@ -62,13 +65,20 @@ export default class ProjectsList extends Component {
     this.setState(newState)
   }
 
+  appendProject = (project) => {
+    const projects = this.state.projects
+    projects.push(project)
+    const newState = Object.assign({}, this.state, { projects: projects })
+    this.setState(newState)
+  }
+
   renderProjects() {
     return this.state.projects.map((project, i) => {
       return (
           <Card key={i} style={{ marginBottom: '20px'}}>
             <CardHeader
               title={project.name}
-              subtitle="Subtitle"
+              subtitle={project.note}
               actAsExpander={true}
               showExpandableButton={true}
             />
@@ -94,6 +104,7 @@ export default class ProjectsList extends Component {
           type="url"
           hintText="Adresa repozitáře"
           disabled={this.state.addType !== 'from_url'}
+          ref='urlInput'
         />
         <br />
         <TextField
@@ -101,6 +112,7 @@ export default class ProjectsList extends Component {
           hintText="Umístění v tomto zařízení"
           value={this.state.addDirectoryPath}
           onChange={this.handlePathChange}
+          ref='pathInput'
         />
         <FlatButton
           label="Zvolit adresář"
@@ -113,7 +125,12 @@ export default class ProjectsList extends Component {
   }
 
   addProject = () => {
-    alert('add')
+    const url = this.refs.urlInput.input.value // @TODO: init empty project if possible
+    const localPath = this.refs.pathInput.input.value
+    this.appendProject({
+      name: path.basename(localPath),
+      note: localPath,
+    })
     this.openAddModal(false)
   }
 
