@@ -1,14 +1,13 @@
 // @flow
 import React, { Component } from 'react'
 
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card'
+import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
-import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation'
+import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation'
 import Paper from 'material-ui/Paper'
 import IconAdd from 'material-ui/svg-icons/content/add-box'
 import Dialog from 'material-ui/Dialog'
-import RaisedButton from 'material-ui/RaisedButton'
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton'
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import TextField from 'material-ui/TextField'
 
 const dialog = require('electron').remote.dialog
@@ -31,7 +30,6 @@ export default class ProjectsList extends Component {
       addType: 'new',
       openAddModal: false,
       addDirectoryPath: '',
-      projects: [],
     }
   }
 
@@ -61,14 +59,12 @@ export default class ProjectsList extends Component {
   }
 
   appendProject = (project) => {
-    const projects = this.state.projects
-    projects.push(project)
-    const newState = Object.assign({}, this.state, { projects: projects })
-    this.setState(newState)
+    const newProjects = this.props.projects.concat([project])
+    this.props.setProjects(newProjects)
   }
 
   renderProjects() {
-    return this.state.projects.map((project, i) => {
+    return this.props.projects.map((project, i) => {
       return (
           <Card key={i} style={{ marginBottom: '20px'}}>
             <CardHeader

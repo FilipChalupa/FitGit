@@ -10,7 +10,7 @@ import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
 import NavigationClose from 'material-ui/svg-icons/navigation/close'
 
-import * as ActiveProjectActions from '../actions/activeProject'
+import * as ProjectsActions from '../actions/projects'
 
 class MenuPage extends Component {
 
@@ -23,7 +23,7 @@ class MenuPage extends Component {
 
 
   render() {
-    const title = this.props.activeProject ? this.props.activeProject.name : 'Git+LaTeX'
+    const title = this.props.projects.active ? this.props.projects.active.name : 'Git+LaTeX'
 
     return (
       <div>
@@ -64,12 +64,12 @@ class MenuPage extends Component {
 
 function mapStateToProps(state) {
   return {
-    activeProject: state.activeProject
+    projects: state.projects
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(ActiveProjectActions, dispatch)
+  return bindActionCreators(ProjectsActions, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuPage)

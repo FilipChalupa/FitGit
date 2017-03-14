@@ -1,17 +1,17 @@
 // @flow
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import Projects from '../components/Projects';
-import * as ActiveProjectActions from '../actions/activeProject';
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import Projects from '../components/Projects'
+import * as ProjectsActions from '../actions/projects'
 
 function mapStateToProps(state) {
   return {
-    activeProject: state.activeProject
-  };
+    projects: state.projects
+  }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(ActiveProjectActions, dispatch);
+  return bindActionCreators(ProjectsActions, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Projects);
+export default connect(mapStateToProps, mapDispatchToProps)(Projects)
