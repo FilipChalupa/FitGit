@@ -183,6 +183,7 @@ export default class ProjectsList extends Component {
             bottom: 0,
             left: 0,
             right: 0,
+            zIndex: 1,
           }}>
           <BottomNavigation>
             <BottomNavigationItem

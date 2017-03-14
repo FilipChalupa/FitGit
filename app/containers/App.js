@@ -9,9 +9,9 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className="layout">
         <Menu />
-        <div className="container">
+        <div className="layout-content">
           {this.props.children}
         </div>
       </div>
