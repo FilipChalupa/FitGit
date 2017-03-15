@@ -21,6 +21,7 @@ class MenuPage extends Component {
 
   handleToggle = () => this.setState({ open: !this.state.open })
 
+  handleClose = () => this.setState({ open: false })
 
   render() {
     const title = this.props.projects.active ? this.props.projects.active.name : 'Git+LaTeX'
@@ -45,14 +46,17 @@ class MenuPage extends Component {
           />
 
           <MenuItem
+            onTouchTap={this.handleClose}
             containerElement={<Link to="/commit" />}
             primaryText="Commit"
           />
           <MenuItem
+            onTouchTap={this.handleClose}
             containerElement={<Link to="/projects" />}
             primaryText="Projekty"
           />
           <MenuItem
+            onTouchTap={this.handleClose}
             containerElement={<Link to="/history" />}
             primaryText="Historie"
           />
