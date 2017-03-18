@@ -24,15 +24,27 @@ render(
 )
 
 
-const remote = require('electron').remote
+const notify = (title, message) => {
+  let n = new Notification(title, {
+    body: message
+  })
+
+  n.onclick = () => {
+    console.log('click')
+  }
+}
+
+import { remote } from 'electron'
 const nodegit = remote.require('nodegit')
 let config
 nodegit.Config.openDefault().then((c) => {
   config = c
   return config.getString('user.name')
 }).then((username) => {
-  alert(`User.name: ${username}`)
+  notify(`User.name: ${username}`, 'git')
   return config.getString('user.email')
 }).then((email) => {
-  alert(`User.email: ${email}`)
+  notify(`User.email: ${email}`, 'git')
 })
+
+
