@@ -11,6 +11,7 @@ export default class Projects extends Component {
         <ProjectsList
           projects={this.props.projects.list}
           setActiveProject={this.props.setActiveProject}
+          removeProject={this.props.removeProject}
           setProjects={this.props.setProjects}
         />
       </div>

@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/RaisedButton'
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation'
 import Paper from 'material-ui/Paper'
 import IconAdd from 'material-ui/svg-icons/content/add-box'
@@ -33,9 +34,14 @@ export default class ProjectsList extends Component {
     }
   }
 
-  openAddModal = (open) => {
-    const newState = Object.assign({}, this.state, { openAddModal: open })
-    this.setState(newState)
+  getDirectory = () => {
+    const dialogDirectories = dialog.showOpenDialog({properties: ['openDirectory']})
+    if (!dialogDirectories) {
+      return
+    }
+    const repoDirectory = dialogDirectories[0] // @TODO: Validate repository exists
+
+    this.handlePathChange(null, repoDirectory)
   }
 
   handleTypeChange = (e, value) => {
@@ -43,14 +49,9 @@ export default class ProjectsList extends Component {
     this.setState(newState)
   }
 
-  getDirectory = () => {
-    const dialogDirectories = dialog.showOpenDialog({properties: ['openDirectory']})
-		if (!dialogDirectories) {
-			return
-		}
-    const repoDirectory = dialogDirectories[0] // @TODO: Validate repository exists
-
-    this.handlePathChange(null, repoDirectory)
+  openAddModal = (open) => {
+    const newState = Object.assign({}, this.state, { openAddModal: open })
+    this.setState(newState)
   }
 
   handlePathChange = (e, value) => {
@@ -61,33 +62,6 @@ export default class ProjectsList extends Component {
   appendProject = (project) => {
     const newProjects = this.props.projects.concat([project])
     this.props.setProjects(newProjects)
-  }
-
-  renderProjects() {
-    return this.props.projects.map((project, i) => {
-      return (
-          <Card key={i} style={{ marginBottom: '20px'}}>
-            <CardHeader
-              title={project.name}
-              subtitle={project.note}
-              actAsExpander={true}
-              showExpandableButton={true}
-            />
-            <CardActions>
-              <FlatButton
-                label="Zvolit"
-                onTouchTap={() => this.props.setActiveProject(project)}
-              />
-            </CardActions>
-            <CardText expandable={true}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-              Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-              Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-            </CardText>
-          </Card>
-      )
-    })
   }
 
   addOptions() {
@@ -126,6 +100,37 @@ export default class ProjectsList extends Component {
       note: localPath,
     })
     this.openAddModal(false)
+  }
+
+  renderProjects() {
+    return this.props.projects.map((project, i) => {
+      return (
+          <Card key={i} style={{ marginBottom: '20px'}}>
+            <CardHeader
+              title={project.name}
+              subtitle={project.note}
+              actAsExpander={true}
+              showExpandableButton={true}
+            />
+            <CardActions>
+              <RaisedButton
+                label="Zvolit"
+                onTouchTap={() => this.props.setActiveProject(project)}
+              />
+              <FlatButton
+                label="Odebrat"
+                onTouchTap={() => this.props.removeProject(project)}
+              />
+            </CardActions>
+            <CardText expandable={true}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
+              Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
+              Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
+            </CardText>
+          </Card>
+      )
+    })
   }
 
   render() {
