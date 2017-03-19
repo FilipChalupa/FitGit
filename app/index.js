@@ -4,26 +4,31 @@ import { Provider } from 'react-redux'
 import { Router, hashHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import routes from './routes'
-import configureStore from './store/configureStore'
+import getStore from './store/persistentStore'
 import './app.global.css'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
 injectTapEventPlugin() // http://stackoverflow.com/questions/24335821/can-i-fastclick-reactjs-running-in-cordova/34015469#34015469
 
-const store = configureStore()
-const history = syncHistoryWithStore(hashHistory, store)
+getStore()
+  .then((store) => {
+    const history = syncHistoryWithStore(hashHistory, store)
 
-render(
-  <Provider store={store}>
-    <MuiThemeProvider>
-      <Router history={history} routes={routes} />
-    </MuiThemeProvider>
-  </Provider>,
-  document.getElementById('root')
-)
+    render(
+      <Provider store={store}>
+        <MuiThemeProvider>
+          <Router history={history} routes={routes} />
+        </MuiThemeProvider>
+      </Provider>,
+      document.getElementById('root')
+    )
+  })
+  .catch((e) => {
+    throw e
+  })
 
-
+/*
 const notify = (title, message) => {
   let n = new Notification(title, {
     body: message
@@ -44,6 +49,6 @@ nodegit.Config.openDefault().then((c) => {
   return config.getString('user.email')
 }).then((email) => {
   notify(`User.email: ${email}`, 'git')
-})
+})*/
 
 
