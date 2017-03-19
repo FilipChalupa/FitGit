@@ -7,7 +7,7 @@ import CounterPage from './containers/CounterPage';
 import CommitPage from './containers/CommitPage';
 import ProjectsPage from './containers/ProjectsPage';
 import HistoryPage from './containers/HistoryPage';
-
+import SettingsPage from './containers/SettingsPage';
 
 export default (
   <Route path="/" component={App}>
@@ -16,5 +16,6 @@ export default (
     <Route path="/commit" component={CommitPage} />
     <Route path="/projects" component={ProjectsPage} />
     <Route path="/history" component={HistoryPage} />
+    <Route path="/settings" component={SettingsPage} />
   </Route>
 );

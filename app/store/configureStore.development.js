@@ -6,10 +6,13 @@ import createLogger from 'redux-logger';
 import rootReducer from '../reducers';
 
 import * as counterActions from '../actions/counter';
-import type { counterStateType } from '../reducers/counter';
+import * as projectsActions from '../actions/projects';
+import * as settingsActions from '../actions/settings';
 
 const actionCreators = {
   ...counterActions,
+  ...projectsActions,
+  ...settingsActions,
   push,
 };
 
@@ -33,7 +36,7 @@ const enhancer = composeEnhancers(
   applyMiddleware(thunk, router, logger)
 );
 
-export default function configureStore(initialState?: counterStateType) {
+export default function configureStore(initialState) {
   const store = createStore(rootReducer, initialState, enhancer);
 
   if (module.hot) {

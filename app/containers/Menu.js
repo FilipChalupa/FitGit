@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { remote } from 'electron'
 
 import AppBar from 'material-ui/AppBar'
 import Drawer from 'material-ui/Drawer'
@@ -19,12 +20,31 @@ class MenuPage extends Component {
     this.state = { open: false }
   }
 
+  getItems = () => {
+    const items = {
+      '/commit': 'Commit',
+      '/projects': 'Projekty',
+      '/history': 'Historie',
+      '/settings': 'Nastavení',
+    }
+    return Object.keys(items).map((path) => {
+      return (
+        <MenuItem
+          key={path}
+          onTouchTap={this.handleClose}
+          containerElement={<Link to={path} />}
+          primaryText={items[path]}
+        />
+      )
+    })
+  }
+
   handleToggle = () => this.setState({ open: !this.state.open })
 
   handleClose = () => this.setState({ open: false })
 
   render() {
-    const title = this.props.projects.active ? this.props.projects.active.name : 'Git+LaTeX'
+    const title = this.props.projects.active ? this.props.projects.active.name : remote.app.getName()
 
     return (
       <div>
@@ -45,21 +65,7 @@ class MenuPage extends Component {
             iconElementLeft={<IconButton onTouchTap={() => this.setState({ open: false })}><NavigationClose /></IconButton>}
           />
 
-          <MenuItem
-            onTouchTap={this.handleClose}
-            containerElement={<Link to="/commit" />}
-            primaryText="Commit"
-          />
-          <MenuItem
-            onTouchTap={this.handleClose}
-            containerElement={<Link to="/projects" />}
-            primaryText="Projekty"
-          />
-          <MenuItem
-            onTouchTap={this.handleClose}
-            containerElement={<Link to="/history" />}
-            primaryText="Historie"
-          />
+          {this.getItems()}
         </Drawer>
       </div>
     )
