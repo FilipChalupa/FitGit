@@ -34,8 +34,7 @@ const notify = (title, message) => {
   }
 }
 
-import { remote } from 'electron'
-const nodegit = remote.require('nodegit')
+import nodegit from './utils/nodegit'
 let config
 nodegit.Config.openDefault().then((c) => {
   config = c
