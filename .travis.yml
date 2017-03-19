@@ -4,14 +4,27 @@ os:
   - linux
   - osx
 
-language: node_js
+osx_image: xcode7.3
+
+language: c
+
+dist: trusty
 
 node_js:
   - 7
 
+matrix:
+  include:
+    - os: osx
+    - os: linux
+      env: CC=clang CXX=clang++ npm_config_clang=1
+      compiler: clang
+
 cache:
   directories:
     - node_modules
+    - $HOME/.electron
+    - $HOME/.cache
 
 # Enable when https://github.com/yarnpkg/yarn/issues/1233 and
 # https://github.com/yarnpkg/yarn/issues/1059 are resolved and disable npm cache
@@ -30,6 +43,8 @@ addons:
       - graphicsmagick
       - xz-utils
       - xorriso
+      - libgnome-keyring-dev
+      - icnsutils
 
 install:
   - export CXX="g++-4.8"
