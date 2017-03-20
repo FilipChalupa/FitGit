@@ -5,7 +5,8 @@ function getInitialState() {
   return new Promise((resolve, reject) => {
     storage.getAll((error, data) => {
       if (error) {
-        reject(error)
+        //reject(error)
+        resolve({}) // @TODO
       } else {
         resolve(data)
       }

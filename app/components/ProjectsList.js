@@ -98,6 +98,7 @@ export default class ProjectsList extends Component {
     this.appendProject({
       name: path.basename(localPath),
       note: localPath,
+      path: localPath,
     })
     this.openAddModal(false)
   }
