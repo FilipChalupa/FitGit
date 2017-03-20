@@ -22,10 +22,10 @@ class MenuPage extends Component {
 
   getItems = () => {
     const items = {
-      '/commit': 'Commit',
-      '/projects': 'Projekty',
-      '/history': 'Historie',
-      '/settings': 'Nastavení',
+      '/commit': 'menu_commit',
+      '/projects': 'menu_projects',
+      '/history': 'menu_history',
+      '/settings': 'menu_settings',
     }
     return Object.keys(items).map((path) => {
       return (
@@ -33,7 +33,7 @@ class MenuPage extends Component {
           key={path}
           onTouchTap={this.handleClose}
           containerElement={<Link to={path} />}
-          primaryText={items[path]}
+          primaryText={this.props.settings.texts[items[path]]}
         />
       )
     })
@@ -74,7 +74,8 @@ class MenuPage extends Component {
 
 function mapStateToProps(state) {
   return {
-    projects: state.projects
+    projects: state.projects,
+    settings: state.settings,
   }
 }
 

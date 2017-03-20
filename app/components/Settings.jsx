@@ -1,9 +1,14 @@
 // @flow
 import React, { Component } from 'react'
+import { Link } from 'react-router'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 
-export default class Settings extends Component {
+import * as SettingsActions from '../actions/settings'
+
+class Settings extends Component {
 
   getItems = () => {
     const items = {
@@ -22,14 +27,18 @@ export default class Settings extends Component {
     })
   }
 
+  handleChange(e, i, language) {
+    this.props.setLanguage(language)
+  }
+
   render() {
     return (
       <div>
-        <h1>Nastavení</h1>
+        <h1>{this.props.settings.texts.menu_settings}</h1>
         <SelectField
-          floatingLabelText='Jazyk'
-          value='cs'
-          onChange={this.handleChange}
+          floatingLabelText={this.props.settings.texts.settings_language}
+          value={this.props.settings.language}
+          onChange={this.handleChange.bind(this)}
         >
           {this.getItems()}
         </SelectField>
@@ -37,3 +46,16 @@ export default class Settings extends Component {
     );
   }
 }
+
+
+function mapStateToProps(state) {
+  return {
+    settings: state.settings,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(SettingsActions, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings)
