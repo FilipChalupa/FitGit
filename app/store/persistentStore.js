@@ -1,6 +1,10 @@
 import configureStore from './configureStore'
 import storage from 'electron-json-storage'
 
+const shortLivedStorages = [
+  'routing',
+]
+
 function getInitialState() {
   return new Promise((resolve, reject) => {
     storage.getAll((error, data) => {
@@ -24,9 +28,11 @@ async function getStore() {
 
     // @TODO: update only changed props
     for (const propName in state) {
-      storage.set(propName, state[propName], (error) => {
-        if (error) throw error
-      })
+      if (shortLivedStorages.indexOf(propName) === -1) {
+        storage.set(propName, state[propName], (error) => {
+          if (error) throw error
+        })
+      }
     }
   })
 
