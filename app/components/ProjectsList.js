@@ -110,8 +110,12 @@ export default class ProjectsList extends Component {
             <CardHeader
               title={project.name}
               subtitle={project.note}
-              actAsExpander={true}
+              actAsExpander={false}
+              style={{
+                cursor: 'pointer',
+              }}
               /*showExpandableButton={true}*/
+              onTouchTap={() => this.props.setActiveProject(project)}
             />
             <CardActions>
               <RaisedButton
