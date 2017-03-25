@@ -10,6 +10,11 @@ import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
 import NavigationClose from 'material-ui/svg-icons/navigation/close'
+import SettingsIcon from 'material-ui/svg-icons/action/settings'
+import CommitIcon from 'material-ui/svg-icons/action/play-for-work'
+import ProjectsIcon from 'material-ui/svg-icons/device/storage'
+import ProjectIcon from 'material-ui/svg-icons/action/lightbulb-outline'
+import HistoryIcon from 'material-ui/svg-icons/action/settings-backup-restore'
 
 import * as ProjectsActions from '../actions/projects'
 
@@ -20,30 +25,39 @@ class MenuPage extends Component {
     this.state = { open: false }
   }
 
-  getItem(path, title) {
+  getItem(path, title, icon) {
     return (
       <MenuItem
         key={path}
         onTouchTap={this.handleClose}
         containerElement={<Link to={path} />}
         primaryText={title}
+        leftIcon={icon}
       />
     )
   }
 
   getItems = () => {
     const staticItems = {
-      '/commit': 'menu_commit',
-      '/projects': 'menu_projects',
-      '/history': 'menu_history',
-      '/settings': 'menu_settings',
+      '/commit': {title: 'menu_commit', icon: <CommitIcon />},
+      '/projects': {title: 'menu_projects', icon: <ProjectsIcon />},
+      '/history': {title: 'menu_history', icon: <HistoryIcon />},
+      '/settings': {title: 'menu_settings', icon: <SettingsIcon />},
     }
     const items = []
     if (this.props.projects.active) {
-      items.push(this.getItem('/project', this.props.projects.active.name))
+      items.push(this.getItem(
+        '/project',
+        this.props.projects.active.name,
+        <ProjectIcon />
+      ))
     }
     Object.keys(staticItems).forEach((path) => {
-      items.push(this.getItem(path, this.props.settings.texts[staticItems[path]]))
+      items.push(this.getItem(
+        path,
+        this.props.settings.texts[staticItems[path].title],
+        staticItems[path].icon
+      ))
     })
     return items
   }
