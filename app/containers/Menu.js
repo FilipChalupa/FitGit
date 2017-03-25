@@ -53,7 +53,7 @@ class MenuPage extends Component {
   handleClose = () => this.setState({ open: false })
 
   render() {
-    const title = this.props.projects.active ? this.props.projects.active.name : remote.app.getName()
+    const title = remote.app.getName()
 
     return (
       <div>
