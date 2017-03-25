@@ -14,10 +14,78 @@
         }
       }());
     </script>
+    <style>
+      @keyframes delayHardReset {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+      .hardReset {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        text-align: center;
+        padding: 1em;
+        animation: delayHardReset 1s 5s both;
+      }
+      .hardReset-title {
+        font-size: 0.8em;
+      }
+      .hardReset-action {
+        background: none;
+        border: 1px solid #000000;
+        padding: 1em 2em;
+        color: inherit;
+        cursor: pointer;
+      }
+      .hardReset-action:hover,
+      .hardReset-action:focus {
+        box-shadow: 0 0 10px #000000;
+      }
+      .hardReset-action:focus {
+        color: #FFFFFF;
+        background-color: #000000;
+      }
+    </style>
   </head>
   <body>
     <div id="root">
       <div class="loading"></div>
+      <div class="hardReset">
+        <script>
+          function hardReset() {
+            try {
+              if (confirm('Určitě chcete smazat všechna nastavení?')) {
+                var storage = require('electron-json-storage')
+                storage.clear(function(error) {
+                  if (error) {
+                    hardResetFailed(error)
+                  } else {
+                    alert('Nastavení bylo smazáno. Nyní bude aplikace načtena znovu.')
+                    location.reload()
+                  }
+                })
+              }
+            } catch (error) {
+              hardResetFailed(error)
+            }
+          }
+          function hardResetFailed(e) {
+            console.error(e)
+            alert('Hard reset se nezdařil.')
+          }
+        </script>
+        <p class="hardReset-title">
+          Něco se pokazilo? Zkuste smazat nastavení aplikace tlačítkem níže.
+        </p>
+        <button class="hardReset-action" onclick="hardReset()">
+          Hard reset
+        </button>
+      </div>
     </div>
     <script>
       {
