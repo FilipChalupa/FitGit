@@ -20,23 +20,32 @@ class MenuPage extends Component {
     this.state = { open: false }
   }
 
+  getItem(path, title) {
+    return (
+      <MenuItem
+        key={path}
+        onTouchTap={this.handleClose}
+        containerElement={<Link to={path} />}
+        primaryText={title}
+      />
+    )
+  }
+
   getItems = () => {
-    const items = {
+    const staticItems = {
       '/commit': 'menu_commit',
       '/projects': 'menu_projects',
       '/history': 'menu_history',
       '/settings': 'menu_settings',
     }
-    return Object.keys(items).map((path) => {
-      return (
-        <MenuItem
-          key={path}
-          onTouchTap={this.handleClose}
-          containerElement={<Link to={path} />}
-          primaryText={this.props.settings.texts[items[path]]}
-        />
-      )
+    const items = []
+    if (this.props.projects.active) {
+      items.push(this.getItem('/project', this.props.projects.active.name))
+    }
+    Object.keys(staticItems).forEach((path) => {
+      items.push(this.getItem(path, this.props.settings.texts[staticItems[path]]))
     })
+    return items
   }
 
   handleToggle = () => this.setState({ open: !this.state.open })
