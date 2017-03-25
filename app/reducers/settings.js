@@ -1,6 +1,5 @@
 // @flow
-import { remote } from 'electron'
-import { SET_LANGUAGE } from '../actions/settings'
+import { SET_LANGUAGE, RESET_SETTINGS } from '../actions/settings'
 
 const texts = {
   cs: {
@@ -40,6 +39,8 @@ export default function settings(state = defaultSettings, action) {
         language: action.payload,
         texts: texts[action.payload] || texts[defaultLanguage],
       })
+    case RESET_SETTINGS:
+      return Object.assign({}, state, defaultSettings)
     default:
       return state
   }
