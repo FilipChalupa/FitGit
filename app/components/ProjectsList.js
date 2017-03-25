@@ -11,6 +11,8 @@ import Dialog from 'material-ui/Dialog'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import TextField from 'material-ui/TextField'
 
+import compareProjects from '../utils/compareProjects'
+
 const dialog = require('electron').remote.dialog
 const path = require('path')
 
@@ -105,8 +107,17 @@ export default class ProjectsList extends Component {
 
   renderProjects() {
     return this.props.projects.map((project, i) => {
+      const style = {
+        marginBottom: '20px',
+      }
+      if (compareProjects(project, this.props.activeProject)) {
+        style.backgroundColor = 'rgb(240, 240, 240)'
+      }
       return (
-          <Card key={i} style={{ marginBottom: '20px'}}>
+          <Card
+            key={i}
+            style={style}
+          >
             <CardHeader
               title={project.name}
               subtitle={project.note}
@@ -120,6 +131,7 @@ export default class ProjectsList extends Component {
             <CardActions>
               <RaisedButton
                 label="Zvolit"
+                primary={true}
                 onTouchTap={() => this.props.setActiveProject(project)}
               />
               <FlatButton

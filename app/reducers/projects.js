@@ -1,9 +1,6 @@
 // @flow
 import { SET_ACTIVE_PROJECT, REMOVE_PROJECT, SET_PROJECTS } from '../actions/projects'
-
-function compareProjects(a, b) {
-  return JSON.stringify(a) === JSON.stringify(b)
-}
+import compareProjects from '../utils/compareProjects'
 
 export default function project(state = {active: null, list: []}, action) {
   switch (action.type) {
