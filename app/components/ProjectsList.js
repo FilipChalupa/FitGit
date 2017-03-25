@@ -111,7 +111,7 @@ export default class ProjectsList extends Component {
               title={project.name}
               subtitle={project.note}
               actAsExpander={true}
-              showExpandableButton={true}
+              /*showExpandableButton={true}*/
             />
             <CardActions>
               <RaisedButton
@@ -123,12 +123,12 @@ export default class ProjectsList extends Component {
                 onTouchTap={() => this.props.removeProject(project)}
               />
             </CardActions>
-            <CardText expandable={true}>
+            {/*<CardText expandable={true}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
               Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
               Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-            </CardText>
+            </CardText>*/}
           </Card>
       )
     })
