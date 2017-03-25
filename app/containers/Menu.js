@@ -38,12 +38,6 @@ class MenuPage extends Component {
   }
 
   getItems = () => {
-    const staticItems = {
-      '/commit': {title: 'menu_commit', icon: <CommitIcon />},
-      '/projects': {title: 'menu_projects', icon: <ProjectsIcon />},
-      '/history': {title: 'menu_history', icon: <HistoryIcon />},
-      '/settings': {title: 'menu_settings', icon: <SettingsIcon />},
-    }
     const items = []
     if (this.props.projects.active) {
       items.push(this.getItem(
@@ -51,14 +45,29 @@ class MenuPage extends Component {
         this.props.projects.active.name,
         <ProjectIcon />
       ))
-    }
-    Object.keys(staticItems).forEach((path) => {
       items.push(this.getItem(
-        path,
-        this.props.settings.texts[staticItems[path].title],
-        staticItems[path].icon
+        '/commit',
+        this.props.settings.texts.menu_commit,
+        <CommitIcon />
       ))
-    })
+    }
+    items.push(this.getItem(
+      '/projects',
+      this.props.settings.texts.menu_projects,
+      <ProjectsIcon />
+    ))
+    if (this.props.projects.active) {
+      items.push(this.getItem(
+        '/history',
+        this.props.settings.texts.menu_history,
+        <HistoryIcon />
+      ))
+    }
+    items.push(this.getItem(
+      '/settings',
+      this.props.settings.texts.menu_settings,
+      <SettingsIcon />
+    ))
     return items
   }
 
@@ -67,7 +76,7 @@ class MenuPage extends Component {
   handleClose = () => this.setState({ open: false })
 
   render() {
-    const title = remote.app.getName()
+    const title = this.props.projects.active ? this.props.projects.active.name : remote.app.getName()
 
     return (
       <div>
@@ -84,7 +93,7 @@ class MenuPage extends Component {
           onRequestChange={(open) => this.setState({ open })}
         >
           <AppBar
-            title={title}
+            title='Menu'
             iconElementLeft={<IconButton onTouchTap={() => this.setState({ open: false })}><NavigationClose /></IconButton>}
           />
 
