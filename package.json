@@ -1,6 +1,6 @@
 {
-  "name": "electron-react-boilerplate",
-  "productName": "ElectronReact",
+  "name": "fitgit",
+  "productName": "FitGit",
   "version": "0.10.0",
   "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
   "main": "main.js",
@@ -29,7 +29,7 @@
   },
   "browserslist": "electron 1.4",
   "build": {
-    "productName": "ElectronReact",
+    "productName": "FitGit",
     "appId": "org.develar.ElectronReact",
     "category": "public.app-category.tools",
     "dmg": {
@@ -74,7 +74,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chentsulin/electron-react-boilerplate.git"
+    "url": "git+https://github.com/Onset/git-latex.git"
   },
   "author": {
     "name": "C. T. Lin",
@@ -83,7 +83,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/chentsulin/electron-react-boilerplate/issues"
+    "url": "https://github.com/Onset/git-latex/issues"
   },
   "keywords": [
     "electron",
@@ -94,7 +94,7 @@
     "webpack",
     "react-hot"
   ],
-  "homepage": "https://github.com/chentsulin/electron-react-boilerplate#readme",
+  "homepage": "https://github.com/Onset/git-latex#readme",
   "jest": {
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/mocks/fileMock.js",
