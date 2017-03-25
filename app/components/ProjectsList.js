@@ -106,6 +106,13 @@ export default class ProjectsList extends Component {
   }
 
   renderProjects() {
+    if (this.props.projects.length === 0) {
+      return (
+        <div>
+          Zatím nemáte žádný projekt. Nový přidáte plačítkem plus v dolní části.
+        </div>
+      )
+    }
     return this.props.projects.map((project, i) => {
       const style = {
         marginBottom: '20px',
