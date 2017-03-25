@@ -62,7 +62,7 @@ app.on('ready', async () => {
   });
 
   if (process.env.NODE_ENV === 'development' || true) { // @TODO: remove " || true" in the final version
-    mainWindow.openDevTools();
+    //mainWindow.openDevTools();
     mainWindow.webContents.on('context-menu', (e, props) => {
       const { x, y } = props;
 
