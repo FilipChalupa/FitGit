@@ -2,13 +2,14 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as ProjectsActions from '../actions/projects'
 import FlatButton from 'material-ui/FlatButton'
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh'
-import RefreshIndicator from 'material-ui/RefreshIndicator'
 import nodegit from '../utils/nodegit'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
+
+import * as LoadingActions from '../actions/loading'
+import * as ProjectsActions from '../actions/projects'
 
 class Commit extends Component {
 
@@ -88,25 +89,7 @@ class Commit extends Component {
             />
           </div>
 
-          <div style={{
-              position: 'relative',
-            }}
-          >
-            <RefreshIndicator
-              percentage={100}
-              size={70}
-              left={0}
-              top={0}
-              color='red'
-              status={this.state.refreshing ? 'loading' : 'ready'}
-              style={{
-                opacity: this.state.refreshing ? 1 : 0,
-                visibility: this.state.refreshing ? 'visible' : 'hidden',
-                transition: 'opacity 0.3s, visibility 0.3s',
-              }}
-            />
-            {this.getArtifacts()}
-          </div>
+          {this.getArtifacts()}
 
           <div
             style={{
@@ -181,10 +164,20 @@ class Commit extends Component {
 
   setRefreshing = (refreshing) => {
     this.setState(Object.assign({}, this.state, { refreshing }))
+    if (refreshing) {
+      this.props.actions.loading.IncrementLoadingJobs()
+    } else {
+      this.props.actions.loading.DecrementLoadingJobs()
+    }
   }
 
   setCommiting = (commiting) => {
     this.setState(Object.assign({}, this.state, { commiting }))
+    if (refreshing) {
+      this.props.actions.loading.IncrementLoadingJobs()
+    } else {
+      this.props.actions.loading.DecrementLoadingJobs()
+    }
   }
 
   refresh = () => {
@@ -225,12 +218,17 @@ class Commit extends Component {
 
 function mapStateToProps(state) {
   return {
-    projects: state.projects
+    projects: state.projects,
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(ProjectsActions, dispatch)
+  return {
+    actions: {
+      loading: bindActionCreators(LoadingActions, dispatch),
+      projects: bindActionCreators(ProjectsActions, dispatch),
+    }
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Commit)

@@ -2,6 +2,7 @@ import configureStore from './configureStore'
 import storage from 'electron-json-storage'
 
 const shortLivedStorages = [
+  'loading',
   'routing',
 ]
 

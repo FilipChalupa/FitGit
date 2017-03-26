@@ -1,11 +1,12 @@
 // @flow
-import React, { Component } from 'react';
-import Menu from './Menu';
+import React, { Component } from 'react'
+import Menu from './Menu'
+import Loading from './Loading'
 
 export default class App extends Component {
   props: {
     children: HTMLElement
-  };
+  }
 
   render() {
     return (
@@ -14,7 +15,8 @@ export default class App extends Component {
         <div className="layout-content">
           {this.props.children}
         </div>
+        <Loading />
       </div>
-    );
+    )
   }
 }

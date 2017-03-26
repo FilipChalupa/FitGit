@@ -18,7 +18,7 @@ import HistoryIcon from 'material-ui/svg-icons/action/settings-backup-restore'
 
 import * as ProjectsActions from '../actions/projects'
 
-class MenuPage extends Component {
+class Menu extends Component {
 
   constructor(props) {
     super(props)
@@ -115,4 +115,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(ProjectsActions, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MenuPage)
+export default connect(mapStateToProps, mapDispatchToProps)(Menu)
