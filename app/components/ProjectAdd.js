@@ -9,11 +9,16 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import IconAdd from 'material-ui/svg-icons/content/add-box'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
+import {Tabs, Tab} from 'material-ui/Tabs'
 
 import * as ProjectsActions from '../actions/projects'
 
 const dialog = require('electron').remote.dialog
 const path = require('path')
+
+const TAB_NEW   = 'TAB_NEW'
+const TAB_URL   = 'TAB_URL'
+const TAB_LOCAL = 'TAB_LOCAL'
 
 class ProjectAdd extends Component {
 
@@ -21,9 +26,10 @@ class ProjectAdd extends Component {
     super(props)
 
     this.state = {
-      addType: 'new',
       openAddModal: false,
-      addDirectoryPath: '',
+      directoryPath: '',
+      url: '',
+      active: TAB_NEW,
     }
   }
 
@@ -37,18 +43,18 @@ class ProjectAdd extends Component {
     this.handlePathChange(null, repoDirectory)
   }
 
-  handleTypeChange = (e, value) => {
-    const newState = Object.assign({}, this.state, { addType: value })
-    this.setState(newState)
-  }
-
-  openAddModal = (open) => {
-    const newState = Object.assign({}, this.state, { openAddModal: open })
+  setActiveTab = (active) => {
+    const newState = Object.assign({}, this.state, { active })
     this.setState(newState)
   }
 
   handlePathChange = (e, value) => {
-    const newState = Object.assign({}, this.state, { addDirectoryPath: value })
+    const newState = Object.assign({}, this.state, { directoryPath: value })
+    this.setState(newState)
+  }
+
+  handleURLChange = (e, value) => {
+    const newState = Object.assign({}, this.state, { url: value })
     this.setState(newState)
   }
 
@@ -57,23 +63,26 @@ class ProjectAdd extends Component {
     this.props.actions.projects.setProjects(newProjects)
   }
 
-  addOptions() {
+  getURLField() {
+    return (
+      <TextField
+        name="url"
+        type="url"
+        hintText="Adresa repozitáře"
+        value={this.state.url}
+        onChange={this.handleURLChange}
+      />
+    )
+  }
+
+  getDirectoryField() {
     return (
       <div>
         <TextField
-          name="url"
-          type="url"
-          hintText="Adresa repozitáře"
-          disabled={this.state.addType !== 'from_url'}
-          ref='urlInput'
-        />
-        <br />
-        <TextField
           name="path"
           hintText="Umístění v tomto zařízení"
-          value={this.state.addDirectoryPath}
+          value={this.state.directoryPath}
           onChange={this.handlePathChange}
-          ref='pathInput'
         />
         <FlatButton
           label="Zvolit adresář"
@@ -87,9 +96,14 @@ class ProjectAdd extends Component {
     )
   }
 
+  openAddModal = (open) => {
+    const newState = Object.assign({}, this.state, { openAddModal: open })
+    this.setState(newState)
+  }
+
   addProject = () => {
-    const url = this.refs.urlInput.input.value // @TODO: init empty project if possible
-    const localPath = this.refs.pathInput.input.value
+    const url = this.state.url // @TODO: init empty project if possible
+    const localPath = this.state.directoryPath
     this.appendProject({
       name: path.basename(localPath),
       note: localPath,
@@ -114,33 +128,46 @@ class ProjectAdd extends Component {
     return (
       <div>
         <Dialog
-          title="Přidat projekt"
           actions={actions}
           onRequestClose={() => this.openAddModal(false)}
           open={this.state.openAddModal}
         >
-
-          <RadioButtonGroup
-            name="addType"
-            valueSelected={this.state.addType}
-            onChange={this.handleTypeChange}
-          >
-            <RadioButton
-              value="new"
-              label="Vytvořit nový"
-            />
-            <RadioButton
-              value="from_url"
+          <Tabs>
+            <Tab
+              label="Nový projekt"
+              onActive={() => this.setActiveTab(TAB_NEW)}
+            >
+              <div>
+                <p>
+                  Zvolte adresář, ze kterého se vytvoří nový projekt. Adresář může obsahovat již rozpracované dílo.
+                </p>
+                {this.getDirectoryField()}
+              </div>
+            </Tab>
+            <Tab
               label="Z URL"
-            />
-            <RadioButton
-              value="from_filesystem"
-              label="Z lokálního adresáře"
-            />
-          </RadioButtonGroup>
-
-          {this.addOptions()}
-
+              onActive={() => this.setActiveTab(TAB_URL)}
+            >
+              <div>
+                <p>
+                  Zvolte adresu, ze které se stáhne existující projekt do místního adresáře.
+                </p>
+                {this.getURLField()}
+                {this.getDirectoryField()}
+              </div>
+            </Tab>
+            <Tab
+              label="Z adresáře"
+              onActive={() => this.setActiveTab(TAB_LOCAL)}
+            >
+              <div>
+                <p>
+                  Zvolte adresář, který obsahuje již existující projekt.
+                </p>
+                {this.getDirectoryField()}
+              </div>
+            </Tab>
+          </Tabs>
         </Dialog>
 
         <Paper
