@@ -141,7 +141,7 @@ class Branches extends Component {
           initiallyOpen={isLocal}
           primaryTogglesNestedList={nestedItems.length !== 0}
           onTouchTap={() => {
-            this.checkout((isLocal ? 'refs/heads/' : 'refs/remotes') + text)
+            this.checkout(`refs/${isLocal ? 'heads' : 'remotes'}/${text}`)
           }}
           nestedItems={nestedItems}
         />
