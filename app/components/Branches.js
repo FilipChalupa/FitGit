@@ -140,11 +140,17 @@ class Branches extends Component {
           style={style}
           initiallyOpen={isLocal}
           primaryTogglesNestedList={nestedItems.length !== 0}
-          /*onTouchTap={() => {alert('@TODO')}}*/
+          onTouchTap={() => {
+            this.checkout((isLocal ? 'refs/heads/' : 'refs/remotes') + text)
+          }}
           nestedItems={nestedItems}
         />
       )
     })
+  }
+
+  checkout(branch) {
+    alert(branch)
   }
 
   render() {
