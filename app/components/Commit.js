@@ -73,6 +73,22 @@ class Commit extends Component {
     return keys
   }
 
+  renderArtifacts() {
+    const artifacts = this.getArtifacts()
+    if (artifacts.length === 0) {
+      return (
+        <div
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          Aktuálně nejsou v projektu žádné necommitované změny.
+        </div>
+      )
+    }
+    return artifacts
+  }
+
   getBody() {
     if (this.props.projects.active) {
       return (
@@ -89,7 +105,7 @@ class Commit extends Component {
             />
           </div>
 
-          {this.getArtifacts()}
+          {this.renderArtifacts()}
 
           <div
             style={{
