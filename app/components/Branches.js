@@ -22,7 +22,7 @@ import {
   deepOrange500,
   brown500,
 } from 'material-ui/styles/colors'
-import nodegit, { getLocalBranches, getRemoteBranches } from '../utils/nodegit'
+import nodegit, { getLocalBranches, getRemoteBranches, getCurrentBranch } from '../utils/nodegit'
 
 import * as LoadingActions from '../actions/loading'
 
@@ -49,6 +49,7 @@ class Branches extends Component {
     super(props)
 
     this.state = {
+      currentBranch: null,
       localBranches: {},
       remoteBranches: {},
     }
@@ -86,6 +87,20 @@ class Branches extends Component {
       .then(() => {
         this.props.actions.loading.DecrementLoadingJobs()
       })
+
+    this.props.actions.loading.IncrementLoadingJobs()
+    getCurrentBranch(this.props.project.path)
+      .then((branch) => {
+        this.setState(Object.assign({}, this.state, {
+          currentBranch: branch,
+        }))
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+      .then(() => {
+        this.props.actions.loading.DecrementLoadingJobs()
+      })
   }
 
   makeTrees(branches) {
@@ -110,13 +125,19 @@ class Branches extends Component {
       const groupColor = color || branchColors[i % branchColors.length]
       const nestedItems = this.renderBranches(branches[branch], isLocal, `${prefix}${branch}/`, groupColor)
       const Icon = nestedItems.length ? LabelOutlineIcon : LabelIcon
+      const text = prefix + branch
+      const style = {}
+      if (isLocal && this.state.currentBranch.startsWith(text)) {
+        style.fontWeight = 'bold'
+      }
       return (
         <ListItem
           key={i}
-          primaryText={prefix + branch}
+          primaryText={text}
           leftIcon={<Icon
             color={groupColor}
           />}
+          style={style}
           initiallyOpen={isLocal}
           primaryTogglesNestedList={nestedItems.length !== 0}
           /*onTouchTap={() => {alert('@TODO')}}*/

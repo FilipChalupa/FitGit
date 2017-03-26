@@ -30,3 +30,17 @@ export function getLocalBranches(path) {
 export function getRemoteBranches(path) {
   return getPrefixedBranches(path, 'refs/remotes/')
 }
+
+export function getCurrentBranch(path) {
+  return nodegit.Repository.open(path)
+    .then((repo) => {
+      return repo.getCurrentBranch()
+    })
+    .then((branch) => {
+      if (branch.isBranch()) {
+        return branch.name().replace('refs/heads/', '')
+      } else {
+        return null
+      }
+    })
+}
