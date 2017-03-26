@@ -238,6 +238,7 @@ class Commit extends Component {
 
 function mapStateToProps(state) {
   return {
+    loading: state.loading,
     projects: state.projects,
   }
 }
