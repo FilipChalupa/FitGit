@@ -1,5 +1,7 @@
 // @flow
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { List, ListItem } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
 import LabelIcon from 'material-ui/svg-icons/action/label'
@@ -22,6 +24,8 @@ import {
 } from 'material-ui/styles/colors'
 import nodegit, { getLocalBranches, getRemoteBranches } from '../utils/nodegit'
 
+import * as LoadingActions from '../actions/loading'
+
 const branchColors = [
   red500,
   lightGreen500,
@@ -39,7 +43,7 @@ const branchColors = [
   amber500,
 ]
 
-export default class Branches extends Component {
+class Branches extends Component {
 
   constructor(props) {
     super(props)
@@ -51,6 +55,11 @@ export default class Branches extends Component {
   }
 
   componentDidMount() {
+    this.refresh()
+  }
+
+  refresh() {
+    this.props.actions.loading.IncrementLoadingJobs()
     getLocalBranches(this.props.project.path)
       .then((branches) => {
         this.setState(Object.assign({}, this.state, {
@@ -60,6 +69,11 @@ export default class Branches extends Component {
       .catch((error) => {
         console.error(error)
       })
+      .then(() => {
+        this.props.actions.loading.DecrementLoadingJobs()
+      })
+
+    this.props.actions.loading.IncrementLoadingJobs()
     getRemoteBranches(this.props.project.path)
       .then((branches) => {
         this.setState(Object.assign({}, this.state, {
@@ -68,6 +82,9 @@ export default class Branches extends Component {
       })
       .catch((error) => {
         console.error(error)
+      })
+      .then(() => {
+        this.props.actions.loading.DecrementLoadingJobs()
       })
   }
 
@@ -138,3 +155,20 @@ export default class Branches extends Component {
     )
   }
 }
+
+
+function mapStateToProps(state) {
+  return {
+    loading: state.loading,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: {
+      loading: bindActionCreators(LoadingActions, dispatch),
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Branches)
