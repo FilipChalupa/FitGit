@@ -180,6 +180,10 @@ class Commit extends Component {
     }
   }
 
+  componentDidMount() {
+		this.refresh()
+	}
+
   refresh = () => {
     this.setRefreshing(true)
     nodegit.Repository.open(this.props.projects.active.path)
