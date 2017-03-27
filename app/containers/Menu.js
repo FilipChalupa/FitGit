@@ -120,8 +120,8 @@ class Menu extends Component {
 
 function mapStateToProps(state) {
   return {
-    projects: state.projects,
     integrator: state.integrator,
+    projects: state.projects,
     settings: state.settings,
   }
 }
@@ -129,6 +129,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
+      integrator: bindActionCreators(IntegratorActions, dispatch),
       projects: bindActionCreators(ProjectsActions, dispatch),
     }
   }
