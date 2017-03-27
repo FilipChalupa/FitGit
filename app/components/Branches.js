@@ -127,7 +127,7 @@ class Branches extends Component {
       const Icon = nestedItems.length ? LabelOutlineIcon : LabelIcon
       const text = prefix + branch
       const style = {}
-      if (isLocal && this.state.currentBranch.startsWith(text)) {
+      if (isLocal && this.state.currentBranch && this.state.currentBranch.startsWith(text)) {
         style.fontWeight = 'bold'
       }
       return (
