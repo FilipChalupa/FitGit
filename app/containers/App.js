@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import Menu from './Menu'
 import Loading from './Loading'
 import Watcher from './Watcher'
+import Status from './Status'
 
 export default class App extends Component {
   props: {
@@ -17,6 +18,7 @@ export default class App extends Component {
           {this.props.children}
         </div>
         <Loading />
+        <Status />
         <Watcher />
       </div>
     )

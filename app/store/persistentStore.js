@@ -5,6 +5,7 @@ const shortLivedStorages = [
   'loading',
   'integrator',
   'routing',
+  'status',
 ]
 
 function getInitialState() {

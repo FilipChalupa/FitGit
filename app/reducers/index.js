@@ -6,6 +6,7 @@ import loading from './loading'
 import integrator from './integrator'
 import projects from './projects'
 import settings from './settings'
+import status from './status'
 
 const rootReducer = combineReducers({
   counter,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   projects,
   routing,
   settings,
+  status,
 })
 
 export default rootReducer

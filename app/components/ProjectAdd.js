@@ -10,8 +10,8 @@ import IconAdd from 'material-ui/svg-icons/content/add-box'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
 import {Tabs, Tab} from 'material-ui/Tabs'
-
 import * as ProjectsActions from '../actions/projects'
+import * as StatusActions from '../actions/status'
 
 const dialog = require('electron').remote.dialog
 const path = require('path')
@@ -104,12 +104,21 @@ class ProjectAdd extends Component {
   addProject = () => {
     const url = this.state.url // @TODO: init empty project if possible
     const localPath = this.state.directoryPath
-    this.appendProject({
+    const project = {
       name: path.basename(localPath),
       note: localPath,
       path: localPath,
-    })
+    }
+    this.appendProject(project)
     this.openAddModal(false)
+
+    this.props.actions.status.addStatus(
+      `Byl přidán projekt: ${project.name}`,
+      'Vrátit zpět',
+      () => {
+        this.props.actions.projects.removeProject(project)
+      }
+    )
   }
 
   render() {
@@ -202,6 +211,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: {
       projects: bindActionCreators(ProjectsActions, dispatch),
+      status: bindActionCreators(StatusActions, dispatch),
     }
   }
 }
