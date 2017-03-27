@@ -3,6 +3,7 @@ import storage from 'electron-json-storage'
 
 const shortLivedStorages = [
   'loading',
+  'integrator',
   'routing',
 ]
 

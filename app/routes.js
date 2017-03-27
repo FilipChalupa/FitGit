@@ -9,6 +9,7 @@ import ProjectsPage from './containers/ProjectsPage'
 import HistoryPage from './containers/HistoryPage'
 import SettingsPage from './containers/SettingsPage'
 import ProjectPage from './containers/ProjectPage'
+import IntegrateChangesPage from './containers/IntegrateChangesPage'
 
 export default (
   <Route path="/" component={App}>
@@ -19,5 +20,6 @@ export default (
     <Route path="/history" component={HistoryPage} />
     <Route path="/settings" component={SettingsPage} />
     <Route path="/project" component={ProjectPage} />
+    <Route path="/integrateChanges" component={IntegrateChangesPage} />
   </Route>
 )
