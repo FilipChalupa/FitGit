@@ -189,7 +189,7 @@ class Commit extends Component {
 
   setCommiting = (commiting) => {
     this.setState(Object.assign({}, this.state, { commiting }))
-    if (refreshing) {
+    if (this.refreshing) {
       this.props.actions.loading.IncrementLoadingJobs()
     } else {
       this.props.actions.loading.DecrementLoadingJobs()
