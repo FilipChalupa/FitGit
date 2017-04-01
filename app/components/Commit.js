@@ -10,6 +10,7 @@ import TextField from 'material-ui/TextField'
 import * as LoadingActions from '../actions/loading'
 import * as ProjectsActions from '../actions/projects'
 import * as StatusActions from '../actions/status'
+import styles from './Commit.css';
 
 class Commit extends Component {
 
@@ -30,13 +31,18 @@ class Commit extends Component {
   getArtifacts = () => {
     return this.state.artifacts.map((artifact, i) => {
       return (
-        <RaisedButton
+        <div
+          className={styles.wrapper}
           key={artifact.path}
-          label={artifact.path}
-          fullWidth={true}
-          primary={artifact.inIndex}
-          onTouchTap={() => this.updateIndex(artifact)}
-        />
+        >
+          <button
+            className={`${styles.in} ${artifact.inIndex && styles.full}`}
+            onTouchTap={() => this.updateIndex(artifact)}
+          >
+            <span className={styles.selected}></span>
+            {artifact.path}
+          </button>
+        </div>
       )
     })
   }
