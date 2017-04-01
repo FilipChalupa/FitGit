@@ -21,6 +21,7 @@ class Commit extends Component {
       refreshing: false,
       commitMessage: '',
       commiting: false,
+      nothingSelected: true,
     }
 
     this.repo = null
@@ -123,7 +124,7 @@ class Commit extends Component {
               label='Uložit'
               secondary={true}
               onTouchTap={this.commit}
-              disabled={this.state.commiting}
+              disabled={this.state.commiting || this.state.nothingSelected}
             />
           </div>
         </div>
@@ -209,13 +210,18 @@ class Commit extends Component {
         return repo.getStatus()
       })
       .then((artifacts) => {
+        let nothingSelected = true
         this.setState(Object.assign({}, this.state, {
           artifacts: artifacts.map((artifact) => {
+            if (artifact.inIndex()) {
+              nothingSelected = false
+            }
             return {
               inIndex: !!artifact.inIndex(),
               path: artifact.path(),
             }
           }),
+          nothingSelected: nothingSelected,
         }))
       })
       .catch((e) => {
