@@ -151,7 +151,6 @@ class Commit extends Component {
   commit = () => {
     this.setCommiting(true)
     let oid
-    const author = nodegit.Signature.create('Scott Chacon', 'schacon@gmail.com', Math.floor(Date.now() / 1000), (new Date).getTimezoneOffset()) // @TODO: Get real author
     this.repo.refreshIndex()
       .then((index) => {
         return index.writeTree()
@@ -164,6 +163,7 @@ class Commit extends Component {
         return this.repo.getCommit(head)
       })
       .then((parent) => {
+        const author = this.repo.defaultSignature()
         return this.repo.createCommit('HEAD', author, author, this.state.commitMessage, oid, [parent])
       })
       .then(() => {
