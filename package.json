@@ -30,7 +30,7 @@
   "browserslist": "electron 1.4",
   "build": {
     "productName": "FitGit",
-    "appId": "org.develar.ElectronReact",
+    "appId": "org.develar.FitGit",
     "category": "public.app-category.tools",
     "dmg": {
       "contents": [
