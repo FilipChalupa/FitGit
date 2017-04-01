@@ -7,9 +7,9 @@ import RefreshIcon from 'material-ui/svg-icons/navigation/refresh'
 import nodegit from '../utils/nodegit'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
-
 import * as LoadingActions from '../actions/loading'
 import * as ProjectsActions from '../actions/projects'
+import * as StatusActions from '../actions/status'
 
 class Commit extends Component {
 
@@ -169,6 +169,7 @@ class Commit extends Component {
       .then(() => {
         this.setCommitMesage('')
         this.refresh()
+        this.props.actions.status.addStatus('Commit byl vytvořen')
       })
       .catch((e) => {
         console.error(e)
@@ -248,6 +249,7 @@ function mapDispatchToProps(dispatch) {
     actions: {
       loading: bindActionCreators(LoadingActions, dispatch),
       projects: bindActionCreators(ProjectsActions, dispatch),
+      status: bindActionCreators(StatusActions, dispatch),
     }
   }
 }

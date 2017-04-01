@@ -12,8 +12,8 @@ export default function project(state = {
       return {
         open: true,
         message: action.payload.message,
-        buttonText: action.payload.buttonText || null,
-        buttonCallback: action.payload.buttonCallback || null,
+        buttonText: action.payload.buttonText,
+        buttonCallback: action.payload.buttonCallback,
       }
     case CLOSE_STATUS:
       return {

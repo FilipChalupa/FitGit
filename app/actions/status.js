@@ -33,16 +33,16 @@ export function closeStatus() {
   }
 }
 
-export function addStatus(message: string, buttonText?: string, buttonCallback: () => void) {
+export function addStatus(message: string, buttonText?: string, buttonCallback?: () => void) {
   return (dispatch: () => void) => {
     const status = {
       message,
       buttonText,
-      buttonCallback: () => {
+      buttonCallback: buttonCallback ? () => {
         buttonCallback()
         dispatch(closeStatus())
         // @TODO: get next immediately
-      }
+      } : null,
     }
 
     if (timeout === null) {
