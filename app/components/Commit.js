@@ -84,7 +84,7 @@ class Commit extends Component {
   unselectAll = () => {
     console.log('unselect all')
     this.forAll((index) => {
-      return index.removeAll()
+      return index.removeAll() // @TODO: handle staged as deleted
     })
   }
 
