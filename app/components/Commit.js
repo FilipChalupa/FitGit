@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import FlatButton from 'material-ui/FlatButton'
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh'
+import SelectAllIcon from 'material-ui/svg-icons/content/select-all'
 import nodegit from '../utils/nodegit'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
@@ -24,6 +25,7 @@ class Commit extends Component {
       commitMessage: '',
       commiting: false,
       nothingSelected: true,
+      allSelected: false,
     }
 
     this.repo = null
@@ -51,7 +53,7 @@ class Commit extends Component {
   updateIndex = (artifact) => {
     let index
     this.setUpdating(true)
-    this.repo.refreshIndex()
+    this.repo.index()
       .then((idx) => {
         index = idx
         if (artifact.inIndex) {
@@ -67,6 +69,45 @@ class Commit extends Component {
         console.error(e)
       })
       .then(() => {
+        this.setUpdating(false)
+        this.refresh() // @TODO: update only changed
+      })
+  }
+
+  selectAll = () => {
+    console.log('select all')
+    this.forAll((index) => {
+      return index.addAll()
+    })
+  }
+
+  unselectAll = () => {
+    console.log('unselect all')
+    this.forAll((index) => {
+      return index.removeAll()
+    })
+  }
+
+  forAll = (action) => {
+    console.log('go')
+    let index
+    this.setUpdating(true)
+    this.repo.index()
+      .then((idx) => {
+        index = idx
+        console.log('my action')
+        return action(index)
+      })
+      .then(() => {
+        console.log('write')
+        return index.write()
+      })
+      .catch((e) => {
+        console.log('ups')
+        console.error(e)
+      })
+      .then(() => {
+        console.log('done')
         this.setUpdating(false)
         this.refresh() // @TODO: update only changed
       })
@@ -109,9 +150,14 @@ class Commit extends Component {
             }}
           >
             <FlatButton
+              icon={<SelectAllIcon />}
+              onTouchTap={this.state.allSelected ? this.unselectAll : this.selectAll}
+              disabled={this.state.refreshing || this.state.updating}
+            />
+            <FlatButton
               icon={<RefreshIcon />}
               onTouchTap={this.refresh}
-              disabled={this.state.refreshing}
+              disabled={this.state.refreshing || this.state.updating}
             />
           </div>
 
@@ -224,8 +270,8 @@ class Commit extends Component {
   }
 
   componentDidMount() {
-		this.refresh()
-	}
+    this.refresh()
+  }
 
   refresh = () => {
     this.setRefreshing(true)
@@ -235,18 +281,20 @@ class Commit extends Component {
         return repo.getStatus()
       })
       .then((artifacts) => {
-        let nothingSelected = true
+        const countAll = artifacts.length
+        let countSelected = 0
         this.setState(Object.assign({}, this.state, {
           artifacts: artifacts.map((artifact) => {
             if (artifact.inIndex()) {
-              nothingSelected = false
+              countSelected++
             }
             return {
               inIndex: !!artifact.inIndex(),
               path: artifact.path(),
             }
           }),
-          nothingSelected: nothingSelected,
+          nothingSelected: countSelected === 0,
+          allSelected: countSelected === countAll,
         }))
       })
       .catch((e) => {
