@@ -20,6 +20,7 @@ class Commit extends Component {
     this.state = {
       artifacts: [],
       refreshing: false,
+      updating: false,
       commitMessage: '',
       commiting: false,
       nothingSelected: true,
@@ -49,6 +50,7 @@ class Commit extends Component {
 
   updateIndex = (artifact) => {
     let index
+    this.setUpdating(true)
     this.repo.refreshIndex()
       .then((idx) => {
         index = idx
@@ -65,6 +67,7 @@ class Commit extends Component {
         console.error(e)
       })
       .then(() => {
+        this.setUpdating(false)
         this.refresh() // @TODO: update only changed
       })
   }
@@ -112,7 +115,14 @@ class Commit extends Component {
             />
           </div>
 
-          {this.renderArtifacts()}
+          <div
+            style={{
+              opacity: (this.state.refreshing || this.state.updating) ? 0.5 : 1,
+              transition: 'opacity 0.3s',
+            }}
+          >
+            {this.renderArtifacts()}
+          </div>
 
           <div
             style={{
@@ -186,7 +196,7 @@ class Commit extends Component {
       })
   }
 
-  setRefreshing = (refreshing) => {
+  setRefreshing = (refreshing: boolean) => {
     this.setState(Object.assign({}, this.state, { refreshing }))
     if (refreshing) {
       this.props.actions.loading.IncrementLoadingJobs()
@@ -195,9 +205,18 @@ class Commit extends Component {
     }
   }
 
-  setCommiting = (commiting) => {
+  setCommiting = (commiting: boolean) => {
     this.setState(Object.assign({}, this.state, { commiting }))
-    if (this.refreshing) {
+    if (commiting) {
+      this.props.actions.loading.IncrementLoadingJobs()
+    } else {
+      this.props.actions.loading.DecrementLoadingJobs()
+    }
+  }
+
+  setUpdating = (updating: boolean) => {
+    this.setState(Object.assign({}, this.state, { updating }))
+    if (updating) {
       this.props.actions.loading.IncrementLoadingJobs()
     } else {
       this.props.actions.loading.DecrementLoadingJobs()
