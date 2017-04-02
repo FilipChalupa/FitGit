@@ -76,19 +76,6 @@ class Commit extends Component {
 
   selectAll = () => {
     console.log('select all')
-    this.forAll((index) => {
-      return index.addAll()
-    })
-  }
-
-  unselectAll = () => {
-    console.log('unselect all')
-    this.forAll((index) => {
-      return index.removeAll() // @TODO: handle staged as deleted
-    })
-  }
-
-  forAll = (action) => {
     console.log('go')
     let index
     this.setUpdating(true)
@@ -96,11 +83,28 @@ class Commit extends Component {
       .then((idx) => {
         index = idx
         console.log('my action')
-        return action(index)
+        return index.addAll()
       })
       .then(() => {
         console.log('write')
         return index.write()
+      })
+      .catch((e) => {
+        console.log('ups')
+        console.error(e)
+      })
+      .then(() => {
+        console.log('done')
+        this.setUpdating(false)
+        this.refresh() // @TODO: update only changed
+      })
+  }
+
+  unselectAll = () => {
+    console.log('unselect all')
+    this.repo.getHeadCommit()
+      .then((head) => {
+        return nodegit.Reset.reset(this.repo, head, nodegit.Reset.TYPE.SOFT)
       })
       .catch((e) => {
         console.log('ups')

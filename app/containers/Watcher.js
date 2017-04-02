@@ -41,7 +41,7 @@ class Watcher extends Component {
   }
 
   componentDidMount() {
-    this.check()
+    //this.check()
 
     if (this.props.projects.active) { // @TODO: remove - for preview only
       setTimeout(() => {

@@ -4,6 +4,11 @@ const nodegit = remote.require('nodegit')
 
 export default nodegit
 
+console.log(nodegit.Reset)
+console.log(nodegit.Reset.TYPE)
+console.log(nodegit.Repository)
+console.log(nodegit.Repository.open)
+
 export function getBranches(path) {
   return nodegit.Repository.open(path)
     .then((repo) => {
