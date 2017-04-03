@@ -196,7 +196,7 @@ class Commit extends Component {
             }}
           >
             <TextField
-              hintText='Zpráva'
+              hintText='Stručný popis změn'
               multiLine={true}
               onChange={this.handleCommitMessageChange}
               value={this.state.commitMessage}
