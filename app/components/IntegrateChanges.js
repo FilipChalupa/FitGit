@@ -14,7 +14,7 @@ class IntegrateChanges extends Component {
     super(props)
 
     this.state = {
-      files: [],
+      artifacts: [],
       updating: false,
     }
 
@@ -47,6 +47,7 @@ class IntegrateChanges extends Component {
     let currentPathIndex
     let hunks
     let currentHunkIndex
+    let artifacts
 
     const processPatch = () => {
       console.log('process')
@@ -54,8 +55,15 @@ class IntegrateChanges extends Component {
         console.log('done')
         return Promise.resolve()
       }
+      const patch = patches[currentPathIndex++]
 
-      return patches[currentPathIndex++].hunks()
+      artifacts[currentPathIndex] = {
+        oldName: patch.oldFile().path(),
+        newName: patch.newFile().path(),
+        hunks: [],
+      }
+
+      return patch.hunks()
         .then((h) => {
           hunks = h
           currentHunkIndex = 0
@@ -70,19 +78,22 @@ class IntegrateChanges extends Component {
         return Promise.resolve()
       }
 
-      console.log('Hunk')
-      console.log(hunks[currentHunkIndex].header())
-      return hunks[currentHunkIndex++].lines()
+      const hunk = hunks[currentHunkIndex++]
+
+      return hunk.lines()
         .then((lines) => {
-          lines.forEach((line) => {
-            console.log(line.content())
-          })
-          console.log('')
+          artifacts[currentPathIndex].hunks.push(lines.map((line) => {
+            return {
+              origin: String.fromCharCode(line.origin()),
+              content: line.content(),
+            }
+          }))
         })
         .then(processHunk)
     }
 
     this.setUpdating(true)
+    artifacts = []
     nodegit.Repository.open(this.props.projects.active.path)
       .then((r) => {
         repo = r
@@ -110,6 +121,7 @@ class IntegrateChanges extends Component {
       })
       .then(() => {
         console.log('mega done')
+        this.setState(Object.assign({}, this.states, { artifacts }))
         this.setUpdating(false)
       })
   }
@@ -118,21 +130,94 @@ class IntegrateChanges extends Component {
     alert('merge')
   }
 
+  getArtifacts() {
+    return this.state.artifacts.map((artifact, i) => {
+      const name = artifact.oldName + (artifact.oldName === artifact.newName ? '' : ` =&gt; ${artifact.newName}`)
+      return (
+        <div
+          key={i}
+          style={{
+            marginTop: 10,
+          }}
+        >
+          <h3
+            style={{
+              marginBottom: 5,
+            }}
+          >
+            {name}
+          </h3>
+          {this.getHunks(artifact)}
+        </div>
+      )
+    })
+  }
+
+  getBackgroundColor(origin: string) {
+    switch (origin) {
+      case '+':
+        return 'rgba(0, 255, 0, 0.25)'
+      case '-':
+        return 'rgba(255, 0, 0, 0.25)'
+      default:
+        return 'rgba(0, 0, 0, 0.05)'
+    }
+  }
+
+  getHunks(artifact) {
+    return artifact.hunks.map((hunk, i) => {
+      return (
+        <div
+          key={i}
+          style={{
+            paddingBottom: 5,
+            marginBottom: 5,
+            borderBottom: '1px solid gray',
+          }}
+        >
+          {hunk.map((line, l) => {
+            return (
+              <pre
+                key={l}
+                style={{
+                  backgroundColor: this.getBackgroundColor(line.origin),
+                  margin: 0,
+                  overflow: 'auto',
+                }}
+              >
+                {line.origin}{line.content}
+              </pre>
+            )
+          })}
+        </div>
+      )
+    })
+  }
+
   render() {
     return (
       <div>
-        <h1>Začlenit změny</h1>
-        <FlatButton
-          icon={<RefreshIcon />}
-          onTouchTap={this.refresh}
-          disabled={this.state.updating}
-        />
-        <RaisedButton
-          label='Přijmout změny'
-          secondary={true}
-          onTouchTap={this.accept}
-          disabled={this.state.updating}
-        />
+        <div>
+          <h1>Začlenit změny</h1>
+          <RaisedButton
+            label='Přijmout změny'
+            secondary={true}
+            onTouchTap={this.accept}
+            disabled={this.state.updating}
+          />
+          <FlatButton
+            icon={<RefreshIcon />}
+            onTouchTap={this.refresh}
+            disabled={this.state.updating}
+          />
+        </div>
+        <div
+          style={{
+            marginTop: 20,
+          }}
+        >
+          {this.getArtifacts()}
+        </div>
       </div>
     )
   }
