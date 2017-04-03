@@ -29,24 +29,8 @@
   },
   "browserslist": "electron 1.4",
   "build": {
-    "productName": "FitGit",
-    "appId": "org.develar.FitGit",
-    "category": "public.app-category.tools",
-    "dmg": {
-      "contents": [
-        {
-          "x": 410,
-          "y": 150,
-          "type": "link",
-          "path": "/Applications"
-        },
-        {
-          "x": 130,
-          "y": 150,
-          "type": "file"
-        }
-      ]
-    },
+    "productName": "ElectronReact",
+    "appId": "org.develar.ElectronReact",
     "files": [
       "dist/",
       "node_modules/",
@@ -55,8 +39,24 @@
       "main.js.map",
       "package.json"
     ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
     "win": {
-      "target": "nsis"
+      "target": [
+        "nsis"
+      ]
     },
     "linux": {
       "target": [
