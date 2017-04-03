@@ -58,7 +58,7 @@ class IntegrateChanges extends Component {
       const patch = patches[currentPathIndex++]
 
       artifacts[currentPathIndex] = {
-        oldName: patch.oldFile().path(),
+        oldName: patch.oldFile().path(), // @TODO: check why oldName = newName always
         newName: patch.newFile().path(),
         hunks: [],
       }
