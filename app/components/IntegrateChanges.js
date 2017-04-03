@@ -3,17 +3,43 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
+import RefreshIcon from 'material-ui/svg-icons/navigation/refresh'
 import nodegit from '../utils/nodegit'
 import * as LoadingActions from '../actions/loading'
 
 class IntegrateChanges extends Component {
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      files: [],
+      updating: false,
+    }
+
+    this.repo = null
+  }
+
+  setUpdating = (updating: boolean) => {
+    this.setState(Object.assign({}, this.state, { updating }))
+    if (updating) {
+      this.props.actions.loading.IncrementLoadingJobs()
+    } else {
+      this.props.actions.loading.DecrementLoadingJobs()
+    }
+  }
 
 
   done() {
     console.log('done')
   }
 
-  accept = () => {
+  componentDidMount() {
+    this.refresh()
+  }
+
+  refresh = () => {
     let repo
     let localTree
     let remoteTree
@@ -56,7 +82,7 @@ class IntegrateChanges extends Component {
         .then(processHunk)
     }
 
-    this.props.actions.loading.IncrementLoadingJobs()
+    this.setUpdating(true)
     nodegit.Repository.open(this.props.projects.active.path)
       .then((r) => {
         repo = r
@@ -84,18 +110,28 @@ class IntegrateChanges extends Component {
       })
       .then(() => {
         console.log('mega done')
-        this.props.actions.loading.DecrementLoadingJobs()
+        this.setUpdating(false)
       })
+  }
+
+  accept = () => {
+    alert('merge')
   }
 
   render() {
     return (
       <div>
         <h1>Začlenit změny</h1>
+        <FlatButton
+          icon={<RefreshIcon />}
+          onTouchTap={this.refresh}
+          disabled={this.state.updating}
+        />
         <RaisedButton
           label='Přijmout změny'
           secondary={true}
           onTouchTap={this.accept}
+          disabled={this.state.updating}
         />
       </div>
     )
