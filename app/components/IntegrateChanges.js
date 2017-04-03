@@ -67,7 +67,7 @@ class IntegrateChanges extends Component {
         .then((h) => {
           hunks = h
           currentHunkIndex = 0
-          processHunk()
+          return processHunk()
         })
         .then(processPatch)
     }
