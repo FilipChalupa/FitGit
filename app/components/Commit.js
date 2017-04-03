@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import FlatButton from 'material-ui/FlatButton'
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh'
+import NewIcon from 'material-ui/svg-icons/av/fiber-new'
 import SelectAllIcon from 'material-ui/svg-icons/content/select-all'
 import nodegit from '../utils/nodegit'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -11,7 +12,13 @@ import TextField from 'material-ui/TextField'
 import * as LoadingActions from '../actions/loading'
 import * as ProjectsActions from '../actions/projects'
 import * as StatusActions from '../actions/status'
-import styles from './Commit.css';
+import styles from './Commit.css'
+
+const STATUS_NEW = 'new'
+const STATUS_MODIFIED = 'modified'
+const STATUS_TYPECHANGE = 'typechange'
+const STATUS_RENAMED = 'renamed'
+const STATUS_IGNORED = 'ignored'
 
 class Commit extends Component {
 
@@ -43,6 +50,14 @@ class Commit extends Component {
             onTouchTap={() => this.updateIndex(artifact)}
           >
             <span className={styles.selected}></span>
+            <NewIcon
+              style={{
+                position: 'relative',
+                top: 5,
+                marginRight: 3,
+                opacity: artifact.status.includes(STATUS_NEW) ? 1 : 0,
+              }}
+            />
             {artifact.path}
           </button>
         </div>
@@ -117,13 +132,13 @@ class Commit extends Component {
       })
   }
 
-  getStatusKeys = (status) => {
+  getStatusKeys = (artifact) => {
     const keys = []
-    if (status.isNew()) { keys.push('new') }
-    if (status.isModified()) { keys.push('modified') }
-    if (status.isTypechange()) { keys.push('typechange') }
-    if (status.isRenamed()) { keys.push('renamed') }
-    if (status.isIgnored()) { keys.push('ignored') }
+    if (artifact.isNew()) { keys.push(STATUS_NEW) }
+    if (artifact.isModified()) { keys.push(STATUS_MODIFIED) }
+    if (artifact.isTypechange()) { keys.push(STATUS_TYPECHANGE) }
+    if (artifact.isRenamed()) { keys.push(STATUS_RENAMED) }
+    if (artifact.isIgnored()) { keys.push(STATUS_IGNORED) }
 
     return keys
   }
@@ -295,6 +310,7 @@ class Commit extends Component {
             return {
               inIndex: !!artifact.inIndex(),
               path: artifact.path(),
+              status: this.getStatusKeys(artifact),
             }
           }),
           nothingSelected: countSelected === 0,
