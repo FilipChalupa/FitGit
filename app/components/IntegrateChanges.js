@@ -30,11 +30,6 @@ class IntegrateChanges extends Component {
     }
   }
 
-
-  done() {
-    console.log('done')
-  }
-
   componentDidMount() {
     this.refresh()
   }
@@ -50,9 +45,7 @@ class IntegrateChanges extends Component {
     let artifacts
 
     const processPatch = () => {
-      console.log('process')
       if (patches.length === currentPathIndex) {
-        console.log('done')
         return Promise.resolve()
       }
       const patch = patches[currentPathIndex++]
@@ -74,7 +67,6 @@ class IntegrateChanges extends Component {
 
     const processHunk = () => {
       if (hunks.length === currentHunkIndex) {
-        console.log('hunks done')
         return Promise.resolve()
       }
 
@@ -116,11 +108,9 @@ class IntegrateChanges extends Component {
         return processPatch()
       })
       .catch((error) => {
-        console.log('ups')
         console.error(error)
       })
       .then(() => {
-        console.log('mega done')
         this.setState(Object.assign({}, this.states, { artifacts }))
         this.setUpdating(false)
       })
