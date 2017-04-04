@@ -200,6 +200,21 @@ class IntegrateChanges extends Component {
   }
 
   render() {
+
+    const renderArtifacts = () => {
+      const artifacts = this.getArtifacts()
+      if (artifacts.length) {
+        return artifacts
+      } else {
+        return (
+          <div>
+            Žádné změny nejsou k dispozici.
+          </div>
+        )
+      }
+
+    }
+
     return (
       <div>
         <div>
@@ -221,7 +236,7 @@ class IntegrateChanges extends Component {
             marginTop: 20,
           }}
         >
-          {this.getArtifacts()}
+          {renderArtifacts()}
         </div>
       </div>
     )
