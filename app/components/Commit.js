@@ -90,43 +90,34 @@ class Commit extends Component {
   }
 
   selectAll = () => {
-    console.log('select all')
-    console.log('go')
     let index
     this.setUpdating(true)
     this.repo.index()
       .then((idx) => {
         index = idx
-        console.log('my action')
         return index.addAll()
       })
       .then(() => {
-        console.log('write')
         return index.write()
       })
       .catch((e) => {
-        console.log('ups')
         console.error(e)
       })
       .then(() => {
-        console.log('done')
         this.setUpdating(false)
         this.refresh() // @TODO: update only changed
       })
   }
 
   unselectAll = () => {
-    console.log('unselect all')
     this.repo.getHeadCommit()
       .then((head) => {
         return nodegit.Reset.reset(this.repo, head, nodegit.Reset.TYPE.SOFT)
       })
       .catch((e) => {
-        console.log('ups')
         console.error(e)
       })
       .then(() => {
-        console.log('done')
         this.setUpdating(false)
         this.refresh() // @TODO: update only changed
       })
