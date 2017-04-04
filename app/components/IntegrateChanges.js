@@ -35,7 +35,6 @@ class IntegrateChanges extends Component {
   }
 
   refresh = () => {
-    let repo
     let localTree
     let remoteTree
     let patches
@@ -88,18 +87,18 @@ class IntegrateChanges extends Component {
     artifacts = []
     nodegit.Repository.open(this.props.projects.active.path)
       .then((r) => {
-        repo = r
-        return repo.getBranchCommit('master') // @TODO: get main branch
+        this.repo = r
+        return this.repo.getBranchCommit('master') // @TODO: get main branch
       })
       .then((commit) => commit.getTree())
       .then((tree) => {
         localTree = tree
-        return repo.getBranchCommit('origin/master')
+        return this.repo.getBranchCommit('origin/master')
       })
       .then((commit) => commit.getTree())
       .then((tree) => {
         remoteTree = tree
-        return localTree.diff(remoteTree)
+        return remoteTree.diff(localTree)
       })
       .then((diffs) => diffs.patches())
       .then((p) => {
@@ -117,7 +116,23 @@ class IntegrateChanges extends Component {
   }
 
   accept = () => {
-    alert('merge')
+    if (!this.repo) {
+      return
+    }
+    this.setUpdating(true)
+    const author = this.repo.defaultSignature()
+    this.repo.mergeBranches('master', 'origin/master', author)
+      .then((oid) => {
+        console.log('merged!') // @TODO: let user know
+      })
+      .catch((error) => {
+        alert('Došlo ke konfliktu')
+        console.error(error)
+      })
+      .then(() => {
+        this.setUpdating(false)
+        this.refresh()
+      })
   }
 
   getArtifacts() {
