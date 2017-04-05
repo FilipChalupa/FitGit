@@ -1,6 +1,4 @@
-import { remote } from 'electron'
-
-const nodegit = remote.require('nodegit')
+import nodegit from 'nodegit'
 
 export default nodegit
 
