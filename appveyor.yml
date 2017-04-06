@@ -45,6 +45,7 @@ install:
 
 test_script:
   - node --version
+  - mklink /D node_modules\nodegit\build\Debug Release
   #- npm run lint
   #- npm run test
   #- npm run build
