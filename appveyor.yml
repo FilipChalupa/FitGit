@@ -45,11 +45,12 @@ install:
 
 test_script:
   - node --version
+  - node -p process.features.debug
   #- npm run lint
   #- npm run test
   #- npm run build
   #- npm run test-e2e
-  - npm run package
+  - npm run package-win
   - SET ARCHIVE=app-windows-%APPVEYOR_REPO_TAG_NAME%.zip
   - 7z a %ARCHIVE% release
 
