@@ -31,7 +31,6 @@ install:
   - copy /y .npmrc.windows .npmrc
   - npm install -g npm@latest
   - set PATH=%APPDATA%\npm;%PATH%
-  - set BUILD_ONLY=true
   - npm install
 
 # Enable when https://github.com/yarnpkg/yarn/issues/1233 and
