@@ -28,7 +28,7 @@ clone_depth: 1
 install:
   - ps: Install-Product node $env:nodejs_version
   - set CI=true
-  - copy /y .npmrc.windows .npmrc
+  - copy /y app\.npmrc.windows app\.npmrc
   - npm install -g npm@latest
   - set PATH=%APPDATA%\npm;%PATH%
   - npm install
