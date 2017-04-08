@@ -32,9 +32,6 @@ install:
   - npm install -g npm@latest
   - set PATH=%APPDATA%\npm;%PATH%
   - npm install
-  - cd node_modules\nodegit\build
-  - dir
-  - cd ..\..\..
 
 # Enable when https://github.com/yarnpkg/yarn/issues/1233 and
 # https://github.com/yarnpkg/yarn/issues/1059 are resolved and disable npm cache
@@ -48,7 +45,6 @@ install:
 
 test_script:
   - node --version
-  - node -p process.features.debug
   #- npm run lint
   #- npm run test
   #- npm run build
