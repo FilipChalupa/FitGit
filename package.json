@@ -13,6 +13,7 @@
   "scripts": {
     "test": "xo",
     "start": "electron .",
+    "prebuild": "electron-rebuild",
     "build": "electron-packager . --out=dist --asar --overwrite --all"
   },
   "files": [
@@ -25,12 +26,14 @@
     "electron"
   ],
   "dependencies": {
-    "electron-debug": "^1.0.0"
+    "electron-debug": "^1.0.0",
+    "nodegit": "^0.18.0"
   },
   "devDependencies": {
     "devtron": "^1.1.0",
-    "electron-packager": "^8.0.0",
     "electron": "^1.0.1",
+    "electron-packager": "^8.0.0",
+    "electron-rebuild": "^1.5.7",
     "xo": "^0.16.0"
   },
   "xo": {
