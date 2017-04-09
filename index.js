@@ -24,6 +24,8 @@ function createMainWindow() {
 	win.loadURL(`file://${__dirname}/index.html`);
 	win.on('closed', onClosed);
 
+	win.openDevTools() // @TODO: remove in final release
+
 	return win;
 }
 
