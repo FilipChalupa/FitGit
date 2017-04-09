@@ -6,7 +6,40 @@
 		<link rel="stylesheet" href="index.css">
 	</head>
 	<body>
-		<div id="root"></div>
-		<script src="app.js"></script>
+		<div id="root">
+		<div class="loading"></div>
+		<div class="hardReset">
+		<script>
+			function hardReset() {
+				try {
+					if (confirm('Určitě chcete smazat všechna nastavení?')) {
+						var storage = require('electron-json-storage')
+						storage.clear(function(error) {
+							if (error) {
+								hardResetFailed(error)
+							} else {
+								alert('Nastavení bylo smazáno. Nyní bude aplikace načtena znovu.')
+								location.reload()
+							}
+						})
+					}
+				} catch (error) {
+					hardResetFailed(error)
+				}
+			}
+			function hardResetFailed(e) {
+				console.error(e)
+				alert('Hard reset se nezdařil.')
+			}
+		</script>
+		<p class="hardReset-title">
+		  Něco se pokazilo? Zkuste smazat nastavení aplikace tlačítkem níže.
+		</p>
+		<button class="hardReset-action" onclick="hardReset()">
+		  Hard reset
+		</button>
+	  </div>
+	</div>
+	<script src="app.js"></script>
 	</body>
 </html>

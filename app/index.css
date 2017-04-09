@@ -1,27 +1,90 @@
-html,
+/* @import "~font-awesome/css/font-awesome.css"; @TODO */
+
 body {
-	padding: 0;
+	position: relative;
+	color: #000000;
+	height: 100vh;
+	background-color: #FFFFFF;
+	font-family: Arial, Helvetica, Helvetica Neue, serif;
+	overflow: hidden;
 	margin: 0;
 }
 
-body {
-	font-family: -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+.layout {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+}
+.layout-content {
+	padding: 15px 15px 70px;
+	flex: 1;
+	width: 100%;
+	overflow-y: auto;
+	box-sizing: border-box;
 }
 
-header {
-	position: absolute;
-	width: 500px;
-	height: 250px;
+
+@keyframes loading {
+	0% {
+		transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+	}
+	50% {
+		transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+	}
+	100% {
+		transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+	}
+}
+.loading {
+	position: fixed;
 	top: 50%;
 	left: 50%;
-	margin-top: -125px;
-	margin-left: -250px;
-	text-align: center;
+	transform: translate(-50%, -50%);
+}
+.loading:before {
+	width: 40px;
+	height: 40px;
+	background-color: #333;
+	margin: 100px auto;
+	animation: loading 1.2s infinite ease-in-out;
+	display: block;
+	content: '';
 }
 
-header h1 {
-	font-size: 60px;
-	font-weight: 100;
-	margin: 0;
-	padding: 0;
+
+
+@keyframes delayHardReset {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+.hardReset {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	text-align: center;
+	padding: 1em;
+	animation: delayHardReset 1s 5s both;
+}
+.hardReset-title {
+	font-size: 0.8em;
+}
+.hardReset-action {
+	background: none;
+	border: 1px solid #000000;
+	padding: 1em 2em;
+	color: inherit;
+	cursor: pointer;
+}
+.hardReset-action:hover,
+.hardReset-action:focus {
+	box-shadow: 0 0 10px #000000;
+}
+.hardReset-action:focus {
+	color: #FFFFFF;
+	background-color: #000000;
 }

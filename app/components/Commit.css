@@ -1,0 +1,35 @@
+.wrapper {}
+
+.in {
+  display: block;
+  width: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+.in:focus {
+  outline: none;
+}
+.in:hover {
+  text-decoration: underline;
+}
+
+/* File staged */
+.full {
+  opacity: 1;
+}
+
+.selected {
+  display: inline-block;
+  margin-right: 0.5em;
+  width: 1em;
+  height: 1em;
+  border: 0.1em solid;
+  transition: background-color 0.3s;
+}
+.full .selected {
+  background-color: #00BCD4;
+}
