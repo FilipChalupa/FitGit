@@ -1,11 +1,9 @@
 // @flow
 import React, { Component } from 'react'
-import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import nodegit from '../utils/nodegit'
 import { fillSync } from 'git-credential-node'
-import path from 'path'
 
 import * as ProjectsActions from '../actions/projects'
 import * as IntegratorActions from '../actions/integrator'
