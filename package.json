@@ -27,6 +27,7 @@
   ],
   "dependencies": {
     "electron-debug": "^1.0.0",
+    "git-credential-node": "^1.1.0",
     "nodegit": "^0.18.0"
   },
   "devDependencies": {
