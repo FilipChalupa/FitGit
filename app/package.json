@@ -13,6 +13,14 @@
   "dependencies": {
     "electron-debug": "^1.0.0",
     "git-credential-node": "^1.1.0",
-    "nodegit": "^0.18.0"
+    "nodegit": "^0.18.0",
+    "react": "^15.5.3",
+    "react-dom": "^15.5.3",
+    "react-redux": "^5.0.4",
+    "react-router": "^4.0.0",
+    "react-router-redux": "^4.0.8",
+    "react-tap-event-plugin": "^2.0.1",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0"
   }
 }

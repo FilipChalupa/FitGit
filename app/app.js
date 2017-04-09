@@ -1,3 +1,20 @@
+const React = require('react')
+const ReactDOM = require('react-dom')
+
+ReactDOM.render(
+	React.createElement('div', null, 'Hello there'),
+	document.getElementById('root')
+)
+
+
+
+
+
+
+
+
+
+/*
 const nodegit = require('nodegit')
 const path = require('path')
 const credentials = require('git-credential-node')
@@ -71,3 +88,4 @@ nodegit.Repository.open(repoPath)
 	.then(() => {
 		console.log('Done')
 	})
+*/
