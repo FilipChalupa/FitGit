@@ -1,6 +1,6 @@
-.wrapper {}
+.commit-wrapper {}
 
-.in {
+.commit-in {
   display: block;
   width: 100%;
   border: none;
@@ -10,19 +10,19 @@
   opacity: 0.6;
   transition: opacity 0.3s;
 }
-.in:focus {
+.commit-in:focus {
   outline: none;
 }
-.in:hover {
+.commit-in:hover {
   text-decoration: underline;
 }
 
 /* File staged */
-.full {
+.commit-full {
   opacity: 1;
 }
 
-.selected {
+.commit-selected {
   display: inline-block;
   margin-right: 0.5em;
   width: 1em;
@@ -30,6 +30,6 @@
   border: 0.1em solid;
   transition: background-color 0.3s;
 }
-.full .selected {
+.commit-full .commit-selected {
   background-color: #00BCD4;
 }

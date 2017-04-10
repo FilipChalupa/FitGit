@@ -13,9 +13,6 @@ const TextField = require('material-ui/TextField').default
 const LoadingActions = require('../actions/loading')
 const ProjectsActions = require('../actions/projects')
 const StatusActions = require('../actions/status')
-//const styles = require('./Commit.css')
-const styles = {}
-
 const STATUS_NEW = 'new'
 const STATUS_MODIFIED = 'modified'
 const STATUS_TYPECHANGE = 'typechange'
@@ -46,16 +43,16 @@ class Commit extends Component {
 				e(
 					'div',
 					{
-						className: styles.wrapper,
+						className: 'commit-wrapper',
 						key: artifact.path,
 					},
 					e(
 						'button',
 						{
-							className: `${styles.in} ${artifact.inIndex && styles.full}`,
+							className: `commit-in ${artifact.inIndex && 'commit-full'}`,
 							onTouchTap: () => this.updateIndex(artifact),
 						},
-						e('span', { className: styles.selected }),
+						e('span', { className: 'commit-selected' }),
 						e(
 							NewIcon,
 							{
