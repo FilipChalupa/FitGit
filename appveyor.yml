@@ -27,12 +27,13 @@ install:
 
 test_script:
   - npm run prebuild
-  - npm run build
+  - npm run build-local
+  - SET ARCHIVE=%APPVEYOR_PROJECT_NAME%-%PLATFORM%-%APPVEYOR_REPO_TAG_NAME%.zip
+  - 7z a %ARCHIVE% dist
 
 artifacts:
   - path: 'dist'
     name: release-archive
-    type: zip
 
 deploy:
   description: ''
