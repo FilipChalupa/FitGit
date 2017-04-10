@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "electron app",
-    "prebuild": "electron-rebuild -m app",
+    "prebuild": "cd app && npm install && cd .. && electron-rebuild -m app",
     "build": "electron-packager app --out=dist --asar --overwrite --all"
   },
   "files": [
