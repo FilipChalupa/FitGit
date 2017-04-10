@@ -4,49 +4,16 @@ const Component = React.Component
 const connect = require('react-redux').connect
 const bindActionCreators = require('redux').bindActionCreators
 const nodegit = require('../utils/nodegit').nodegit
-const fillSync = require('git-credential-node').fillSync
-
 const ProjectsActions = require('../actions/projects')
 const IntegratorActions = require('../actions/integrator')
+const remoteCallbacks = require('../utils/remoteCallbacks')
 
 const CHECK_INTERVAL = 1500
 
 class Watcher extends Component {
 
-	constructor(props) {
-		super(props)
-
-		this.fetchOptions = {
-			callbacks: {
-				credentials: (url, userName) => {
-					if (url.startsWith('http')) {
-						let name = ''
-						let password = ''
-						try {
-							const credentials = fillSync(url)
-							name = credentials.username
-							password = credentials.password
-						} catch (error) {
-							console.error(error)
-						}
-						// @TODO: Get actual password if not stored
-						return nodegit.Cred.userpassPlaintextNew(name, password)
-					} else {
-						return nodegit.Cred.sshKeyFromAgent(userName)
-					}
-				}
-			}
-		}
-	}
-
 	componentDidMount() {
-		//this.check()
-
-		if (this.props.projects.active) { // @TODO: remove - for preview only
-			setTimeout(() => {
-				this.props.actions.integrator.setIntegrationAvailable(true)
-			}, 5000)
-		}
+		this.check()
 	}
 
 	check() {
@@ -73,15 +40,14 @@ class Watcher extends Component {
 			})
 			.then((commitHash) => {
 				lastKnownCommitHash = commitHash
-				return repo.fetch('origin', this.fetchOptions) // @TODO: get remote name
+				return repo.fetch('origin', remoteCallbacks) // @TODO: get remote name
 			})
 			.then(() => {
 				return repo.getBranchCommit('origin/master')
 			})
 			.then((commit) => {
-				console.log(commit.sha(), '!==', lastKnownCommitHash)
 				if (commit.sha() !== lastKnownCommitHash) {
-					this.props.integrator.setIntegrationAvailable(true)
+					this.props.actions.integrator.setIntegrationAvailable(true)
 				}
 			})
 			.catch((e) => {
