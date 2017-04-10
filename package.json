@@ -13,7 +13,8 @@
   "scripts": {
     "start": "electron app",
     "prebuild": "cd app && npm install && cd .. && electron-rebuild -m app",
-    "build": "electron-packager app --out=dist --asar --overwrite --all"
+    "build": "electron-packager app --out=dist --asar --overwrite --all",
+    "build-local": "electron-packager app --out=dist --asar --overwrite"
   },
   "files": [
     "app/index.js",

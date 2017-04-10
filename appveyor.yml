@@ -30,13 +30,16 @@ test_script:
   - npm run build
 
 artifacts:
-  - path: 'dist\App-win32-x64'
+  - path: 'dist'
+    name: release-archive
+    type: zip
 
 deploy:
   description: ''
   provider: GitHub
   auth_token:
     secure: /7T74glgVe7tT6igUGJXrvGhyyOkCz1IZExWehPM5QqzSC2E3PfrGTN7n87+ebWk
+  artifact: release-archive
   draft: false
   prerelease: false
   on:
