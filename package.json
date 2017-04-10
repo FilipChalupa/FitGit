@@ -1,10 +1,10 @@
 {
-  "name": "app",
-  "productName": "App",
+  "name": "fitgit",
+  "productName": "FitGit",
   "version": "0.0.0",
   "description": "",
   "license": "MIT",
-  "repository": "user/repo",
+  "repository": "https://github.com/Onset/git-latex",
   "author": {
     "name": "",
     "email": "",
