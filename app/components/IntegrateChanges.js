@@ -3,10 +3,10 @@ const e = React.createElement
 const Component = React.Component
 const bindActionCreators = require('redux').bindActionCreators
 const connect = require('react-redux').connect
-const RaisedButton = require('material-ui/RaisedButton')
-const FlatButton = require('material-ui/FlatButton')
-const RefreshIcon = require('material-ui/svg-icons/navigation/refresh')
-const nodegit = require('../utils/nodegit')
+const RaisedButton = require('material-ui/RaisedButton').default
+const FlatButton = require('material-ui/FlatButton').default
+const RefreshIcon = require('material-ui/svg-icons/navigation/refresh').default
+const nodegit = require('../utils/nodegit').nodegit
 const LoadingActions = require('../actions/loading')
 
 class IntegrateChanges extends Component {
@@ -235,7 +235,7 @@ class IntegrateChanges extends Component {
 						{
 							label: 'Přijmout změny',
 							secondary: true,
-							onTouchTap: this.accept,
+							onTouchTap: this.accept.bind(this),
 							disabled: this.state.updating,
 						}
 					),
@@ -243,7 +243,7 @@ class IntegrateChanges extends Component {
 						FlatButton,
 						{
 							icon: e(RefreshIcon),
-							onTouchTap: this.refresh,
+							onTouchTap: this.refresh.bind(this),
 							disabled: this.state.updating,
 						}
 					)

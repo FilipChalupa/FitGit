@@ -3,15 +3,15 @@ const e = React.createElement
 const Component = React.Component
 const bindActionCreators = require('redux').bindActionCreators
 const connect = require('react-redux').connect
-const Dialog = require('material-ui/Dialog')
+const Dialog = require('material-ui/Dialog').default
 const BottomNavigation = require('material-ui/BottomNavigation').BottomNavigation
 const BottomNavigationItem = require('material-ui/BottomNavigation').BottomNavigationItem
-const Paper = require('material-ui/Paper')
+const Paper = require('material-ui/Paper').default
 const RadioButton = require('material-ui/RadioButton').RadioButton
 const RadioButtonGroup = require('material-ui/RadioButton').RadioButtonGroup
-const IconAdd = require('material-ui/svg-icons/content/add-box')
-const FlatButton = require('material-ui/FlatButton')
-const TextField = require('material-ui/TextField')
+const IconAdd = require('material-ui/svg-icons/content/add-box').default
+const FlatButton = require('material-ui/FlatButton').default
+const TextField = require('material-ui/TextField').default
 const Tabs = require('material-ui/Tabs').Tabs
 const Tab = require('material-ui/Tabs').Tab
 const ProjectsActions = require('../actions/projects')
@@ -75,7 +75,7 @@ class ProjectAdd extends Component {
 					type: 'url',
 					hintText: 'Adresa repozitáře',
 					value: this.state.url,
-					onChange: this.handleURLChange,
+					onChange: this.handleURLChange.bind(this),
 				}
 			)
 		)
@@ -92,7 +92,7 @@ class ProjectAdd extends Component {
 						name: 'path',
 						hintText: 'Umístění v tomto zařízení',
 						value: this.state.directoryPath,
-						onChange: this.handlePathChange,
+						onChange: this.handlePathChange.bind(this),
 					}
 				),
 				e(
@@ -102,7 +102,7 @@ class ProjectAdd extends Component {
 						style: {
 							verticalAlign: 'middle',
 						},
-						onTouchTap: this.getDirectory,
+						onTouchTap: this.getDirectory.bind(this),
 					}
 				)
 			)
@@ -141,7 +141,7 @@ class ProjectAdd extends Component {
 				{
 					label: "Přidat",
 					primary: true,
-					onTouchTap: this.addProject,
+					onTouchTap: this.addProject.bind(this),
 				}
 			),
 			e(

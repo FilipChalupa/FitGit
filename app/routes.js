@@ -1,7 +1,7 @@
 const React = require('react')
 const e = React.createElement
 const Route = require('react-router').Route
-//const IndexRoute = require('react-router').IndexRoute
+const IndexRoute = require('react-router').IndexRoute
 const App = require('./containers/App')
 const HomePage = require('./containers/HomePage')
 //const CounterPage = require('./containers/CounterPage')
@@ -19,7 +19,7 @@ module.exports = (
 			path: '/',
 			component: App,
 		},
-		//e(IndexRoute, { component: HomePage }),
+		e(IndexRoute, { component: HomePage }),
 		e(Route, { path:'/', component: HomePage }),
 		//e(Route, { path:'/counter', component: CounterPage }),
 		e(Route, { path:'/commit', component: CommitPage }),

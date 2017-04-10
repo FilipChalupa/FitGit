@@ -3,7 +3,7 @@ const e = React.createElement
 const Component = React.Component
 const connect = require('react-redux').connect
 const bindActionCreators = require('redux').bindActionCreators
-const Snackbar = require('material-ui/Snackbar')
+const Snackbar = require('material-ui/Snackbar').default
 const StatusActions = require('../actions/status')
 
 class Status extends Component {

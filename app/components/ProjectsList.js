@@ -5,8 +5,8 @@ const Card = require('material-ui/Card').Card
 const CardActions = require('material-ui/Card').CardActions
 const CardHeader = require('material-ui/Card').CardHeader
 const CardText = require('material-ui/Card').CardText
-const FlatButton = require('material-ui/FlatButton')
-const RaisedButton = require('material-ui/RaisedButton')
+const FlatButton = require('material-ui/FlatButton').default
+const RaisedButton = require('material-ui/RaisedButton').default
 const compareProjects = require('../utils/compareProjects')
 
 module.exports = class ProjectsList extends Component {

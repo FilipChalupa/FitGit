@@ -4,7 +4,7 @@ const Component = React.Component
 const Link = require('react-router').Link
 const connect = require('react-redux').connect
 const bindActionCreators = require('redux').bindActionCreators
-const LinearProgress = require('material-ui/LinearProgress')
+const LinearProgress = require('material-ui/LinearProgress').default
 const LoadingActions = require('../actions/loading')
 
 class Loading extends Component {

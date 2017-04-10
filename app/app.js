@@ -11,8 +11,8 @@ const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default
 const injectTapEventPlugin = require('react-tap-event-plugin')
 
 injectTapEventPlugin() // http://stackoverflow.com/questions/24335821/can-i-fastclick-reactjs-running-in-cordova/34015469#34015469
-console.log(Router)
-console.log(hashHistory)
+
+
 getStore()
 	.then((store) => {
 		const history = syncHistoryWithStore(hashHistory, store)

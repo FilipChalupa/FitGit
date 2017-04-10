@@ -1,15 +1,13 @@
 const nodegit = require('nodegit')
 
-const customNodegit = nodegit
-
-customNodegit.getBranches = function getBranches(path) {
+getBranches = function getBranches(path) {
 	return nodegit.Repository.open(path)
 		.then((repo) => {
 			return repo.getReferenceNames(nodegit.Reference.TYPE.LISTALL)
 		})
 }
 
-customNodegit.getPrefixedBranches = function getPrefixedBranches(path, prefix) {
+getPrefixedBranches = function getPrefixedBranches(path, prefix) {
 	return getBranches(path)
 		.then((allBranches) => {
 			return allBranches.filter((branch) => branch.startsWith(prefix))
@@ -21,15 +19,15 @@ customNodegit.getPrefixedBranches = function getPrefixedBranches(path, prefix) {
 		})
 }
 
-customNodegit.getLocalBranches = function getLocalBranches(path) {
+getLocalBranches = function getLocalBranches(path) {
 	return getPrefixedBranches(path, 'refs/heads/')
 }
 
-customNodegit.getRemoteBranches = function getRemoteBranches(path) {
+getRemoteBranches = function getRemoteBranches(path) {
 	return getPrefixedBranches(path, 'refs/remotes/')
 }
 
-customNodegit.getCurrentBranch = function getCurrentBranch(path) {
+getCurrentBranch = function getCurrentBranch(path) {
 	return nodegit.Repository.open(path)
 		.then((repo) => {
 			return repo.getCurrentBranch()
@@ -44,4 +42,11 @@ customNodegit.getCurrentBranch = function getCurrentBranch(path) {
 }
 
 
-module.exports = customNodegit
+module.exports = {
+	nodegit,
+	getBranches,
+	getPrefixedBranches,
+	getLocalBranches,
+	getRemoteBranches,
+	getCurrentBranch,
+}

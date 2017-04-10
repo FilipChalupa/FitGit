@@ -4,11 +4,11 @@ const Component = React.Component
 const Link = require('react-router').Link
 const connect = require('react-redux').connect
 const bindActionCreators = require('redux').bindActionCreators
-const SelectField = require('material-ui/SelectField')
-const MenuItem = require('material-ui/MenuItem')
-const RaisedButton = require('material-ui/RaisedButton')
-const FlatButton = require('material-ui/FlatButton')
-const Dialog = require('material-ui/Dialog')
+const SelectField = require('material-ui/SelectField').default
+const MenuItem = require('material-ui/MenuItem').default
+const RaisedButton = require('material-ui/RaisedButton').default
+const FlatButton = require('material-ui/FlatButton').default
+const Dialog = require('material-ui/Dialog').default
 const SettingsActions = require('../actions/settings')
 
 class Settings extends Component {

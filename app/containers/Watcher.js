@@ -3,7 +3,7 @@ const e = React.createElement
 const Component = React.Component
 const connect = require('react-redux').connect
 const bindActionCreators = require('redux').bindActionCreators
-const nodegit = require('../utils/nodegit')
+const nodegit = require('../utils/nodegit').nodegit
 const fillSync = require('git-credential-node').fillSync
 
 const ProjectsActions = require('../actions/projects')

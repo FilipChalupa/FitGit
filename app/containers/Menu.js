@@ -5,18 +5,18 @@ const Link = require('react-router').Link
 const connect = require('react-redux').connect
 const bindActionCreators = require('redux').bindActionCreators
 const remote = require('electron').remote
-const AppBar = require('material-ui/AppBar')
-const Drawer = require('material-ui/Drawer')
-const MenuItem = require('material-ui/MenuItem')
-const IconButton = require('material-ui/IconButton')
-const NavigationClose = require('material-ui/svg-icons/navigation/close')
-const SettingsIcon = require('material-ui/svg-icons/action/settings')
-const CommitIcon = require('material-ui/svg-icons/action/play-for-work')
-const ProjectsIcon = require('material-ui/svg-icons/device/storage')
-const ProjectIcon = require('material-ui/svg-icons/action/lightbulb-outline')
-const HistoryIcon = require('material-ui/svg-icons/action/settings-backup-restore')
-const IntegrateChangesIcon = require('material-ui/svg-icons/action/get-app')
-const IntegrateChangesAlertIcon = require('material-ui/svg-icons/av/new-releases')
+const AppBar = require('material-ui/AppBar').default
+const Drawer = require('material-ui/Drawer').default
+const MenuItem = require('material-ui/MenuItem').default
+const IconButton = require('material-ui/IconButton').default
+const NavigationClose = require('material-ui/svg-icons/navigation/close').default
+const SettingsIcon = require('material-ui/svg-icons/action/settings').default
+const CommitIcon = require('material-ui/svg-icons/action/play-for-work').default
+const ProjectsIcon = require('material-ui/svg-icons/device/storage').default
+const ProjectIcon = require('material-ui/svg-icons/action/lightbulb-outline').default
+const HistoryIcon = require('material-ui/svg-icons/action/settings-backup-restore').default
+const IntegrateChangesIcon = require('material-ui/svg-icons/action/get-app').default
+const IntegrateChangesAlertIcon = require('material-ui/svg-icons/av/new-releases').default
 const ProjectsActions = require( '../actions/projects')
 const IntegratorActions = require( '../actions/integrator')
 
@@ -33,7 +33,7 @@ class Menu extends Component {
 				MenuItem,
 				{
 					key: path,
-					onTouchTap: this.handleClose,
+					onTouchTap: this.handleClose.bind(this),
 					containerElement: e(Link, { to: path }),
 					primaryText: title,
 					leftIcon: leftIcon,
@@ -100,7 +100,7 @@ class Menu extends Component {
 					AppBar,
 					{
 						style: { position: 'sticky', top: 0 },
-						onLeftIconButtonTouchTap: this.handleToggle,
+						onLeftIconButtonTouchTap: this.handleToggle.bind(this),
 						title: title,
 						iconClassNameRight: 'muidocs-icon-navigation-expand-more',
 						iconElementLeft: (this.props.integrator.available || null) && e(IconButton, null, e(IntegrateChangesAlertIcon)),
