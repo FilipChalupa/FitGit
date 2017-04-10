@@ -30,14 +30,13 @@ test_script:
   - npm run build
 
 artifacts:
-  - path: 'dist\**'
+  - path: 'dist\App-win32-x64'
 
 deploy:
   description: ''
   provider: GitHub
   auth_token:
     secure: /7T74glgVe7tT6igUGJXrvGhyyOkCz1IZExWehPM5QqzSC2E3PfrGTN7n87+ebWk
-  artifact:
   draft: false
   prerelease: false
   on:
