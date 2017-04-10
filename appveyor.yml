@@ -29,7 +29,8 @@ test_script:
   - npm run prebuild
   - npm run build-local
   - SET ARCHIVE=FitGit-win32-%APPVEYOR_REPO_TAG_NAME%.zip
-  - 7z a %ARCHIVE% dist
+  - cd dist
+  - 7z a ..\%ARCHIVE% *
 
 artifacts:
   - path: $(ARCHIVE)
