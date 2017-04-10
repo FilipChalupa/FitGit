@@ -4,6 +4,10 @@ environment:
   matrix:
     - nodejs_version: 7
 
+cache:
+  - node_modules -> package.json
+  - app/node_modules -> app/package.json
+
 matrix:
   fast_finish: true
 
