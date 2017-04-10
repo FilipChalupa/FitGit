@@ -1,0 +1,64 @@
+sudo: false
+
+osx_image: xcode7.3
+
+language: c
+
+dist: trusty
+
+node_js:
+  - 7
+
+matrix:
+  include:
+    #- os: osx
+    - os: linux
+      env: CC=clang CXX=clang++ npm_config_clang=1
+      compiler: clang
+
+cache:
+  directories:
+    - node_modules
+    - app/node_modules
+    - $HOME/.electron
+    - $HOME/.cache
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+      - icnsutils
+      - graphicsmagick
+      - xz-utils
+      - xorriso
+      - libgnome-keyring-dev
+      - icnsutils
+
+install:
+  - export CXX="g++-4.8"
+  - npm install -g npm@latest
+  - travis_wait 30 npm install
+  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16 || true"
+
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start &
+  - sleep 3
+
+script:
+  - npm run prebuild
+  - npm run build-local
+
+before_deploy:
+  - ARCHIVE=app-$TRAVIS_OS_NAME-$TRAVIS_TAG.zip
+  - cd $TRAVIS_BUILD_DIR && zip -r $ARCHIVE dist
+deploy:
+  provider: releases
+  api_key:
+    secure: "oIHZfYBiyInUAWd4/KmrIXT+DSS/qAy63Iawq8c5eKDbzAe93qLzyTFnbAJjFpLgf43chn2HvPEOdGLi16oYhsqQR+tQi4ursvI5TzyL2uXE+2OZS9I1FzDwlvLIkVKSVs6/Op8Q4CKHMtsTiyfzKpjFpojDSFUMyFwm/tg0FcWsV4Ao7zyS/eDqTv3Q76vFY1lhvMkBeARCtHD7Br4rkeFGWG9ItyGiMy8AaJks8pjJZFE1Wrli/uv1WDOwiELikDrXI4Ke/L61zvk7es7d/RJYXw0auNH0IBv1QAEDz8pWD8nJvloMrh/r4nJ+dAXbKhImTR9Qc1zM2hgW8gCtqsTn/rZLOGCVTcD42hKQ0eHA6nHq81dPxFJ1dBnh5Q3AeCKY+LNwTwBFt7ZQeT8IG2HFI9G4zDwlKDDCbyuJcd+TBANhwep7giplJBL5DetzpXtuajmfeAQxM6ZnXCtxqqvCIYtkLfmjuObdpuZx6/5XYhazxXVUwukiepTcgIKNSMdmuDFkLyVepO+h6PwNN8THcNrSs+lbBl87gkhdH+cXlWOD7EKzuE3a5qmZ8XeFCiJS7wh+dQFOCVHkokL6OF3KHK+Rozbqer3GnvYgm7OkQhtqPJeI007NpHHU7eE4TcRPhnQN7fZuK4bno12CV6mYaXEj9IEsvvRLHQgT/mI="
+  file: $ARCHIVE
+  skip_cleanup: true
+  on:
+    tags: true
