@@ -48,8 +48,8 @@ before_script:
   - sleep 3
 
 script:
-  - npm run prebuild
-  - npm run build-local
+  - travis_wait 30 npm run prebuild
+  - travis_wait 30 npm run build-local
 
 before_deploy:
   - ARCHIVE=app-$TRAVIS_OS_NAME-$TRAVIS_TAG.zip
