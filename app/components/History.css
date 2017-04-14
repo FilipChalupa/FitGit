@@ -55,12 +55,17 @@
 .history-line-remote:before,
 .history-line-common:before,
 .history-line-local:after,
+.history-line-merge:before,
 .history-line-merge .history-line-in {
 	display: block;
 }
 .history-line-last:before,
 .history-line-last:after {
 	background: linear-gradient(#FF0000, transparent);
+}
+.history-line-merge:not(.history-line-remote):before {
+	top: auto;
+	height: 23px;
 }
 
 .history-node-in {
