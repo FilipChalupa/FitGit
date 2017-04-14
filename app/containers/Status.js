@@ -31,7 +31,7 @@ class Status extends Component {
 					message: this.props.status.message,
 					action: this.props.status.buttonText,
 					onActionTouchTap: this.props.status.buttonCallback,
-					onRequestClose: this.handleRequestClose,
+					onRequestClose: () => this.handleRequestClose,
 				}
 			)
 		)
