@@ -16,13 +16,21 @@ class Watcher extends Component {
 		this.check()
 	}
 
+	getBranchCommitHash(repo, branch) {
+		return repo.getBranchCommit(branch)
+			.then((commit) => commit.sha())
+	}
+
 	check() {
-		let lastKnownCommitHash
 		let repo
+		let localReference
+		let localCommitHash
+		let remoteOldCommitHash
+		let remoteNewCommitHash
 
 		if (!this.props.projects.active) {
 			setTimeout(() => {
-				this.check() // @TODO: stop checking if projects.active === null
+				this.check()
 			}, CHECK_INTERVAL)
 			return
 		}
@@ -30,35 +38,42 @@ class Watcher extends Component {
 		nodegit.Repository.open(this.props.projects.active.path)
 			.then((r) => {
 				repo = r
-				return repo.getBranchCommit('origin/master') // @TODO: get main branch
+				return repo.getCurrentBranch()
 			})
-			.then((commit) => {
-				return commit.sha()
+			.then((reference) => {
+				localReference = reference
+				return this.getBranchCommitHash(repo, reference)
+					.then((hash) => localCommitHash = hash)
+					.then(() => nodegit.Branch.upstream(localReference))
 			})
-			.catch((e) => {
-				return null
+			.then((reference) => {
+				const remoteName = reference.toString().split('/')[2] // Returns for example "origin"
+				return this.getBranchCommitHash(repo, reference)
+					.then((hash) => {
+						remoteOldCommitHash = hash
+					})
+					.then(() => {
+						return repo.fetch(remoteName, remoteCallbacks)
+							.then(() => nodegit.Branch.upstream(localReference))
+					})
 			})
-			.then((commitHash) => {
-				lastKnownCommitHash = commitHash
-				return repo.fetch('origin', remoteCallbacks) // @TODO: get remote name
+			.then((reference) => {
+				return this.getBranchCommitHash(repo, reference)
+					.then((hash) => {
+						remoteNewCommitHash = hash
+					})
 			})
 			.then(() => {
-				return repo.getBranchCommit('origin/master')
+				this.props.actions.integrator.setIntegrationAvailable(localCommitHash !== remoteNewCommitHash, remoteOldCommitHash !== remoteNewCommitHash)
 			})
-			.then((commit) => {
-				if (commit.sha() !== lastKnownCommitHash) {
-					this.props.actions.integrator.setIntegrationAvailable(true)
-				}
-			})
-			.catch((e) => {
-				console.error(e)
+			.catch((error) => {
+				console.error(error)
 			})
 			.then(() => {
 				setTimeout(() => {
 					this.check()
 				}, CHECK_INTERVAL)
 			})
-
 	}
 
 	render() {

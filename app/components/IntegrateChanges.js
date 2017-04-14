@@ -7,6 +7,7 @@ const RaisedButton = require('material-ui/RaisedButton').default
 const FlatButton = require('material-ui/FlatButton').default
 const RefreshIcon = require('material-ui/svg-icons/navigation/refresh').default
 const nodegit = require('../utils/nodegit').nodegit
+const IntegratorActions = require('../actions/integrator')
 const LoadingActions = require('../actions/loading')
 
 class IntegrateChanges extends Component {
@@ -33,6 +34,7 @@ class IntegrateChanges extends Component {
 
 	componentDidMount() {
 		this.refresh()
+		this.props.actions.integrator.dismissNotification()
 	}
 
 	refresh() {
@@ -273,6 +275,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		actions: {
+			integrator: bindActionCreators(IntegratorActions, dispatch),
 			loading: bindActionCreators(LoadingActions, dispatch),
 		}
 	}

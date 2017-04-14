@@ -56,7 +56,7 @@ class Menu extends Component {
 					'/integrateChanges',
 					this.props.settings.texts.menu_integrateChanges,
 					e(IntegrateChangesIcon),
-					e(IntegrateChangesAlertIcon)
+					this.props.integrator.notification ? e(IntegrateChangesAlertIcon) : null
 				))
 			}
 			items.push(this.getItem(
@@ -103,7 +103,7 @@ class Menu extends Component {
 						onLeftIconButtonTouchTap: this.handleToggle.bind(this),
 						title: title,
 						iconClassNameRight: 'muidocs-icon-navigation-expand-more',
-						iconElementLeft: (this.props.integrator.available || null) && e(IconButton, null, e(IntegrateChangesAlertIcon)),
+						iconElementLeft: (this.props.integrator.notification || null) && e(IconButton, null, e(IntegrateChangesAlertIcon)),
 					}
 				),
 
