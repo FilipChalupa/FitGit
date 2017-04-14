@@ -14,10 +14,10 @@
 }
 .history-title {
 	width: 50%;
-	padding-right: 0.5%;
+	padding-right: 1%;
 }
 .history-title + .history-title {
-	padding-left: 0.5%;
+	padding-left: 1%;
 }
 
 .history-line {
