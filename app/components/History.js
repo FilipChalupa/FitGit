@@ -150,7 +150,7 @@ class History extends Component {
 						}
 						if (lineLocal) {
 							lineClasses.push('history-line-local')
-							if (this.state.tree[i+1].branch && this.state.tree[i+1].branch === 'common') {
+							if (this.state.tree[i+1] && this.state.tree[i+1].branch === 'common') {
 								lineClasses.push('history-line-merge')
 							}
 						}
