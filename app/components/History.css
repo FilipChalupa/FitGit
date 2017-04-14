@@ -35,19 +35,22 @@
 .history-line-in {
 	position: absolute;
 	margin-left: 10px;
-	background-color: #FF0000;
+	background-color: #FF6666;
 	display: none;
 }
 .history-line:after {
 	left: 50%;
 	background-color: #00FF00;
 }
+.history-line-common:before {
+	background-color: #FF0000;
+}
 .history-line-in {
 	bottom: -6px;
 	width: 50%;
 	height: 6px;
 	transform: translateY(-50%);
-	background: linear-gradient(90deg, #FF0000, #00FF00);
+	background: linear-gradient(90deg, #FF6666, #00FF00);
 }
 .history-line-merge:after {
 	bottom: -3px;
@@ -60,6 +63,9 @@
 	display: block;
 }
 .history-line-last:before {
+	background: linear-gradient(#FF6666, transparent);
+}
+.history-line-common.history-line-last:before {
 	background: linear-gradient(#FF0000, transparent);
 }
 .history-line-last:after {
@@ -101,7 +107,7 @@
 	padding-right: 50%;
 }
 .history-node-remote .history-node-in:before {
-	background-color: #FF0000;
+	background-color: #FF6666;
 }
 
 .history-node-common .history-node-in:before {
