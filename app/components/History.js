@@ -56,12 +56,13 @@ class History extends Component {
 			if (nextIsRemote && nextIsLocal) {
 				nextCommit.branch = 'common'
 			}
-			tree.push({
-				branch: nextCommit.branch,
-				message: nextCommit.commit.message(),
-			})
 			return nextCommit.commit.getParents()
 				.then((parents) => {
+					tree.push({
+						branch: nextCommit.branch,
+						message: nextCommit.commit.message(),
+						isMergeCommit: parents.length > 1,
+					})
 					commitsPool = commitsPool.concat(parents.map((commit) => {
 						return {
 							commit,
@@ -158,11 +159,15 @@ class History extends Component {
 					if (i === this.state.tree.length-1) {
 						lineClasses.push('history-line-last')
 					}
+					const nodeClasses = ['history-node', `history-node-${node.branch}`]
+					if (node.isMergeCommit) {
+						nodeClasses.push('history-node-mergeCommit')
+					}
 					return e(
 						'div',
 						{
 							key: i,
-							className: `history-node history-node-${node.branch}`,
+							className: nodeClasses.join(' '),
 						},
 						e(
 							'div',

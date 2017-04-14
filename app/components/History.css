@@ -120,3 +120,8 @@
 .history-node-common .history-node-in:before {
 	background: linear-gradient(135deg, #F44336 45%, #3F51B5 55%);
 }
+
+.history-node-mergeCommit {
+	font-style: italic;
+	color: #616161;
+}
