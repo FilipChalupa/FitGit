@@ -118,7 +118,7 @@ class Commit extends Component {
 	unselectAll() {
 		this.repo.getHeadCommit()
 			.then((head) => {
-				return nodegit.Reset.reset(this.repo, head, nodegit.Reset.TYPE.SOFT)
+				return nodegit.Reset.reset(this.repo, head, nodegit.Reset.TYPE.MIXED)
 			})
 			.catch((e) => {
 				console.error(e)
