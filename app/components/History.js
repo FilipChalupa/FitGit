@@ -6,6 +6,8 @@ const connect = require('react-redux').connect
 const LoadingActions = require('../actions/loading')
 const nodegit = require('../utils/nodegit').nodegit
 
+const LIMIT = 250
+
 class History extends Component {
 
 	constructor(props) {
@@ -28,7 +30,7 @@ class History extends Component {
 		let commitsPool = []
 
 		const processPool = () => {
-			if (commitsPool.length === 0) {
+			if (commitsPool.length === 0 || tree.length === LIMIT) { // @TODO: note to user that limit was reached
 				return
 			}
 			let nextCommit = commitsPool.reduce((accumulator, current) => {
