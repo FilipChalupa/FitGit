@@ -59,9 +59,11 @@
 .history-line-merge .history-line-in {
 	display: block;
 }
-.history-line-last:before,
-.history-line-last:after {
+.history-line-last:before {
 	background: linear-gradient(#FF0000, transparent);
+}
+.history-line-last:after {
+	background: linear-gradient(#00FF00, transparent);
 }
 .history-line-merge:not(.history-line-remote):before {
 	top: auto;
