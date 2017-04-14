@@ -42,22 +42,22 @@
 .history-line-in {
 	position: absolute;
 	margin-left: 10px;
-	background-color: #FF6666;
+	background-color: #FF8A80;
 	display: none;
 }
 .history-line:after {
 	left: 51%;
-	background-color: #00FF00;
+	background-color: #3F51B5;
 }
 .history-line-common:before {
-	background-color: #FF0000;
+	background-color: #F44336;
 }
 .history-line-in {
 	bottom: -6px;
 	width: 51%;
 	height: 6px;
 	transform: translateY(-50%);
-	background: linear-gradient(90deg, #FF6666, #00FF00);
+	background: linear-gradient(90deg, #FF8A80, #3F51B5);
 }
 .history-line-merge:after {
 	bottom: -3px;
@@ -70,13 +70,13 @@
 	display: block;
 }
 .history-line-last:before {
-	background: linear-gradient(#FF6666, transparent);
+	background: linear-gradient(#FF8A80, transparent);
 }
 .history-line-common.history-line-last:before {
-	background: linear-gradient(#FF0000, transparent);
+	background: linear-gradient(#F44336, transparent);
 }
 .history-line-last:after {
-	background: linear-gradient(#00FF00, transparent);
+	background: linear-gradient(#3F51B5, transparent);
 }
 .history-line-merge:not(.history-line-remote):before {
 	top: auto;
@@ -107,16 +107,16 @@
 	padding-left: 51%;
 }
 .history-node-local .history-node-in:before {
-	background-color: #00FF00;
+	background-color: #3F51B5;
 }
 
 .history-node-remote {
 	padding-right: 51%;
 }
 .history-node-remote .history-node-in:before {
-	background-color: #FF6666;
+	background-color: #FF8A80;
 }
 
 .history-node-common .history-node-in:before {
-	background: linear-gradient(135deg, #FF0000 45%, #00FF00 55%);
+	background: linear-gradient(135deg, #F44336 45%, #3F51B5 55%);
 }
