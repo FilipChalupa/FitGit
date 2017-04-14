@@ -28,6 +28,8 @@ class History extends Component {
 		this.props.actions.loading.IncrementLoadingJobs()
 		const tree = []
 		let commitsPool = []
+		let nextIsRemote = false
+		let nextIsLocal = false
 
 		const processPool = () => {
 			if (commitsPool.length === 0 || tree.length === LIMIT) { // @TODO: note to user that limit was reached
@@ -39,8 +41,6 @@ class History extends Component {
 				}
 				return accumulator
 			})
-			let nextIsRemote = false
-			let nextIsLocal = false
 			commitsPool = commitsPool.filter((commit) => {
 				if (commit.commit.sha() === nextCommit.commit.sha()) {
 					if (commit.branch === 'remote') {
