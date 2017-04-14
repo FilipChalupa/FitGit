@@ -28,7 +28,7 @@ class Watcher extends Component {
 		let remoteOldCommitHash
 		let remoteNewCommitHash
 
-		if (!this.props.projects.active) {
+		if (!this.props.projects.active || this.props.loading) {
 			setTimeout(() => {
 				this.check()
 			}, CHECK_INTERVAL)
@@ -85,6 +85,7 @@ class Watcher extends Component {
 function mapStateToProps(state) {
 	return {
 		integrator: state.integrator,
+		loading: state.loading,
 		projects: state.projects,
 	}
 }

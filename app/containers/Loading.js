@@ -23,7 +23,7 @@ class Loading extends Component {
 						zIndex: 1,
 						pointerEvents: 'none',
 						transition: 'opacity 0.3s',
-						opacity: Math.min(1, this.props.loading),
+						opacity: this.props.loading ? 1 : 0,
 					},
 				}
 			)
