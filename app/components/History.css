@@ -1,16 +1,23 @@
-.history {}
-
+.history-titles:after,
 .history-tree:after {
 	content: '';
 	display: table;
 	clear: both;
 }
 
-.history-node {
+.history-node,
+.history-title {
 	position: relative;
 	float: left;
 	box-sizing: border-box;
 	width: 100%;
+}
+.history-title {
+	width: 50%;
+	padding-right: 0.5%;
+}
+.history-title + .history-title {
+	padding-left: 0.5%;
 }
 
 .history-line {
@@ -39,7 +46,7 @@
 	display: none;
 }
 .history-line:after {
-	left: 50%;
+	left: 51%;
 	background-color: #00FF00;
 }
 .history-line-common:before {
@@ -47,7 +54,7 @@
 }
 .history-line-in {
 	bottom: -6px;
-	width: 50%;
+	width: 51%;
 	height: 6px;
 	transform: translateY(-50%);
 	background: linear-gradient(90deg, #FF6666, #00FF00);
@@ -97,14 +104,14 @@
 }
 
 .history-node-local {
-	padding-left: 50%;
+	padding-left: 51%;
 }
 .history-node-local .history-node-in:before {
 	background-color: #00FF00;
 }
 
 .history-node-remote {
-	padding-right: 50%;
+	padding-right: 51%;
 }
 .history-node-remote .history-node-in:before {
 	background-color: #FF6666;

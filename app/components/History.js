@@ -113,6 +113,26 @@ class History extends Component {
 				{
 					className: 'history-tree',
 				},
+				e(
+					'div',
+					{
+						className: 'history-titles',
+					},
+					e(
+						'h2',
+						{
+							className: 'history-title',
+						},
+						'Změny na serveru'
+					),
+					e(
+						'h2',
+						{
+							className: 'history-title',
+						},
+						'Vaše nezazálohované změny'
+					)
+				),
 				this.state.tree.map((node, i) => {
 					const lineClasses = ['history-line']
 					if (node.branch === 'common') {
