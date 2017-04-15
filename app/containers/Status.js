@@ -8,16 +8,6 @@ const StatusActions = require('../actions/status')
 
 class Status extends Component {
 
-	constructor(props) {
-		super(props)
-
-		this.counter = 0
-	}
-
-	componentWillUnMount() {
-		clearTimeout(this.timer)
-	}
-
 	handleRequestClose() {
 		this.props.actions.status.closeStatus()
 	}
