@@ -9,6 +9,10 @@ const nodegit = require('../utils/nodegit').nodegit
 const nl2br = require('react-nl2br')
 const Time = require('./Time')
 const gravatar = require('gravatar')
+const Avatar = require('material-ui/Avatar').default
+const c = require('material-ui/Card')
+const Card = c.Card
+const CardHeader = c.CardHeader
 
 class CommitDetail extends Component {
 
@@ -101,37 +105,22 @@ class CommitDetail extends Component {
 		const date = this.state.mainCommit.date()
 		return (
 			e(
-				'div',
+				Card,
 				{
 					className: 'commitDetail',
 				},
 				e(
-					'img',
+					CardHeader,
 					{
-						className: 'commitDetail-avatar',
-						src: gravatar.url(author.email(), {protocol: 'https', s: '80', r: 'pg', d: 'mm'}),
-						width: 40,
-						height: 40,
+						title: author.toString(),
+						subtitle: e(
+							Time,
+							{
+								date,
+							}
+						),
+						avatar: gravatar.url(author.email(), {protocol: 'https', s: '80', r: 'pg', d: 'mm'}),
 					}
-				),
-				e(
-					'div',
-					{
-						className: 'commitDetail-author',
-					},
-					author.toString()
-				),
-				e(
-					'div',
-					{
-						className: 'commitDetail-date',
-					},
-					e(
-						Time,
-						{
-							date,
-						}
-					)
 				)
 			)
 		)
