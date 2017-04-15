@@ -57,7 +57,9 @@ class Time extends Component {
 		return (
 			e(
 				'div',
-				null,
+				{
+					title: moment(this.props.date).format(),
+				},
 				this.state.time
 			)
 		)

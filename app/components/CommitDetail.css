@@ -1,0 +1,22 @@
+.commitDetail {
+	min-height: 40px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	position: relative;
+	padding-left: 50px;
+}
+
+.commitDetail-author {
+
+}
+
+.commitDetail-date {
+	cursor: help;
+}
+
+.commitDetail-avatar {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
