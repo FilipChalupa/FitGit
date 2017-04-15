@@ -9,6 +9,7 @@ const RefreshIcon = require('material-ui/svg-icons/navigation/refresh').default
 const nodegit = require('../utils/nodegit').nodegit
 const IntegratorActions = require('../actions/integrator')
 const LoadingActions = require('../actions/loading')
+const Diff = require('./Diff')
 
 class IntegrateChanges extends Component {
 
@@ -16,8 +17,9 @@ class IntegrateChanges extends Component {
 		super(props)
 
 		this.state = {
-			artifacts: [],
 			updating: false,
+			shaA: null,
+			shaB: null,
 		}
 
 		this.repo = null
@@ -38,82 +40,27 @@ class IntegrateChanges extends Component {
 	}
 
 	refresh() {
-		let localTree
-		let remoteTree
-		let patches
-		let currentPathIndex
-		let hunks
-		let currentHunkIndex
-		let artifacts
-
-		const processPatch = () => {
-			if (patches.length === currentPathIndex) {
-				return Promise.resolve()
-			}
-			const patch = patches[currentPathIndex++]
-
-			artifacts[currentPathIndex] = {
-				oldName: patch.oldFile().path(), // @TODO: check why oldName = newName always
-				newName: patch.newFile().path(),
-				hunks: [],
-			}
-
-			return patch.hunks()
-				.then((h) => {
-					hunks = h
-					currentHunkIndex = 0
-					return processHunk()
-				})
-				.then(processPatch)
-		}
-
-		const processHunk = () => {
-			if (hunks.length === currentHunkIndex) {
-				return Promise.resolve()
-			}
-
-			const hunk = hunks[currentHunkIndex++]
-
-			return hunk.lines()
-				.then((lines) => {
-					artifacts[currentPathIndex].hunks.push(lines.map((line) => {
-						return {
-							origin: String.fromCharCode(line.origin()),
-							content: line.content(),
-						}
-					}))
-				})
-				.then(processHunk)
-		}
-
 		this.setUpdating(true)
-		artifacts = []
+		let shaA
+		let shaB
 		nodegit.Repository.open(this.props.projects.active.path)
 			.then((r) => {
 				this.repo = r
 				return this.repo.getBranchCommit('master') // @TODO: get main branch
 			})
-			.then((commit) => commit.getTree())
-			.then((tree) => {
-				localTree = tree
-				return this.repo.getBranchCommit('origin/master')
-			})
-			.then((commit) => commit.getTree())
-			.then((tree) => {
-				remoteTree = tree
-				return remoteTree.diff(localTree)
-			})
-			.then((diffs) => diffs.patches())
-			.then((p) => {
-				patches = p
-				currentPathIndex = 0
-				return processPatch()
+			.then((commit) => shaB = commit.sha())
+			.then(() => this.repo.getBranchCommit('origin/master'))
+			.then((commit) => {
+				shaA = commit.sha()
+				this.setState(Object.assign({}, this.state, {
+					shaA,
+					shaB,
+				}))
 			})
 			.catch((error) => {
 				console.error(error)
 			})
 			.then(() => {
-				this.setState(Object.assign({}, this.states, { artifacts }))
 				this.setUpdating(false)
 			})
 	}
@@ -124,9 +71,9 @@ class IntegrateChanges extends Component {
 		}
 		this.setUpdating(true)
 		const author = this.repo.defaultSignature()
-		this.repo.mergeBranches('master', 'origin/master', author)
+		this.repo.mergeBranches('master', 'origin/master', author) // @TODO: get active branches
 			.then((oid) => {
-				console.log('merged!') // @TODO: let user know
+				console.log('merged!') // @TODO: let the user know
 			})
 			.catch((error) => {
 				alert('Došlo ke konfliktu')
@@ -138,92 +85,7 @@ class IntegrateChanges extends Component {
 			})
 	}
 
-	getArtifacts() {
-		return this.state.artifacts.map((artifact, i) => {
-			const name = artifact.oldName + (artifact.oldName === artifact.newName ? '' : ` =&gt; ${artifact.newName}`)
-			return (
-				e(
-					'div',
-					{
-						key: i,
-						style: {
-							marginTop: 10,
-						},
-					},
-					e(
-						'h3',
-						{
-							style: {
-								marginBottom: 5,
-							},
-						},
-						name
-					),
-					this.getHunks(artifact)
-				)
-			)
-		})
-	}
-
-	getBackgroundColor(origin) {
-		switch (origin) {
-			case '+':
-				return 'rgba(0, 255, 0, 0.25)'
-			case '-':
-				return 'rgba(255, 0, 0, 0.25)'
-			default:
-				return 'rgba(0, 0, 0, 0.05)'
-		}
-	}
-
-	getHunks(artifact) {
-		return artifact.hunks.map((hunk, i) => {
-			return (
-				e(
-					'div',
-					{
-						key: i,
-						style: {
-							paddingBottom: 5,
-							marginBottom: 5,
-							borderBottom: '1px solid gray',
-						},
-					},
-					hunk.map((line, l) => {
-						return (
-							e(
-								'pre',
-								{
-									key: l,
-									style: {
-										backgroundColor: this.getBackgroundColor(line.origin),
-										margin: 0,
-										overflow: 'auto',
-									},
-								},
-								line.origin + line.content
-							)
-						)
-					})
-				)
-			)
-		})
-	}
-
 	render() {
-
-		const renderArtifacts = () => {
-			const artifacts = this.getArtifacts()
-			if (artifacts.length) {
-				return artifacts
-			} else {
-				return (
-					e('div', null, 'Žádné změny nejsou k dispozici.')
-				)
-			}
-
-		}
-
 		return (
 			e(
 				'div',
@@ -257,7 +119,13 @@ class IntegrateChanges extends Component {
 							marginTop: 20,
 						},
 					},
-					renderArtifacts()
+					e(
+						Diff,
+						{
+							shaA: this.state.shaA,
+							shaB: this.state.shaB,
+						}
+					)
 				)
 			)
 		)
