@@ -6,6 +6,7 @@ const connect = require('react-redux').connect
 const LoadingActions = require('../actions/loading')
 const Diff = require('./Diff')
 const nodegit = require('../utils/nodegit').nodegit
+const nl2br = require('react-nl2br')
 
 class CommitDetail extends Component {
 
@@ -90,7 +91,31 @@ class CommitDetail extends Component {
 	}
 
 
+	getNote() {
+		if (!this.state.mainCommit) {
+			return null
+		}
+		const author = this.state.mainCommit.author()
+		return (
+			e(
+				'div',
+				{
+					className: 'commitDetail',
+				},
+				e(
+					'div',
+					{
+						className: 'commitDetail-author',
+					},
+					author.toString()
+				)
+			)
+		)
+	}
+
+
 	render() {
+		const message = this.state.mainCommit ? this.state.mainCommit.message().split('\n') : null
 		return (
 			e(
 				'div',
@@ -98,8 +123,14 @@ class CommitDetail extends Component {
 				e(
 					'h1',
 					null,
-					this.state.mainCommit ? this.state.mainCommit.message() : 'Detail commitu'
+					message ? message[0] : 'Detail commitu'
 				),
+				(!message || message.length <= 1) ? null : e(
+					'h3',
+					null,
+					nl2br(message.slice(1).join('\n'))
+				),
+				this.getNote(),
 				this.getDiffs()
 			)
 		)

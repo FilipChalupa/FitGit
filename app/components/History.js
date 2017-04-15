@@ -165,6 +165,7 @@ class History extends Component {
 					if (node.isMergeCommit) {
 						nodeClasses.push('history-node-mergeCommit')
 					}
+					const message = node.message.split('\n')
 					return e(
 						'div',
 						{
@@ -191,7 +192,7 @@ class History extends Component {
 									hashHistory.push(`/commitDetail/${node.sha}`)
 								},
 							},
-							node.message
+							message[0] + (message.length > 1 ? '…' : '')
 						)
 					)
 				})
