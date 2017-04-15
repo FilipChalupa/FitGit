@@ -102,6 +102,12 @@ class Diff extends Component {
 			.then(() => repo.getCommit(shaB))
 			.then((commit) => commit.getTree())
 			.then((t) => treeA.diff(t))
+			.then((diffs) => {
+				return diffs.findSimilar({
+					flags: nodegit.Diff.FIND.RENAMES,
+				})
+					.then(() => diffs)
+			})
 			.then((diffs) => diffs.patches())
 			.then((p) => {
 				patches = p
@@ -121,7 +127,7 @@ class Diff extends Component {
 
 	getArtifacts() {
 		return this.state.artifacts.map((artifact, i) => {
-			const name = artifact.oldName + (artifact.oldName === artifact.newName ? '' : ` =&gt; ${artifact.newName}`)
+			const name = artifact.oldName + (artifact.oldName === artifact.newName ? '' : ` > ${artifact.newName}`)
 			return (
 				e(
 					'div',
