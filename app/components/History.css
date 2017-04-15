@@ -85,10 +85,25 @@
 
 .history-node-in {
 	position: relative;
-	padding-left: 50px;
 	line-height: 20px;
 	font-size: 16px;
 	padding: 10px 0 10px 30px;
+	border: none;
+	background: transparent;
+	text-align: left;
+	width: 100%;
+	cursor: pointer;
+}
+
+.history-node-in:hover,
+.history-node-in:focus {
+	outline: none;
+	text-decoration: underline;
+}
+
+.history-node-mergeCommit .history-node-in {
+	font-style: italic;
+	color: #616161;
 }
 
 .history-node-in:before {
@@ -119,9 +134,4 @@
 
 .history-node-common .history-node-in:before {
 	background: linear-gradient(135deg, #F44336 45%, #3F51B5 55%);
-}
-
-.history-node-mergeCommit {
-	font-style: italic;
-	color: #616161;
 }

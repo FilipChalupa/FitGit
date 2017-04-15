@@ -5,6 +5,7 @@ const bindActionCreators = require('redux').bindActionCreators
 const connect = require('react-redux').connect
 const LoadingActions = require('../actions/loading')
 const nodegit = require('../utils/nodegit').nodegit
+const hashHistory = require('react-router').hashHistory
 
 const LIMIT = 250
 
@@ -61,6 +62,7 @@ class History extends Component {
 					tree.push({
 						branch: nextCommit.branch,
 						message: nextCommit.commit.message(),
+						sha: nextCommit.commit.sha(),
 						isMergeCommit: parents.length > 1,
 					})
 					commitsPool = commitsPool.concat(parents.map((commit) => {
@@ -182,9 +184,12 @@ class History extends Component {
 							)
 						),
 						e(
-							'div',
+							'button',
 							{
 								className: 'history-node-in',
+								onClick: () => {
+									hashHistory.push(`/commitDetail/${node.sha}`)
+								},
 							},
 							node.message
 						)

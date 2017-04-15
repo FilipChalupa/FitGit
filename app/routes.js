@@ -11,6 +11,7 @@ const HistoryPage = require('./containers/HistoryPage')
 const SettingsPage = require('./containers/SettingsPage')
 const ProjectPage = require('./containers/ProjectPage')
 const IntegrateChangesPage = require('./containers/IntegrateChangesPage')
+const CommitDetailPage = require('./containers/CommitDetailPage')
 
 module.exports = (
 	e(
@@ -27,6 +28,7 @@ module.exports = (
 		e(Route, { path:'/history', component: HistoryPage }),
 		e(Route, { path:'/settings', component: SettingsPage }),
 		e(Route, { path:'/project', component: ProjectPage }),
-		e(Route, { path:'/integrateChanges', component: IntegrateChangesPage })
+		e(Route, { path:'/integrateChanges', component: IntegrateChangesPage }),
+		e(Route, { path:'/commitDetail/:sha', component: CommitDetailPage })
 	)
 )
