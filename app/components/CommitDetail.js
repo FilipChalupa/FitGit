@@ -7,6 +7,7 @@ const LoadingActions = require('../actions/loading')
 const Diff = require('./Diff')
 const nodegit = require('../utils/nodegit').nodegit
 const nl2br = require('react-nl2br')
+const Time = require('./Time')
 
 class CommitDetail extends Component {
 
@@ -96,6 +97,7 @@ class CommitDetail extends Component {
 			return null
 		}
 		const author = this.state.mainCommit.author()
+		const date = this.state.mainCommit.date()
 		return (
 			e(
 				'div',
@@ -108,6 +110,18 @@ class CommitDetail extends Component {
 						className: 'commitDetail-author',
 					},
 					author.toString()
+				),
+				e(
+					'div',
+					{
+						className: 'commitDetail-date',
+					},
+					e(
+						Time,
+						{
+							date,
+						}
+					)
 				)
 			)
 		)

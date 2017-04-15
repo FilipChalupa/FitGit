@@ -15,6 +15,7 @@
     "electron-json-storage": "^3.0.4",
     "git-credential-node": "^1.1.0",
     "material-ui": "^0.17.2",
+    "moment": "^2.18.1",
     "nodegit": "^0.18.0",
     "react": "^15.5.3",
     "react-dom": "^15.5.3",
