@@ -33,12 +33,14 @@ class Diff extends Component {
 
 
 	componentWillReceiveProps(nextProps) {
-		this.refresh(nextProps.shaA, nextProps.shaB)
+		if (this.props.shaA !== nextProps.shaA || this.props.shaB !== nextProps.shaB) {
+			this.refresh(nextProps.shaA, nextProps.shaB)
+		}
 	}
 
 
 	refresh(shaA, shaB) {
-		if (!shaA || !shaB || (this.props.shaA === shaA && this.props.shaB === shaB)) {
+		if (!shaA || !shaB) {
 			return
 		}
 		this.setUpdating(true)
@@ -199,7 +201,7 @@ class Diff extends Component {
 				return artifacts
 			} else {
 				return (
-					this.state.updating ? null : e('div', null, 'Žádné změny nejsou k dispozici.')
+					(this.state.updating || (!this.state.shaA && !this.state.shaB)) ? null : e('div', null, 'Žádné změny nejsou k dispozici.')
 				)
 			}
 
