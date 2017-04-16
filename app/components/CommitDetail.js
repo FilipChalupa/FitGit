@@ -114,7 +114,7 @@ class CommitDetail extends Component {
 			e(
 				Card,
 				{
-					className: 'commitDetail',
+					className: 'commitDetail-note',
 				},
 				e(
 					CardHeader,
