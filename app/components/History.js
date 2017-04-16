@@ -61,7 +61,7 @@ class History extends Component {
 				.then((parents) => {
 					tree.push({
 						branch: nextCommit.branch,
-						message: nextCommit.commit.message(),
+						message: nextCommit.commit.message().trim(),
 						sha: nextCommit.commit.sha(),
 						isMergeCommit: parents.length > 1,
 					})
