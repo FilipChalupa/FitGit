@@ -62,12 +62,12 @@ class CommitDetail extends Component {
 		if (!this.state.mainCommit || !this.state.parentCommits) {
 			return null
 		}
-		if (this.state.parentCommits.length === 1) {
+		if (this.state.parentCommits.length <= 1) {
 			return e(
 				Diff,
 				{
 					shaA: this.state.mainCommit.sha(),
-					shaB: this.state.parentCommits[0].sha(),
+					shaB: this.state.parentCommits[0] && this.state.parentCommits[0].sha(),
 				}
 			)
 		} else {

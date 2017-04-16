@@ -40,7 +40,7 @@ class Diff extends Component {
 
 
 	refresh(shaA, shaB) {
-		if (!shaA || !shaB) {
+		if (!shaA) {
 			return
 		}
 		this.setUpdating(true)
@@ -99,8 +99,8 @@ class Diff extends Component {
 			})
 			.then((commit) => commit.getTree())
 			.then((t) => treeA = t)
-			.then(() => repo.getCommit(shaB))
-			.then((commit) => commit.getTree())
+			.then(() => shaB && repo.getCommit(shaB))
+			.then((commit) => commit && commit.getTree())
 			.then((t) => treeA.diff(t))
 			.then((diffs) => {
 				return diffs.findSimilar({
