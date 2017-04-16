@@ -6,6 +6,7 @@ const shortLivedStorages = [
 	'integrator',
 	'routing',
 	'status',
+	'menu',
 ]
 
 function getInitialState() {

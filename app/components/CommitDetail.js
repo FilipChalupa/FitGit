@@ -13,6 +13,7 @@ const Avatar = require('material-ui/Avatar').default
 const c = require('material-ui/Card')
 const Card = c.Card
 const CardHeader = c.CardHeader
+const MenuActions = require( '../actions/menu')
 
 class CommitDetail extends Component {
 
@@ -28,6 +29,12 @@ class CommitDetail extends Component {
 
 	componentDidMount() {
 		this.refresh()
+		this.props.actions.menu.setAction('Historie', '/history')
+	}
+
+
+	componentWillUnmount() {
+		this.props.actions.menu.unsetAction()
 	}
 
 
@@ -163,6 +170,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		actions: {
 			loading: bindActionCreators(LoadingActions, dispatch),
+			menu: bindActionCreators(MenuActions, dispatch),
 		}
 	}
 }

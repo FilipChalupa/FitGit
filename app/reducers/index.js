@@ -6,6 +6,7 @@ const integrator = require('./integrator')
 const projects = require('./projects')
 const settings = require('./settings')
 const status = require('./status')
+const menu = require('./menu')
 
 const rootReducer = combineReducers({
 	//counter,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
 	routing,
 	settings,
 	status,
+	menu,
 })
 
 module.exports = rootReducer

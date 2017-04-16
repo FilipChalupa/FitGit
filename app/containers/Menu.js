@@ -17,8 +17,10 @@ const ProjectIcon = require('material-ui/svg-icons/action/lightbulb-outline').de
 const HistoryIcon = require('material-ui/svg-icons/action/settings-backup-restore').default
 const IntegrateChangesIcon = require('material-ui/svg-icons/action/get-app').default
 const IntegrateChangesAlertIcon = require('material-ui/svg-icons/av/new-releases').default
+const FlatButton = require('material-ui/FlatButton').default
 const ProjectsActions = require( '../actions/projects')
 const IntegratorActions = require( '../actions/integrator')
+const hashHistory = require('react-router').hashHistory
 
 class Menu extends Component {
 
@@ -101,9 +103,10 @@ class Menu extends Component {
 					{
 						style: { position: 'sticky', top: 0 },
 						onLeftIconButtonTouchTap: this.handleToggle.bind(this),
+						onRightIconButtonTouchTap: this.props.menu.action && (() => hashHistory.push(this.props.menu.action.route)),
 						title: title,
-						iconClassNameRight: 'muidocs-icon-navigation-expand-more',
 						iconElementLeft: (this.props.integrator.notification || null) && e(IconButton, null, e(IntegrateChangesAlertIcon)),
+						iconElementRight: this.props.menu.action && e(FlatButton, { label: this.props.menu.action.title}),
 					}
 				),
 
@@ -142,6 +145,7 @@ function mapStateToProps(state) {
 		integrator: state.integrator,
 		projects: state.projects,
 		settings: state.settings,
+		menu: state.menu,
 	}
 }
 
