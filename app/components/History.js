@@ -79,8 +79,7 @@ class History extends Component {
 		this.setRefreshing(true)
 		const tree = []
 		let commitsPool = []
-		let nextIsRemote = false
-		let nextIsLocal = false
+		let restIsCommon = false
 		const count = {
 			local: 0,
 			remote: 0,
@@ -88,15 +87,20 @@ class History extends Component {
 		}
 
 		const processPool = () => {
+			let nextIsRemote = false
+			let nextIsLocal = false
+
 			if (commitsPool.length === 0 || tree.length === LIMIT) { // @TODO: note to user that limit was reached
 				return
 			}
+
 			let nextCommit = commitsPool.reduce((accumulator, current) => {
 				if (accumulator.commit.timeMs() < current.commit.timeMs()) {
 					return current
 				}
 				return accumulator
 			})
+
 			commitsPool = commitsPool.filter((commit) => {
 				if (commit.commit.sha() === nextCommit.commit.sha()) {
 					if (commit.branch === 'remote') {
@@ -109,7 +113,12 @@ class History extends Component {
 					return true
 				}
 			})
+
 			if (nextIsRemote && nextIsLocal) {
+				restIsCommon = true
+			}
+
+			if (restIsCommon) {
 				nextCommit.branch = 'common'
 			}
 			count[nextCommit.branch]++
