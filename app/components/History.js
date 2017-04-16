@@ -9,6 +9,7 @@ const hashHistory = require('react-router').hashHistory
 const RaisedButton = require('material-ui/RaisedButton').default
 const FlatButton = require('material-ui/FlatButton').default
 const RefreshIcon = require('material-ui/svg-icons/navigation/refresh').default
+const remoteCallbacks = require('../utils/remoteCallbacks')
 
 const LIMIT = 250
 
@@ -44,8 +45,33 @@ class History extends Component {
 
 	push() {
 		this.setRefreshing(true)
-		alert('push') // @TODO
-		this.setRefreshing(false)
+		let repo
+		let localBranchReference
+		nodegit.Repository.open(this.props.projects.active.path)
+			.then((r) => {
+				repo = r
+				return repo.getCurrentBranch()
+			})
+			.then((reference) => {
+				localBranchReference = reference
+				return nodegit.Branch.upstream(localBranchReference)
+			})
+			.then((reference) => {
+				const remoteName = reference.toString().split('/')[2] // Returns for example "origin"
+				return repo.getRemote(remoteName)
+			})
+			.then((remote) => {
+				const refName = localBranchReference.toString()
+				return remote.push([
+					`${refName}:${refName}`
+				], remoteCallbacks)
+			})
+			.catch((error) => {
+				console.error(error)
+			})
+			.then(() => {
+				this.setRefreshing(false)
+			})
 	}
 
 
