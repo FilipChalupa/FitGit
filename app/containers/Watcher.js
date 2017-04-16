@@ -7,6 +7,8 @@ const nodegit = require('../utils/nodegit').nodegit
 const ProjectsActions = require('../actions/projects')
 const IntegratorActions = require('../actions/integrator')
 const remoteCallbacks = require('../utils/remoteCallbacks')
+const notify = require('../utils/notify')
+const hashHistory = require('react-router').hashHistory
 
 const CHECK_INTERVAL = 1500
 
@@ -21,8 +23,25 @@ class Watcher extends Component {
 			.then((commit) => commit.sha())
 	}
 
+	push(repo, remoteName, localBranchReference) {
+		return repo.getRemote(remoteName)
+			.then((remote) => {
+				const refName = localBranchReference.toString()
+				return remote.push([
+					`${refName}:${refName}`
+				], remoteCallbacks)
+			})
+			.then(() => {
+				notify('Vaše změny byly nasdíleny', 'zobrazit historii', () => {
+					hashHistory.push('/history')
+				})
+			})
+			.catch((error) => console.log('push error', error))
+	}
+
 	check() {
 		let repo
+		let remoteName
 		let localReference
 		let localCommitHash
 		let remoteOldCommitHash
@@ -47,7 +66,7 @@ class Watcher extends Component {
 					.then(() => nodegit.Branch.upstream(localReference))
 			})
 			.then((reference) => {
-				const remoteName = reference.toString().split('/')[2] // Returns for example "origin"
+				remoteName = reference.toString().split('/')[2] // Returns for example "origin"
 				return this.getBranchCommitHash(repo, reference)
 					.then((hash) => {
 						remoteOldCommitHash = hash
@@ -65,6 +84,9 @@ class Watcher extends Component {
 			})
 			.then(() => {
 				this.props.actions.integrator.setIntegrationAvailable(localCommitHash !== remoteNewCommitHash, remoteOldCommitHash !== remoteNewCommitHash)
+				if (localCommitHash !== remoteNewCommitHash) {
+					return this.push(repo, remoteName, localReference)
+				}
 			})
 			.catch((error) => {
 				console.error(error)
