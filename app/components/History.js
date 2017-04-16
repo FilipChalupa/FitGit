@@ -16,6 +16,9 @@ class History extends Component {
 
 		this.state = {
 			tree: [],
+			countLocal: 0,
+			countRemote: 0,
+			countCommon: 0,
 		}
 	}
 
@@ -31,6 +34,11 @@ class History extends Component {
 		let commitsPool = []
 		let nextIsRemote = false
 		let nextIsLocal = false
+		const count = {
+			local: 0,
+			remote: 0,
+			common: 0,
+		}
 
 		const processPool = () => {
 			if (commitsPool.length === 0 || tree.length === LIMIT) { // @TODO: note to user that limit was reached
@@ -57,6 +65,7 @@ class History extends Component {
 			if (nextIsRemote && nextIsLocal) {
 				nextCommit.branch = 'common'
 			}
+			count[nextCommit.branch]++
 			return nextCommit.commit.getParents()
 				.then((parents) => {
 					tree.push({
@@ -100,6 +109,9 @@ class History extends Component {
 			.then(() => {
 				this.setState(Object.assign({}, this.state, {
 					tree,
+					countLocal: count.local,
+					countRemote: count.remote,
+					countCommon: count.common,
 				}))
 			})
 			.catch((error) => {
@@ -121,7 +133,7 @@ class History extends Component {
 				{
 					className: 'history-tree',
 				},
-				e(
+				this.state.countLocal === 0 ? null : e(
 					'div',
 					{
 						className: 'history-titles',
