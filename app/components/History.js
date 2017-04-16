@@ -131,7 +131,7 @@ class History extends Component {
 						{
 							className: 'history-title',
 						},
-						'Změny na serveru'
+						'Sdílené změny'
 					),
 					e(
 						'h2',
