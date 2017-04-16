@@ -10,6 +10,7 @@ const nodegit = require('../utils/nodegit').nodegit
 const IntegratorActions = require('../actions/integrator')
 const LoadingActions = require('../actions/loading')
 const Diff = require('./Diff')
+const hashHistory = require('react-router').hashHistory
 
 class IntegrateChanges extends Component {
 
@@ -69,19 +70,24 @@ class IntegrateChanges extends Component {
 		if (!this.repo) {
 			return
 		}
+		let success = false
 		this.setUpdating(true)
 		const author = this.repo.defaultSignature()
 		this.repo.mergeBranches('master', 'origin/master', author) // @TODO: get active branches
 			.then((oid) => {
-				console.log('merged!') // @TODO: let the user know
+				success = true
 			})
 			.catch((error) => {
-				alert('Došlo ke konfliktu')
+				alert('Asi došlo ke konfliktu')
 				console.error(error)
 			})
 			.then(() => {
 				this.setUpdating(false)
-				this.refresh()
+				if (success) {
+					hashHistory.push('/history')
+				} else {
+					this.refresh()
+				}
 			})
 	}
 
