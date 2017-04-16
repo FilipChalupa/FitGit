@@ -5,6 +5,21 @@ const bindActionCreators = require('redux').bindActionCreators
 const connect = require('react-redux').connect
 const LoadingActions = require('../actions/loading')
 const nodegit = require('../utils/nodegit').nodegit
+const c = require('material-ui/Card')
+const Card = c.Card
+const CardTitle = c.CardTitle
+
+const STATUS_ADDED = 'added'
+const STATUS_CONFLICTED = 'conflicted'
+const STATUS_COPIED = 'copied'
+const STATUS_DELETED = 'deleted'
+const STATUS_IGNORED = 'ignored'
+const STATUS_MODIFIED = 'modified'
+const STATUS_RENAMED = 'renamed'
+const STATUS_TYPECHANGE = 'typechange'
+const STATUS_UNMODIFIED = 'unmodified'
+const STATUS_UNREADABLE = 'unreadable'
+const STATUS_UNTRACKED = 'untracked'
 
 class Diff extends Component {
 
@@ -39,6 +54,25 @@ class Diff extends Component {
 	}
 
 
+	getStatusKeys(patch) {
+		const keys = []
+
+		if (patch.isAdded()) { keys.push(STATUS_ADDED) }
+		if (patch.isConflicted()) { keys.push(STATUS_CONFLICTED) }
+		if (patch.isCopied()) { keys.push(STATUS_COPIED) }
+		if (patch.isDeleted()) { keys.push(STATUS_DELETED) }
+		if (patch.isIgnored()) { keys.push(STATUS_IGNORED) }
+		if (patch.isModified()) { keys.push(STATUS_MODIFIED) }
+		if (patch.isRenamed()) { keys.push(STATUS_RENAMED) }
+		if (patch.isTypeChange()) { keys.push(STATUS_TYPECHANGE) }
+		if (patch.isUnmodified()) { keys.push(STATUS_UNMODIFIED) }
+		if (patch.isUnreadable()) { keys.push(STATUS_UNREADABLE) }
+		if (patch.isUntracked()) { keys.push(STATUS_UNTRACKED) }
+
+		return keys
+	}
+
+
 	refresh(shaA, shaB) {
 		if (!shaA) {
 			return
@@ -62,6 +96,7 @@ class Diff extends Component {
 				oldName: patch.oldFile().path(), // @TODO: check why oldName = newName always
 				newName: patch.newFile().path(),
 				hunks: [],
+				status: this.getStatusKeys(patch),
 			}
 
 			return patch.hunks()
@@ -130,38 +165,28 @@ class Diff extends Component {
 			const name = artifact.oldName + (artifact.oldName === artifact.newName ? '' : ` > ${artifact.newName}`)
 			return (
 				e(
-					'div',
+					Card,
 					{
 						key: i,
-						style: {
-							marginTop: 10,
-						},
+						className: 'diff-card',
 					},
 					e(
-						'h3',
+						CardTitle,
 						{
-							style: {
-								marginBottom: 5,
-							},
-						},
-						name
+							title: name,
+							subtitle: artifact.status.join(', '), // @TODO: translate
+						}
 					),
-					this.getHunks(artifact)
+					e(
+						'div',
+						{
+							className: 'diff-hunks'
+						},
+						this.getHunks(artifact)
+					)
 				)
 			)
 		})
-	}
-
-
-	getBackgroundColor(origin) {
-		switch (origin) {
-			case '+':
-				return 'rgba(0, 255, 0, 0.25)'
-			case '-':
-				return 'rgba(255, 0, 0, 0.25)'
-			default:
-				return 'rgba(0, 0, 0, 0.05)'
-		}
 	}
 
 
@@ -172,28 +197,35 @@ class Diff extends Component {
 					'div',
 					{
 						key: i,
-						style: {
-							paddingBottom: 5,
-							marginBottom: 5,
-							borderBottom: '1px solid gray',
-						},
+						className: 'diff-hunk',
 					},
-					hunk.map((line, l) => {
-						return (
-							e(
-								'pre',
-								{
-									key: l,
-									style: {
-										backgroundColor: this.getBackgroundColor(line.origin),
-										margin: 0,
-										overflow: 'auto',
+					e(
+						'div',
+						{
+							className: 'diff-hunk-in'
+						},
+						hunk.map((line, l) => {
+							const classes = ['diff-line']
+							switch (line.origin) {
+								case '+':
+									classes.push('diff-line-addition')
+									break
+								case '-':
+									classes.push('diff-line-removal')
+									break
+							}
+							return (
+								e(
+									'pre',
+									{
+										key: l,
+										className: classes.join(' '),
 									},
-								},
-								line.origin + line.content
+									line.origin + line.content
+								)
 							)
-						)
-					})
+						})
+					)
 				)
 			)
 		})

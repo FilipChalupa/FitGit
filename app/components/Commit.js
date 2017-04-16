@@ -131,6 +131,7 @@ class Commit extends Component {
 
 	getStatusKeys(artifact) {
 		const keys = []
+
 		if (artifact.isNew()) { keys.push(STATUS_NEW) }
 		if (artifact.isModified()) { keys.push(STATUS_MODIFIED) }
 		if (artifact.isTypechange()) { keys.push(STATUS_TYPECHANGE) }
