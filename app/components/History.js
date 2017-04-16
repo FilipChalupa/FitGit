@@ -6,6 +6,9 @@ const connect = require('react-redux').connect
 const LoadingActions = require('../actions/loading')
 const nodegit = require('../utils/nodegit').nodegit
 const hashHistory = require('react-router').hashHistory
+const RaisedButton = require('material-ui/RaisedButton').default
+const FlatButton = require('material-ui/FlatButton').default
+const RefreshIcon = require('material-ui/svg-icons/navigation/refresh').default
 
 const LIMIT = 250
 
@@ -15,6 +18,7 @@ class History extends Component {
 		super(props)
 
 		this.state = {
+			refreshing: false,
 			tree: [],
 			countLocal: 0,
 			countRemote: 0,
@@ -28,8 +32,25 @@ class History extends Component {
 	}
 
 
+	setRefreshing(refreshing) {
+		this.setState(Object.assign({}, this.state, { refreshing }))
+		if (refreshing) {
+			this.props.actions.loading.IncrementLoadingJobs()
+		} else {
+			this.props.actions.loading.DecrementLoadingJobs()
+		}
+	}
+
+
+	push() {
+		this.setRefreshing(true)
+		alert('push') // @TODO
+		this.setRefreshing(false)
+	}
+
+
 	refresh() {
-		this.props.actions.loading.IncrementLoadingJobs()
+		this.setRefreshing(true)
 		const tree = []
 		let commitsPool = []
 		let nextIsRemote = false
@@ -118,7 +139,7 @@ class History extends Component {
 				console.error(error)
 			})
 			.then(() => {
-				this.props.actions.loading.DecrementLoadingJobs()
+				this.setRefreshing(false)
 			})
 	}
 
@@ -221,6 +242,27 @@ class History extends Component {
 				'div',
 				null,
 				e('h1', null, 'Historie'),
+				e(
+					'div',
+					null,
+					(this.props.settings.autoPush || this.state.countRemote !== 0 || this.state.countLocal === 0) ? null : e(
+						RaisedButton,
+						{
+							label: 'Sdílet změny',
+							primary: true,
+							onTouchTap: () => this.push(),
+							disabled: this.state.refreshing,
+						}
+					),
+					e(
+						FlatButton,
+						{
+							icon: e(RefreshIcon),
+							onTouchTap: this.refresh.bind(this),
+							disabled: this.state.refreshing,
+						}
+					)
+				),
 				this.renderTree()
 			)
 		)
@@ -233,6 +275,7 @@ function mapStateToProps(state) {
 	return {
 		loading: state.loading,
 		projects: state.projects,
+		settings: state.settings,
 	}
 }
 

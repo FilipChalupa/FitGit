@@ -186,7 +186,7 @@ class Commit extends Component {
 							{
 								icon: e(RefreshIcon),
 								onTouchTap: this.refresh.bind(this),
-								disabled: this.state.refreshing || this.state.updating
+								disabled: this.state.refreshing || this.state.updating,
 							}
 						)
 					),
