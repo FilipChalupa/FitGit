@@ -1,5 +1,6 @@
-const SET_LANGUAGE   = 'SET_LANGUAGE'
-const RESET_SETTINGS = 'RESET_SETTINGS'
+const SET_LANGUAGE     = 'SET_LANGUAGE'
+const RESET_SETTINGS   = 'RESET_SETTINGS'
+const TOGGLE_AUTHOPUSH = 'TOGGLE_AUTHOPUSH'
 
 function setLanguage(language) {
 	return {
@@ -11,7 +12,12 @@ function setLanguage(language) {
 function resetSettings() {
 	return {
 		type: RESET_SETTINGS,
-		payload: null,
+	}
+}
+
+function toggleAutoPush() {
+	return {
+		type: TOGGLE_AUTHOPUSH,
 	}
 }
 
@@ -19,6 +25,8 @@ function resetSettings() {
 module.exports = {
 	SET_LANGUAGE,
 	RESET_SETTINGS,
+	TOGGLE_AUTHOPUSH,
 	setLanguage,
 	resetSettings,
+	toggleAutoPush,
 }

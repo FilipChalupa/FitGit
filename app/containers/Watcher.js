@@ -84,7 +84,7 @@ class Watcher extends Component {
 			})
 			.then(() => {
 				this.props.actions.integrator.setIntegrationAvailable(localCommitHash !== remoteNewCommitHash, remoteOldCommitHash !== remoteNewCommitHash)
-				if (localCommitHash !== remoteNewCommitHash) {
+				if (this.props.settings.autoPush && localCommitHash !== remoteNewCommitHash) {
 					return this.push(repo, remoteName, localReference)
 				}
 			})
@@ -109,6 +109,7 @@ function mapStateToProps(state) {
 		integrator: state.integrator,
 		loading: state.loading,
 		projects: state.projects,
+		settings: state.settings,
 	}
 }
 

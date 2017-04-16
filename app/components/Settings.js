@@ -9,6 +9,7 @@ const MenuItem = require('material-ui/MenuItem').default
 const RaisedButton = require('material-ui/RaisedButton').default
 const FlatButton = require('material-ui/FlatButton').default
 const Dialog = require('material-ui/Dialog').default
+const Toggle = require('material-ui/Toggle').default
 const SettingsActions = require('../actions/settings')
 
 class Settings extends Component {
@@ -42,7 +43,7 @@ class Settings extends Component {
 	}
 
 	handleChange(e, i, language) {
-		this.props.setLanguage(language)
+		this.props.actions.settings.setLanguage(language)
 	}
 
 	openConfirmReset() {
@@ -57,7 +58,11 @@ class Settings extends Component {
 		return (
 			e(
 				'div',
-				null,
+				{
+					style: {
+						maxWidth: 250,
+					}
+				},
 				e('h1', null, this.props.settings.texts.menu_settings),
 				e(
 					SelectField,
@@ -68,7 +73,16 @@ class Settings extends Component {
 					},
 					this.getItems()
 				),
-
+				e('br'),
+				e(
+					Toggle,
+					{
+						label: 'Automaticky sdílet změny',
+						toggled: this.props.settings.autoPush,
+						onToggle: () => this.props.actions.settings.toggleAutoPush(),
+					}
+				),
+				e('br'),
 				e(
 					'div',
 					null,
@@ -102,7 +116,7 @@ class Settings extends Component {
 									primary: true,
 									keyboardFocused: true,
 									onTouchTap: () => {
-										this.props.resetSettings()
+										this.props.actions.settings.resetSettings()
 										this.closeConfirmReset()
 									},
 								}
@@ -120,14 +134,14 @@ class Settings extends Component {
 }
 
 
-function mapStateToProps(state) {
+module.exports = connect((state) => {
 	return {
 		settings: state.settings,
 	}
-}
-
-function mapDispatchToProps(dispatch) {
-	return bindActionCreators(SettingsActions, dispatch)
-}
-
-module.exports = connect(mapStateToProps, mapDispatchToProps)(Settings)
+}, (dispatch) => {
+	return {
+		actions: {
+			settings: bindActionCreators(SettingsActions, dispatch),
+		}
+	}
+})(Settings)

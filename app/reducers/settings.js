@@ -1,5 +1,6 @@
 const SET_LANGUAGE = require('../actions/settings').SET_LANGUAGE
 const RESET_SETTINGS = require('../actions/settings').RESET_SETTINGS
+const TOGGLE_AUTHOPUSH = require('../actions/settings').TOGGLE_AUTHOPUSH
 
 const texts = {
 	cs: {
@@ -33,6 +34,7 @@ const defaultLanguage = 'cs'
 const defaultSettings = {
 	language: defaultLanguage,
 	texts: texts[defaultLanguage],
+	autoPush: true,
 }
 
 module.exports = function settings(state = defaultSettings, action) {
@@ -44,6 +46,8 @@ module.exports = function settings(state = defaultSettings, action) {
 			})
 		case RESET_SETTINGS:
 			return Object.assign({}, state, defaultSettings)
+		case TOGGLE_AUTHOPUSH:
+			return Object.assign({}, state, { autoPush: !state.autoPush })
 		default:
 			return state
 	}
