@@ -91,8 +91,11 @@ class History extends Component {
 				return repo.getCurrentBranch()
 			})
 			.then((reference) => getTopCommit(reference, 'local'))
-			.then(nodegit.Branch.upstream)
+			.then((branch) => nodegit.Branch.upstream(branch))
 			.then((reference) => getTopCommit(reference, 'remote'))
+			.catch((error) => {
+				console.error(error)
+			})
 			.then(() => processPool())
 			.then(() => {
 				this.setState(Object.assign({}, this.state, {
