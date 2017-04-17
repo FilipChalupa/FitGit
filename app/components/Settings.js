@@ -10,6 +10,7 @@ const RaisedButton = require('material-ui/RaisedButton').default
 const FlatButton = require('material-ui/FlatButton').default
 const Dialog = require('material-ui/Dialog').default
 const Toggle = require('material-ui/Toggle').default
+const TextField = require('material-ui/TextField').default
 const SettingsActions = require('../actions/settings')
 
 class Settings extends Component {
@@ -42,8 +43,12 @@ class Settings extends Component {
 		})
 	}
 
-	handleChange(e, i, language) {
+	handleLanguageChange(e, i, language) {
 		this.props.actions.settings.setLanguage(language)
+	}
+
+	handleMergeMessageChange(event) {
+		this.props.actions.settings.setMergeMessage(event.target.value)
 	}
 
 	openConfirmReset() {
@@ -69,7 +74,7 @@ class Settings extends Component {
 					{
 						floatingLabelText: this.props.settings.texts.settings_language,
 						value: this.props.settings.language,
-						onChange: this.handleChange.bind(this),
+						onChange: this.handleLanguageChange.bind(this),
 					},
 					this.getItems()
 				),
@@ -82,6 +87,15 @@ class Settings extends Component {
 						onToggle: () => this.props.actions.settings.toggleAutoPush(),
 					}
 				),
+				e(
+					TextField,
+					{
+						floatingLabelText: 'Název merge commitu',
+						value: this.props.settings.mergeMessage,
+						onChange: this.handleMergeMessageChange.bind(this),
+					}
+				),
+				e('br'),
 				e('br'),
 				e(
 					'div',

@@ -28,6 +28,9 @@ class IntegrateChanges extends Component {
 		this.repo = null
 		this.localBranch = null
 		this.remoteBranch = null
+		this.localTopCommit = null
+		this.remoteTopCommit = null
+		this.commonTopCommit = null
 	}
 
 	setUpdating(updating) {
@@ -48,8 +51,6 @@ class IntegrateChanges extends Component {
 		this.setUpdating(true)
 		let localBranch
 		let remoteBranch
-		let localTopCommit
-		let remoteTopCommit
 		nodegit.Repository.open(this.props.projects.active.path)
 			.then((r) => {
 				this.repo = r
@@ -58,22 +59,23 @@ class IntegrateChanges extends Component {
 			.then((reference) => {
 				this.localBranch = reference
 				return this.repo.getBranchCommit(this.localBranch)
-					.then((commit) => localTopCommit = commit)
+					.then((commit) => this.localTopCommit = commit)
 					.then(() => nodegit.Branch.upstream(this.localBranch))
 			})
 			.then((reference) => {
 				this.remoteBranch = reference
 				return this.repo.getBranchCommit(this.remoteBranch)
-					.then((commit) => remoteTopCommit = commit)
+					.then((commit) => this.remoteTopCommit = commit)
 			})
 			.then(() => {
-				return getCommonTopCommit(this.repo, localTopCommit, remoteTopCommit)
+				return getCommonTopCommit(this.repo, this.localTopCommit, this.remoteTopCommit)
 			})
-			.then((commonTopCommit) => {
-				if (commonTopCommit && remoteTopCommit) {
+			.then((commit) => {
+				this.commonTopCommit = commit
+				if (this.commonTopCommit && this.remoteTopCommit) {
 					this.setState(Object.assign({}, this.state, {
-						shaA: remoteTopCommit.sha(),
-						shaB: commonTopCommit.sha(),
+						shaA: this.remoteTopCommit.sha(),
+						shaB: this.commonTopCommit.sha(),
 					}))
 				}
 			})
@@ -86,18 +88,21 @@ class IntegrateChanges extends Component {
 	}
 
 	accept() {
-		if (!this.repo || !this.localBranch || !this.remoteBranch) {
+		if (!this.repo || !this.remoteTopCommit) {
 			return
 		}
 		let success = false
 		this.setUpdating(true)
-		const author = this.repo.defaultSignature()
-		this.repo.mergeBranches(this.localBranch, this.remoteBranch, author)
-			.then((oid) => {
-				success = true
+		Promise.resolve()
+			.then(() => {
+				if (this.localTopCommit && (!this.commonTopCommit || (this.commonTopCommit.sha() !== this.localTopCommit.sha()))) {
+					return this.mergeWithMergeCommit()
+				} else {
+					return this.cleanMerge()
+				}
 			})
+			.then(() => success = true)
 			.catch((error) => {
-				alert('Asi došlo ke konfliktu')
 				console.error(error)
 			})
 			.then(() => {
@@ -107,6 +112,27 @@ class IntegrateChanges extends Component {
 				} else {
 					this.refresh()
 				}
+			})
+
+	}
+
+	cleanMerge() {
+		const author = this.repo.defaultSignature()
+		return this.repo.mergeBranches(this.localBranch, this.remoteBranch, author)
+	}
+
+	mergeWithMergeCommit() {
+		const author = this.repo.defaultSignature()
+		return nodegit.Merge.commits(this.repo, this.localTopCommit, this.remoteTopCommit)
+			.then((index) => {
+				if (!index.hasConflicts()) {
+					return index.writeTreeTo(this.repo);
+				} else {
+					console.log('has conflicts')
+				}
+			})
+			.then((oid) => {
+				return this.repo.createCommit('HEAD', author, author, this.props.settings.mergeMessage, oid, [this.localTopCommit, this.remoteTopCommit])
 			})
 	}
 
@@ -162,6 +188,7 @@ function mapStateToProps(state) {
 	return {
 		loading: state.loading,
 		projects: state.projects,
+		settings: state.settings,
 	}
 }
 
