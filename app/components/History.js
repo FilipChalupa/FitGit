@@ -74,12 +74,24 @@ class History extends Component {
 			})
 	}
 
+	clearDoubleCrossing(tree) {
+		const top = []
+		const common = []
+		tree.forEach((commit) => {
+			if (commit.branch === 'common') {
+				common.push(commit)
+			} else {
+				top.push(commit)
+			}
+		})
+		return top.concat(common)
+	}
+
 
 	refresh() {
 		this.setRefreshing(true)
 		const tree = []
 		let commitsPool = []
-		let restIsCommon = false
 		const count = {
 			local: 0,
 			remote: 0,
@@ -87,9 +99,6 @@ class History extends Component {
 		}
 
 		const processPool = () => {
-			let nextIsRemote = false
-			let nextIsLocal = false
-
 			if (commitsPool.length === 0 || tree.length === LIMIT) { // @TODO: note to user that limit was reached
 				return
 			}
@@ -103,50 +112,43 @@ class History extends Component {
 
 			commitsPool = commitsPool.filter((commit) => {
 				if (commit.commit.sha() === nextCommit.commit.sha()) {
-					if (commit.branch === 'remote') {
-						nextIsRemote = true
-					} else if (commit.branch === 'local') {
-						nextIsLocal = true
-					}
+					nextCommit.isRemote = nextCommit.isRemote || commit.isRemote
+					nextCommit.isLocal = nextCommit.isLocal || commit.isLocal
 					return false
 				} else {
 					return true
 				}
 			})
 
-			if (nextIsRemote && nextIsLocal) {
-				restIsCommon = true
-			}
-
-			if (restIsCommon) {
-				nextCommit.branch = 'common'
-			}
-			count[nextCommit.branch]++
+			const branch = nextCommit.isLocal && nextCommit.isRemote ? 'common' : nextCommit.isLocal ? 'local' : 'remote'
+			count[branch]++
 			return nextCommit.commit.getParents()
 				.then((parents) => {
 					tree.push({
-						branch: nextCommit.branch,
+						branch,
 						message: nextCommit.commit.message().trim(),
 						sha: nextCommit.commit.sha(),
 						isMergeCommit: parents.length > 1,
 					})
 					commitsPool = commitsPool.concat(parents.map((commit) => {
-						return {
-							commit,
-							branch: nextCommit.branch,
-						}
+						return makeCommitForPool(commit, nextCommit.isLocal, nextCommit.isRemote)
 					}))
 					return processPool()
 				})
 		}
 
+		const makeCommitForPool = (commit, isLocal, isRemote) => {
+			return {
+				commit,
+				isLocal,
+				isRemote,
+			}
+		}
+
 		let repo
-		const getTopCommit = (reference, branch) => {
+		const getTopCommit = (reference, isLocal, isRemote) => {
 			return repo.getBranchCommit(reference)
-				.then((commit) => commitsPool.push({
-					commit,
-					branch,
-				}))
+				.then((commit) => commitsPool.push(makeCommitForPool(commit, isLocal, isRemote)))
 				.then(() => reference)
 		}
 
@@ -155,16 +157,16 @@ class History extends Component {
 				repo = r
 				return repo.getCurrentBranch()
 			})
-			.then((reference) => getTopCommit(reference, 'local'))
+			.then((reference) => getTopCommit(reference, true, false))
 			.then((branch) => nodegit.Branch.upstream(branch))
-			.then((reference) => getTopCommit(reference, 'remote'))
+			.then((reference) => getTopCommit(reference, false, true))
 			.catch((error) => {
 				console.error(error)
 			})
 			.then(() => processPool())
 			.then(() => {
 				this.setState(Object.assign({}, this.state, {
-					tree,
+					tree: this.clearDoubleCrossing(tree),
 					countLocal: count.local,
 					countRemote: count.remote,
 					countCommon: count.common,
@@ -284,7 +286,7 @@ class History extends Component {
 						RaisedButton,
 						{
 							label: 'Sdílet změny',
-							primary: true,
+							secondary: true,
 							onTouchTap: () => this.push(),
 							disabled: this.state.refreshing,
 						}
