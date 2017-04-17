@@ -25,7 +25,7 @@ class Watcher extends Component {
 	refreshCanCommit(repo) {
 		repo.getStatus()
 			.then((artifacts) => {
-				this.props.actions.menu.canCreateCommit(artifacts.length !== 0)
+				this.props.actions.menu.canCreateCommit(repo.isDefaultState() && artifacts.length !== 0)
 			})
 	}
 
