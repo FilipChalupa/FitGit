@@ -8,7 +8,7 @@ const defaultState = Object.freeze({
 	notification: false,
 })
 
-module.exports = function project(state = { available: false }, action) {
+module.exports = function project(state = defaultState, action) {
 	switch (action.type) {
 		case SET_INTEGRATION_AVAILABLE:
 			if (action.payload.available && !state.notification && action.payload.notify) {

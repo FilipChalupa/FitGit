@@ -3,7 +3,9 @@ const e = React.createElement
 const Component = React.Component
 const connect = require('react-redux').connect
 const bindActionCreators = require('redux').bindActionCreators
-const nodegit = require('../utils/nodegit').nodegit
+const n = require('../utils/nodegit')
+const nodegit = n.nodegit
+const getCommonTopCommit = n.getCommonTopCommit
 const ProjectsActions = require('../actions/projects')
 const IntegratorActions = require('../actions/integrator')
 const remoteCallbacks = require('../utils/remoteCallbacks')
@@ -40,8 +42,9 @@ class Watcher extends Component {
 		let remoteName
 		let localBranch
 		let localTopCommit
-		let remoteOldCommit
-		let remoteNewCommit
+		let remoteOldTopCommit
+		let remoteNewTopCommit
+		let commonTopCommit
 
 		if (!this.props.projects.active || this.props.loading) {
 			setTimeout(() => {
@@ -64,7 +67,7 @@ class Watcher extends Component {
 			.then((reference) => {
 				remoteName = reference.toString().split('/')[2] // Returns for example "origin"
 				return repo.getBranchCommit(reference)
-					.then((commit) => remoteOldCommit = commit)
+					.then((commit) => remoteOldTopCommit = commit)
 					.then(() => {
 						return repo.fetch(remoteName, remoteCallbacks)
 							.then(() => nodegit.Branch.upstream(localBranch))
@@ -72,12 +75,35 @@ class Watcher extends Component {
 			})
 			.then((reference) => {
 				return repo.getBranchCommit(reference)
-					.then((commit) => remoteNewCommit = commit)
+					.then((commit) => remoteNewTopCommit = commit)
 			})
-			.then(() => {
-				this.props.actions.integrator.setIntegrationAvailable(localTopCommit.sha() !== remoteNewCommit.sha(), remoteOldCommit.sha() !== remoteNewCommit.sha())
-				if (this.props.settings.autoPush && localTopCommit.sha() !== remoteNewCommit.sha()) {
-					return this.push(repo, remoteName, localBranch)
+			.then(() => getCommonTopCommit(repo, localTopCommit, remoteNewTopCommit))
+			.then((commit) => {
+				commonTopCommit = commit
+				this.props.actions.integrator.setIntegrationAvailable(
+					remoteNewTopCommit && (!commonTopCommit || (remoteNewTopCommit.sha() !== commonTopCommit.sha())),
+					remoteNewTopCommit && (!remoteOldTopCommit || (remoteNewTopCommit.sha() !== remoteOldTopCommit.sha()))
+				)
+
+				const push = () => {
+					if (this.props.settings.autoPush) {
+						return this.push(repo, remoteName, localBranch)
+					}
+					return
+				}
+				if (localTopCommit) {
+					if (!remoteNewTopCommit) { // Never pushed
+						return push()
+					}
+					if (!commonTopCommit) { // No common parent
+						return
+					}
+					if (commonTopCommit.sha() === localTopCommit.sha()) { // Nothing to push
+						return
+					}
+					if (commonTopCommit.sha() === remoteNewTopCommit.sha()) { // Able to push
+						return push()
+					}
 				}
 			})
 			.catch((error) => {

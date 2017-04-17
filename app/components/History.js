@@ -104,7 +104,7 @@ class History extends Component {
 				return
 			}
 
-			let nextCommit = commitsPool.reduce((accumulator, current) => {
+			const nextCommit = commitsPool.reduce((accumulator, current) => {
 				if (accumulator.commit.timeMs() < current.commit.timeMs()) {
 					return current
 				}

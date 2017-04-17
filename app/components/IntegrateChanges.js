@@ -6,7 +6,9 @@ const connect = require('react-redux').connect
 const RaisedButton = require('material-ui/RaisedButton').default
 const FlatButton = require('material-ui/FlatButton').default
 const RefreshIcon = require('material-ui/svg-icons/navigation/refresh').default
-const nodegit = require('../utils/nodegit').nodegit
+const n = require('../utils/nodegit')
+const nodegit = n.nodegit
+const getCommonTopCommit = n.getCommonTopCommit
 const IntegratorActions = require('../actions/integrator')
 const LoadingActions = require('../actions/loading')
 const Diff = require('./Diff')
@@ -24,6 +26,8 @@ class IntegrateChanges extends Component {
 		}
 
 		this.repo = null
+		this.localBranch = null
+		this.remoteBranch = null
 	}
 
 	setUpdating(updating) {
@@ -42,21 +46,36 @@ class IntegrateChanges extends Component {
 
 	refresh() {
 		this.setUpdating(true)
-		let shaA
-		let shaB
+		let localBranch
+		let remoteBranch
+		let localTopCommit
+		let remoteTopCommit
 		nodegit.Repository.open(this.props.projects.active.path)
 			.then((r) => {
 				this.repo = r
-				return this.repo.getBranchCommit('master') // @TODO: get main branch
+				return this.repo.getCurrentBranch()
 			})
-			.then((commit) => shaB = commit.sha())
-			.then(() => this.repo.getBranchCommit('origin/master'))
-			.then((commit) => {
-				shaA = commit.sha()
-				this.setState(Object.assign({}, this.state, {
-					shaA,
-					shaB,
-				}))
+			.then((reference) => {
+				this.localBranch = reference
+				return this.repo.getBranchCommit(this.localBranch)
+					.then((commit) => localTopCommit = commit)
+					.then(() => nodegit.Branch.upstream(this.localBranch))
+			})
+			.then((reference) => {
+				this.remoteBranch = reference
+				return this.repo.getBranchCommit(this.remoteBranch)
+					.then((commit) => remoteTopCommit = commit)
+			})
+			.then(() => {
+				return getCommonTopCommit(this.repo, localTopCommit, remoteTopCommit)
+			})
+			.then((commonTopCommit) => {
+				if (commonTopCommit && remoteTopCommit) {
+					this.setState(Object.assign({}, this.state, {
+						shaA: remoteTopCommit.sha(),
+						shaB: commonTopCommit.sha(),
+					}))
+				}
 			})
 			.catch((error) => {
 				console.error(error)
@@ -67,13 +86,13 @@ class IntegrateChanges extends Component {
 	}
 
 	accept() {
-		if (!this.repo) {
+		if (!this.repo || !this.localBranch || !this.remoteBranch) {
 			return
 		}
 		let success = false
 		this.setUpdating(true)
 		const author = this.repo.defaultSignature()
-		this.repo.mergeBranches('master', 'origin/master', author) // @TODO: get active branches
+		this.repo.mergeBranches(this.localBranch, this.remoteBranch, author)
 			.then((oid) => {
 				success = true
 			})
