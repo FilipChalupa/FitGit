@@ -90,6 +90,10 @@ class History extends Component {
 
 
 	refresh() {
+		if (!this.props.projects.active) {
+			hashHistory.push('/projects')
+			return
+		}
 		this.setRefreshing(true)
 		const tree = []
 		let commitsPool = []

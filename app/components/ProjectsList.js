@@ -14,7 +14,7 @@ module.exports = class ProjectsList extends Component {
 	renderProjects() {
 		if (this.props.projects.length === 0) {
 			return (
-				e('div', null, 'Zatím nemáte žádný projekt. Nový přidáte plačítkem plus v dolní části.')
+				e('div', null, 'Zatím nemáte žádný projekt. Nový přidáte tlačítkem plus v dolní části okna.')
 			)
 		}
 		return this.props.projects.map((project, i) => {

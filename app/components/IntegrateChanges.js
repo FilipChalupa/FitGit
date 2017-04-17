@@ -11,6 +11,7 @@ const nodegit = n.nodegit
 const getCommonTopCommit = n.getCommonTopCommit
 const IntegratorActions = require('../actions/integrator')
 const LoadingActions = require('../actions/loading')
+const StatusActions = require('../actions/status')
 const Diff = require('./Diff')
 const hashHistory = require('react-router').hashHistory
 
@@ -48,6 +49,10 @@ class IntegrateChanges extends Component {
 	}
 
 	refresh() {
+		if (!this.props.projects.active) {
+			hashHistory.push('/projects')
+			return
+		}
 		this.setUpdating(true)
 		let localBranch
 		let remoteBranch
@@ -91,24 +96,20 @@ class IntegrateChanges extends Component {
 		if (!this.repo || !this.remoteTopCommit) {
 			return
 		}
-		let success = false
 		this.setUpdating(true)
 		Promise.resolve()
-			.then(() => {
-				if (this.localTopCommit && (!this.commonTopCommit || (this.commonTopCommit.sha() !== this.localTopCommit.sha()))) {
-					return this.mergeWithMergeCommit()
-				} else {
-					return this.cleanMerge()
-				}
-			})
-			.then(() => success = true)
+			.then(() => this.merge())
 			.catch((error) => {
 				console.error(error)
 			})
-			.then(() => {
+			.then((success) => {
 				this.setUpdating(false)
 				if (success) {
-					hashHistory.push('/history')
+					if (typeof success === 'string') {
+						hashHistory.push(`/commitDetail/${success}`)
+					} else {
+						hashHistory.push('/history')
+					}
 				} else {
 					this.refresh()
 				}
@@ -116,34 +117,46 @@ class IntegrateChanges extends Component {
 
 	}
 
-	cleanMerge() {
-		const author = this.repo.defaultSignature()
-		return this.repo.mergeBranches(this.localBranch, this.remoteBranch, author)
-	}
 
-	mergeWithMergeCommit() {
+	merge() {
 		const author = this.repo.defaultSignature()
-		Promise.resolve()
-			.then(() => this.repo.getCurrentBranch())
-			.then((reference) => this.repo.getBranchCommit(reference))
-			.then((commit) => nodegit.Reset(this.repo, commit, nodegit.Reset.TYPE.MIXED))
-			.then(() => nodegit.Merge.commits(this.repo, this.localTopCommit, this.remoteTopCommit))
-			.then((index) => {
-				if (!index.hasConflicts()) {
-					return index.writeTreeTo(this.repo)
+		return Promise.resolve()
+			.then((commit) => nodegit.Reset(this.repo, this.localTopCommit, nodegit.Reset.TYPE.MIXED))
+			.then(() => this.repo.mergeBranches(this.localBranch, this.remoteBranch, author))
+			.then(() => {
+				this.props.actions.status.addStatus(
+					'Nové změny byly začleněny'
+				)
+				return true
+			})
+			.catch((index) => {
+				if (typeof index === 'object' && index.hasConflicts && index.hasConflicts()) {
+					return this.solveConflict(index)
 				} else {
-					console.log('has conflicts')
+					throw index // Actually it is not an index
 				}
 			})
+	}
+
+
+	solveConflict(index) {
+		const author = this.repo.defaultSignature()
+		return Promise.resolve()
+			.then(() => this.repo.mergeBranches(this.localBranch, this.remoteBranch, author, null, {
+				fileFavor: nodegit.Merge.FILE_FAVOR.THEIRS,
+			}))
 			.then((oid) => {
-				return this.repo.createCommit('HEAD', author, author, this.props.settings.mergeMessage, oid, [this.localTopCommit, this.remoteTopCommit])
+				this.props.actions.status.addStatus(
+					'Zkontrolujte, že vaše změny nebyly smazány.'
+				)
+				return this.repo.getCommit(oid)
 			})
-			.then(() => this.repo.getCurrentBranch())
-			.then((reference) => this.repo.getBranchCommit(reference))
 			.then((commit) => {
 				return nodegit.Reset(this.repo, commit, nodegit.Reset.TYPE.HARD)
+					.then(() => commit.sha())
 			})
 	}
+
 
 	render() {
 		return (
@@ -206,6 +219,7 @@ function mapDispatchToProps(dispatch) {
 		actions: {
 			integrator: bindActionCreators(IntegratorActions, dispatch),
 			loading: bindActionCreators(LoadingActions, dispatch),
+			status: bindActionCreators(StatusActions, dispatch),
 		}
 	}
 }
