@@ -70,6 +70,18 @@ class Settings extends Component {
 				},
 				e('h1', null, this.props.settings.texts.menu_settings),
 				e(
+					'div',
+					null,
+					e(
+						RaisedButton,
+						{
+							label: "Obnovit nastavení",
+							secondary: true,
+							onTouchTap: this.openConfirmReset.bind(this),
+						}
+					)
+				),
+				e(
 					SelectField,
 					{
 						floatingLabelText: this.props.settings.texts.settings_language,
@@ -78,7 +90,6 @@ class Settings extends Component {
 					},
 					this.getItems()
 				),
-				e('br'),
 				e(
 					Toggle,
 					{
@@ -94,20 +105,6 @@ class Settings extends Component {
 						value: this.props.settings.mergeMessage,
 						onChange: this.handleMergeMessageChange.bind(this),
 					}
-				),
-				e('br'),
-				e('br'),
-				e(
-					'div',
-					null,
-					e(
-						RaisedButton,
-						{
-							label: "Obnovit nastavení",
-							secondary: true,
-							onTouchTap: this.openConfirmReset.bind(this),
-						}
-					)
 				),
 
 				e(
