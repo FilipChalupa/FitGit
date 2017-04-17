@@ -13,11 +13,19 @@ const TextField = require('material-ui/TextField').default
 const LoadingActions = require('../actions/loading')
 const ProjectsActions = require('../actions/projects')
 const StatusActions = require('../actions/status')
-const STATUS_NEW = 'new'
+const exec = require('child-process-promise').exec
+
+const STATUS_UNMODIFIED = 'unmodified'
+const STATUS_ADDED = 'added'
+const STATUS_DELETED = 'deleted'
 const STATUS_MODIFIED = 'modified'
-const STATUS_TYPECHANGE = 'typechange'
 const STATUS_RENAMED = 'renamed'
+const STATUS_COPIED = 'copied'
 const STATUS_IGNORED = 'ignored'
+const STATUS_UNTRACKED = 'untracked'
+const STATUS_TYPECHANGE = 'typechange'
+const STATUS_UNREADABLE = 'unreadable'
+const STATUS_CONFLICTED = 'conflicted'
 
 class Commit extends Component {
 
@@ -25,75 +33,76 @@ class Commit extends Component {
 		super(props)
 
 		this.state = {
+			trackedStaged: [],
+			trackedUnstaged: [],
+			untracked: [],
 			artifacts: [],
 			refreshing: false,
 			updating: false,
 			commitMessage: '',
 			commiting: false,
-			nothingSelected: true,
-			allSelected: false,
 		}
 
 		this.repo = null
 	}
 
-	getArtifacts() {
-		return this.state.artifacts.map((artifact, i) => {
-			return (
-				e(
-					'div',
-					{
-						className: 'commit-wrapper',
-						key: artifact.path,
-					},
-					e(
-						'button',
-						{
-							className: `commit-in ${artifact.inIndex && 'commit-full'}`,
-							onTouchTap: () => this.updateIndex(artifact),
-						},
-						e('span', { className: 'commit-selected' }),
-						e(
-							NewIcon,
-							{
-								style: {
-									position: 'relative',
-									top: 5,
-									marginRight: 3,
-									opacity: artifact.status.includes(STATUS_NEW) ? 1 : 0,
-								},
-							}
-						),
-						artifact.path
-					)
-				)
-			)
-		})
+
+	getDeltaStatusKey(num) {
+		if (num === nodegit.Diff.DELTA.UNMODIFIED) return STATUS_UNMODIFIED
+		if (num === nodegit.Diff.DELTA.ADDED) return STATUS_ADDED
+		if (num === nodegit.Diff.DELTA.DELETED) return STATUS_DELETED
+		if (num === nodegit.Diff.DELTA.MODIFIED) return STATUS_MODIFIED
+		if (num === nodegit.Diff.DELTA.RENAMED) return STATUS_RENAMED
+		if (num === nodegit.Diff.DELTA.COPIED) return STATUS_COPIED
+		if (num === nodegit.Diff.DELTA.IGNORED) return STATUS_IGNORED
+		if (num === nodegit.Diff.DELTA.UNTRACKED) return STATUS_UNTRACKED
+		if (num === nodegit.Diff.DELTA.TYPECHANGE) return STATUS_TYPECHANGE
+		if (num === nodegit.Diff.DELTA.UNREADABLE) return STATUS_UNREADABLE
+		if (num === nodegit.Diff.DELTA.CONFLICTED) return STATUS_CONFLICTED
 	}
 
-	updateIndex(artifact) {
-		let index
+
+	getStatusKeys(artifact) {
+		const keys = []
+
+		if (artifact.isNew()) { keys.push(STATUS_ADDED) }
+		if (artifact.isModified()) { keys.push(STATUS_MODIFIED) }
+		if (artifact.isTypechange()) { keys.push(STATUS_TYPECHANGE) }
+		if (artifact.isRenamed()) { keys.push(STATUS_RENAMED) }
+		if (artifact.isIgnored()) { keys.push(STATUS_IGNORED) }
+		if (artifact.isDeleted()) { keys.push(STATUS_DELETED) }
+
+		return keys
+	}
+
+
+	stage(path) {
 		this.setUpdating(true)
-		this.repo.index()
-			.then((idx) => {
-				index = idx
-				if (artifact.inIndex) {
-					return index.removeByPath(artifact.path) // @TODO: This is not the usual unstage
-				} else {
-					return index.addByPath(artifact.path)
-				}
-			})
-			.then(() => {
-				return index.write()
-			})
-			.catch((e) => {
-				console.error(e)
+		return Promise.resolve()
+			.then(() => exec(`cd ${this.props.projects.active.path} && git add ${path}`))
+			.catch((error) => {
+				console.error(error)
 			})
 			.then(() => {
 				this.setUpdating(false)
-				this.refresh() // @TODO: update only changed
+				this.refresh()
 			})
 	}
+
+
+	unstage(path) {
+		this.setUpdating(true)
+		return Promise.resolve()
+			.then(() => exec(`cd ${this.props.projects.active.path} && git reset HEAD ${path}`))
+			.catch((error) => {
+				console.error(error)
+			})
+			.then(() => {
+				this.setUpdating(false)
+				this.refresh()
+			})
+	}
+
 
 	selectAll() {
 		let index
@@ -111,7 +120,7 @@ class Commit extends Component {
 			})
 			.then(() => {
 				this.setUpdating(false)
-				this.refresh() // @TODO: update only changed
+				this.refresh()
 			})
 	}
 
@@ -125,25 +134,52 @@ class Commit extends Component {
 			})
 			.then(() => {
 				this.setUpdating(false)
-				this.refresh() // @TODO: update only changed
+				this.refresh()
 			})
 	}
 
-	getStatusKeys(artifact) {
-		const keys = []
 
-		if (artifact.isNew()) { keys.push(STATUS_NEW) }
-		if (artifact.isModified()) { keys.push(STATUS_MODIFIED) }
-		if (artifact.isTypechange()) { keys.push(STATUS_TYPECHANGE) }
-		if (artifact.isRenamed()) { keys.push(STATUS_RENAMED) }
-		if (artifact.isIgnored()) { keys.push(STATUS_IGNORED) }
-
-		return keys
+	renderItems(artifacts, staged, clickCallback) {
+		return artifacts.map((artifact, i) => {
+			return (
+				e(
+					'div',
+					{
+						className: 'commit-wrapper',
+						key: i,
+					},
+					e(
+						'button',
+						{
+							className: `commit-in ${staged && 'commit-full'}`,
+							onTouchTap: () => clickCallback(artifact.path),
+						},
+						e('span', { className: 'commit-selected' }),
+						/*e(
+							NewIcon,
+							{
+								style: {
+									position: 'relative',
+									top: 5,
+									marginRight: 3,
+									opacity: artifact.status.includes(STATUS_ADDED) ? 1 : 0,
+								},
+							}
+						),*/
+						artifact.path + ' ('+artifact.status+')'
+					)
+				)
+			)
+		})
 	}
 
+
 	renderArtifacts() {
-		const artifacts = this.getArtifacts()
-		if (artifacts.length === 0) {
+		const trackedStaged = this.renderItems(this.state.trackedStaged, true, this.unstage.bind(this))
+		const trackedUnstaged = this.renderItems(this.state.trackedUnstaged, false, this.stage.bind(this))
+		const untracked = this.renderItems(this.state.untracked, false, this.stage.bind(this))
+
+		if (trackedStaged.length + trackedUnstaged.length + untracked.length === 0) {
 			return (
 				e(
 					'div',
@@ -156,7 +192,50 @@ class Commit extends Component {
 				)
 			)
 		}
-		return artifacts
+
+		return [
+			e(
+				'div',
+				{
+					key: 'trackedStaged',
+				},
+				e(
+					'h3',
+					null,
+					'Zvolené'
+				),
+				trackedStaged.length === 0 ? e(
+					'div',
+					null,
+					'Vyberte alespoň jeden soubor.'
+				) : trackedStaged
+			),
+			this.isAllStaged() ? null : e(
+				'div',
+				{
+					key: 'unstaged',
+				},
+				e(
+					'h3',
+					null,
+					'Nezvolené',
+					e(
+						'div',
+						{
+							key: 'trackedUnstaged',
+						},
+						trackedUnstaged
+					),
+					e(
+						'div',
+						{
+							key: 'untracked',
+						},
+						untracked
+					)
+				)
+			)
+		]
 	}
 
 	getBody() {
@@ -177,7 +256,7 @@ class Commit extends Component {
 							FlatButton,
 							{
 								icon: e(SelectAllIcon),
-								onTouchTap: this.state.allSelected ? this.unselectAll.bind(this) : this.selectAll.bind(this),
+								onTouchTap: !this.isAllStaged() ? this.selectAll.bind(this) : this.unselectAll.bind(this),
 								disabled: this.state.refreshing || this.state.updating
 							}
 						),
@@ -225,7 +304,7 @@ class Commit extends Component {
 								label: 'Uložit',
 								secondary: true,
 								onTouchTap: this.commit.bind(this),
-								disabled: this.state.commiting || this.state.nothingSelected,
+								disabled: this.state.commiting || this.isAllUnstaged(),
 							}
 						)
 					)
@@ -242,6 +321,17 @@ class Commit extends Component {
 		}
 
 	}
+
+
+	isAllUnstaged() {
+		return this.state.trackedStaged.length === 0
+	}
+
+
+	isAllStaged() {
+		return this.state.trackedUnstaged.length + this.state.untracked.length === 0
+	}
+
 
 	handleCommitMessageChange(e, commitMessage) {
 		this.setCommitMesage(commitMessage)
@@ -315,29 +405,75 @@ class Commit extends Component {
 		this.refresh()
 	}
 
+	getUnstaged(repo) {
+		return nodegit.Diff.indexToWorkdir(repo, null, {
+			flags: nodegit.Diff.OPTION.SHOW_UNTRACKED_CONTENT,
+		})
+			.then((diff) => {
+				const tracked = []
+				const untracked = []
+				for (let i = 0; i < diff.numDeltas(); i++) {
+					const delta = diff.getDelta(i)
+					const oldPath = delta.oldFile().path()
+					const newPath = delta.newFile().path()
+					const statusPath = oldPath || newPath
+					if (delta.status() === nodegit.Diff.DELTA.UNTRACKED) {
+						untracked.push(this.getArtifactForm(
+							statusPath,
+							STATUS_ADDED
+						))
+					} else {
+						tracked.push(this.getArtifactForm(
+							statusPath,
+							this.getDeltaStatusKey(delta.status())
+						))
+					}
+				}
+				return {
+					tracked,
+					untracked,
+				}
+			})
+	}
+
+
+	getArtifactForm(path, status) {
+		return {
+			path,
+			status,
+		}
+	}
+
+
+	getStaged(repo) {
+		return repo.getStatus()
+			.then((artifacts) => {
+				return artifacts.filter((artifact) => {
+						return artifact.inIndex()
+					}).map((artifact) => {
+						return this.getArtifactForm(
+							artifact.path(),
+							this.getStatusKeys(artifact)[0]
+						)
+					})
+			})
+	}
+
 	refresh() {
 		this.setRefreshing(true)
+		let staged
+		let unstaged
 		nodegit.Repository.open(this.props.projects.active.path)
-			.then((repo) => {
-				this.repo = repo
-				return repo.getStatus()
-			})
-			.then((artifacts) => {
-				const countAll = artifacts.length
-				let countSelected = 0
+			.then((repo) => this.repo = repo)
+			.then(() => this.getStaged(this.repo))
+			.then((x) => staged = x)
+			.then(() => this.getUnstaged(this.repo))
+			.then((x) => unstaged = x)
+			.then(() => {
 				this.setState(Object.assign({}, this.state, {
-					artifacts: artifacts.map((artifact) => {
-						if (artifact.inIndex()) {
-							countSelected++
-						}
-						return {
-							inIndex: !!artifact.inIndex(),
-							path: artifact.path(),
-							status: this.getStatusKeys(artifact),
-						}
-					}),
-					nothingSelected: countSelected === 0,
-					allSelected: countSelected === countAll,
+					trackedStaged: staged,
+					trackedUnstaged: unstaged.tracked,
+					untracked: unstaged.untracked,
 				}))
 			})
 			.catch((e) => {

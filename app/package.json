@@ -11,6 +11,7 @@
     "url": ""
   },
   "dependencies": {
+    "child-process-promise": "^2.2.1",
     "electron-debug": "^1.0.0",
     "electron-json-storage": "^3.0.4",
     "git-credential-node": "^1.1.0",

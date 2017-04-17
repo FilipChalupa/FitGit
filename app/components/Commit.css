@@ -1,35 +1,31 @@
 .commit-wrapper {}
 
 .commit-in {
-  display: block;
-  width: 100%;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  text-align: left;
-  opacity: 0.6;
-  transition: opacity 0.3s;
+	display: block;
+	width: 100%;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	text-align: left;
 }
 .commit-in:focus {
-  outline: none;
+	outline: none;
 }
 .commit-in:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
 
 /* File staged */
-.commit-full {
-  opacity: 1;
-}
+.commit-full {}
 
 .commit-selected {
-  display: inline-block;
-  margin-right: 0.5em;
-  width: 1em;
-  height: 1em;
-  border: 0.1em solid;
-  transition: background-color 0.3s;
+	display: inline-block;
+	margin-right: 0.5em;
+	width: 1em;
+	height: 1em;
+	border: 0.1em solid;
+	transition: background-color 0.3s;
 }
 .commit-full .commit-selected {
-  background-color: #00BCD4;
+	background-color: #00BCD4;
 }
