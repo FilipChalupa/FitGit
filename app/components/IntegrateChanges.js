@@ -126,13 +126,18 @@ class IntegrateChanges extends Component {
 		return nodegit.Merge.commits(this.repo, this.localTopCommit, this.remoteTopCommit)
 			.then((index) => {
 				if (!index.hasConflicts()) {
-					return index.writeTreeTo(this.repo);
+					return index.writeTreeTo(this.repo)
 				} else {
 					console.log('has conflicts')
 				}
 			})
 			.then((oid) => {
 				return this.repo.createCommit('HEAD', author, author, this.props.settings.mergeMessage, oid, [this.localTopCommit, this.remoteTopCommit])
+			})
+			.then(() => this.repo.getCurrentBranch())
+			.then((reference) => this.repo.getBranchCommit(reference))
+			.then((commit) => {
+				return nodegit.Reset(this.repo, commit, nodegit.Reset.TYPE.HARD)
 			})
 	}
 
