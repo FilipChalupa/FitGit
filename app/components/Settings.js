@@ -98,14 +98,14 @@ class Settings extends Component {
 						onToggle: () => this.props.actions.settings.toggleAutoPush(),
 					}
 				),
-				e(
+				/*e(
 					TextField,
 					{
 						floatingLabelText: 'Název merge commitu',
 						value: this.props.settings.mergeMessage,
 						onChange: this.handleMergeMessageChange.bind(this),
 					}
-				),
+				),*/
 
 				e(
 					Dialog,
