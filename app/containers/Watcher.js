@@ -18,10 +18,6 @@ class Watcher extends Component {
 		this.check()
 	}
 
-	getBranchCommitHash(repo, branch) {
-		return repo.getBranchCommit(branch)
-			.then((commit) => commit.sha())
-	}
 
 	push(repo, remoteName, localBranchReference) {
 		return repo.getRemote(remoteName)
@@ -42,10 +38,10 @@ class Watcher extends Component {
 	check() {
 		let repo
 		let remoteName
-		let localReference
-		let localCommitHash
-		let remoteOldCommitHash
-		let remoteNewCommitHash
+		let localBranch
+		let localTopCommit
+		let remoteOldCommit
+		let remoteNewCommit
 
 		if (!this.props.projects.active || this.props.loading) {
 			setTimeout(() => {
@@ -60,32 +56,28 @@ class Watcher extends Component {
 				return repo.getCurrentBranch()
 			})
 			.then((reference) => {
-				localReference = reference
-				return this.getBranchCommitHash(repo, reference)
-					.then((hash) => localCommitHash = hash)
-					.then(() => nodegit.Branch.upstream(localReference))
+				localBranch = reference
+				return repo.getBranchCommit(localBranch)
+					.then((commit) => localTopCommit = commit)
+					.then(() => nodegit.Branch.upstream(localBranch))
 			})
 			.then((reference) => {
 				remoteName = reference.toString().split('/')[2] // Returns for example "origin"
-				return this.getBranchCommitHash(repo, reference)
-					.then((hash) => {
-						remoteOldCommitHash = hash
-					})
+				return repo.getBranchCommit(reference)
+					.then((commit) => remoteOldCommit = commit)
 					.then(() => {
 						return repo.fetch(remoteName, remoteCallbacks)
-							.then(() => nodegit.Branch.upstream(localReference))
+							.then(() => nodegit.Branch.upstream(localBranch))
 					})
 			})
 			.then((reference) => {
-				return this.getBranchCommitHash(repo, reference)
-					.then((hash) => {
-						remoteNewCommitHash = hash
-					})
+				return repo.getBranchCommit(reference)
+					.then((commit) => remoteNewCommit = commit)
 			})
 			.then(() => {
-				this.props.actions.integrator.setIntegrationAvailable(localCommitHash !== remoteNewCommitHash, remoteOldCommitHash !== remoteNewCommitHash)
-				if (this.props.settings.autoPush && localCommitHash !== remoteNewCommitHash) {
-					return this.push(repo, remoteName, localReference)
+				this.props.actions.integrator.setIntegrationAvailable(localTopCommit.sha() !== remoteNewCommit.sha(), remoteOldCommit.sha() !== remoteNewCommit.sha())
+				if (this.props.settings.autoPush && localTopCommit.sha() !== remoteNewCommit.sha()) {
+					return this.push(repo, remoteName, localBranch)
 				}
 			})
 			.catch((error) => {
