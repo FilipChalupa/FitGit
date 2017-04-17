@@ -71,6 +71,7 @@ class History extends Component {
 			})
 			.then(() => {
 				this.setRefreshing(false)
+				this.refresh()
 			})
 	}
 
