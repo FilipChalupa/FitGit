@@ -123,7 +123,10 @@ class IntegrateChanges extends Component {
 
 	mergeWithMergeCommit() {
 		const author = this.repo.defaultSignature()
-		nodegit.Reset(this.repo, commit, nodegit.Reset.TYPE.MIXED)
+		Promise.resolve()
+			.then(() => this.repo.getCurrentBranch())
+			.then((reference) => this.repo.getBranchCommit(reference))
+			.then((commit) => nodegit.Reset(this.repo, commit, nodegit.Reset.TYPE.MIXED))
 			.then(() => nodegit.Merge.commits(this.repo, this.localTopCommit, this.remoteTopCommit))
 			.then((index) => {
 				if (!index.hasConflicts()) {
