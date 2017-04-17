@@ -1,12 +1,9 @@
 const configureStore = require('./configureStore')
 const storage = require('electron-json-storage')
 
-const shortLivedStorages = [
-	'loading',
-	'integrator',
-	'routing',
-	'status',
-	'menu',
+const persistentStorages = [
+	'projects',
+	'settings',
 ]
 
 function getInitialState() {
@@ -16,7 +13,13 @@ function getInitialState() {
 				//reject(error)
 				resolve({}) // @TODO
 			} else {
-				resolve(data)
+				const states = {}
+				persistentStorages.forEach((name) => {
+					if (data[name]) {
+						states[name] = data[name]
+					}
+				})
+				resolve(states)
 			}
 		})
 	})
@@ -32,7 +35,7 @@ async function getStore() {
 
 		// @TODO: update only changed props
 		for (const propName in state) {
-			if (shortLivedStorages.indexOf(propName) === -1) {
+			if (persistentStorages.indexOf(propName) !== -1) {
 				storage.set(propName, state[propName], (error) => {
 					if (error) throw error
 				})
