@@ -61,11 +61,13 @@ class Menu extends Component {
 					this.props.integrator.notification ? e(IntegrateChangesAlertIcon) : null
 				))
 			}
-			items.push(this.getItem(
-				'/commit',
-				this.props.settings.texts.menu_commit,
-				e(CommitIcon)
-			))
+			if (this.props.menu.canCreateCommit) {
+				items.push(this.getItem(
+					'/commit',
+					this.props.settings.texts.menu_commit,
+					e(CommitIcon)
+				))
+			}
 		}
 		items.push(this.getItem(
 			'/projects',

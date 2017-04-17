@@ -8,6 +8,7 @@ const nodegit = n.nodegit
 const getCommonTopCommit = n.getCommonTopCommit
 const ProjectsActions = require('../actions/projects')
 const IntegratorActions = require('../actions/integrator')
+const MenuActions = require('../actions/menu')
 const remoteCallbacks = require('../utils/remoteCallbacks')
 const notify = require('../utils/notify')
 const hashHistory = require('react-router').hashHistory
@@ -18,6 +19,14 @@ class Watcher extends Component {
 
 	componentDidMount() {
 		this.check()
+	}
+
+
+	refreshCanCommit(repo) {
+		repo.getStatus()
+			.then((artifacts) => {
+				this.props.actions.menu.canCreateCommit(artifacts.length !== 0)
+			})
 	}
 
 
@@ -106,6 +115,7 @@ class Watcher extends Component {
 					}
 				}
 			})
+			.then(() => this.refreshCanCommit(repo))
 			.catch((error) => {
 				console.error(error)
 			})
@@ -135,6 +145,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		actions: {
 			integrator: bindActionCreators(IntegratorActions, dispatch),
+			menu: bindActionCreators(MenuActions, dispatch),
 			projects: bindActionCreators(ProjectsActions, dispatch),
 		}
 	}
