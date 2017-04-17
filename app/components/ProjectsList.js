@@ -8,8 +8,19 @@ const CardText = require('material-ui/Card').CardText
 const FlatButton = require('material-ui/FlatButton').default
 const RaisedButton = require('material-ui/RaisedButton').default
 const compareProjects = require('../utils/compareProjects')
+const hashHistory = require('react-router').hashHistory
 
 module.exports = class ProjectsList extends Component {
+
+
+	selectProject(project) {
+		if (compareProjects(project, this.props.activeProject)) {
+			hashHistory.push('/project')
+		} else {
+			this.props.setActiveProject(project)
+		}
+	}
+
 
 	renderProjects() {
 		if (this.props.projects.length === 0) {
@@ -52,7 +63,7 @@ module.exports = class ProjectsList extends Component {
 							{
 								label: 'Zvolit',
 								primary: true,
-								onTouchTap: () => this.props.setActiveProject(project),
+								onTouchTap: () => this.selectProject(project),
 							}
 						),
 						e(
