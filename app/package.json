@@ -17,6 +17,7 @@
     "fs-promise": "^2.0.2",
     "git-credential-node": "^1.1.0",
     "gravatar": "^1.6.0",
+    "load-json-file": "^2.0.0",
     "material-ui": "^0.17.2",
     "moment": "^2.18.1",
     "nodegit": "^0.18.0",

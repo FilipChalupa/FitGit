@@ -12,6 +12,12 @@ const Dialog = require('material-ui/Dialog').default
 const Toggle = require('material-ui/Toggle').default
 const TextField = require('material-ui/TextField').default
 const SettingsActions = require('../actions/settings')
+const LoadingActions = require('../actions/loading')
+const fsp = require('fs-promise')
+const path = require('path')
+const t = require('../utils/text')
+
+const LANGUAGES_DIR = path.resolve(__dirname, '..', 'languages')
 
 class Settings extends Component {
 
@@ -20,31 +26,48 @@ class Settings extends Component {
 
 		this.state = {
 			confirmReset: false,
+			languages: [],
 		}
 	}
 
+
+	componentDidMount() {
+		this.loadLanguages()
+	}
+
+
+	loadLanguages() {
+		fsp.readdir(LANGUAGES_DIR)
+			.then((files) => {
+				this.setState(Object.assign({}, this.state, {
+					languages: files.map((file) => {
+						return file.split('.json')[0]
+					})
+				}))
+			})
+			.catch((error) => {
+				console.error(error)
+			})
+	}
+
+
 	getItems() {
-		const items = {
-			cs: 'Česky',
-			en: 'English',
-			de: 'Deutsch',
-		}
-		return Object.keys(items).map((key) => {
+		return this.state.languages.map((code) => {
 			return (
 				e(
 					MenuItem,
 					{
-						key: key,
-						value: key,
-						primaryText: items[key],
+						key: code,
+						value: code,
+						primaryText: t(this.props.settings.language, `language_${code}`),
 					}
 				)
 			)
 		})
 	}
 
-	handleLanguageChange(e, i, language) {
-		this.props.actions.settings.setLanguage(language)
+	handleLanguageChange(e, i, code) {
+		this.props.actions.settings.setLanguage(code, code)
 	}
 
 	handleMergeMessageChange(event) {
@@ -68,14 +91,14 @@ class Settings extends Component {
 						maxWidth: 250,
 					}
 				},
-				e('h1', null, this.props.settings.texts.menu_settings),
+				e('h1', null, t(this.props.settings.language, 'menu_settings')),
 				e(
 					'div',
 					null,
 					e(
 						RaisedButton,
 						{
-							label: "Obnovit nastavení",
+							label: t(this.props.settings.language, 'settings_reset'),
 							secondary: true,
 							onTouchTap: this.openConfirmReset.bind(this),
 						}
@@ -84,7 +107,7 @@ class Settings extends Component {
 				e(
 					SelectField,
 					{
-						floatingLabelText: this.props.settings.texts.settings_language,
+						floatingLabelText: t(this.props.settings.language, 'settings_language'),
 						value: this.props.settings.language,
 						onChange: this.handleLanguageChange.bind(this),
 					},
@@ -152,6 +175,7 @@ module.exports = connect((state) => {
 }, (dispatch) => {
 	return {
 		actions: {
+			loading: bindActionCreators(LoadingActions, dispatch),
 			settings: bindActionCreators(SettingsActions, dispatch),
 		}
 	}

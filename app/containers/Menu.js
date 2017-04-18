@@ -21,6 +21,7 @@ const FlatButton = require('material-ui/FlatButton').default
 const ProjectsActions = require( '../actions/projects')
 const IntegratorActions = require( '../actions/integrator')
 const hashHistory = require('react-router').hashHistory
+const t = require('../utils/text')
 
 class Menu extends Component {
 
@@ -56,7 +57,7 @@ class Menu extends Component {
 			if (this.props.integrator.available) {
 				items.push(this.getItem(
 					'/integrateChanges',
-					this.props.settings.texts.menu_integrateChanges,
+					t(this.props.settings.language, 'menu_integrateChanges'),
 					e(IntegrateChangesIcon),
 					this.props.integrator.notification ? e(IntegrateChangesAlertIcon) : null
 				))
@@ -64,26 +65,26 @@ class Menu extends Component {
 			if (this.props.menu.canCreateCommit) {
 				items.push(this.getItem(
 					'/commit',
-					this.props.settings.texts.menu_commit,
+					t(this.props.settings.language, 'menu_commit'),
 					e(CommitIcon)
 				))
 			}
 		}
 		items.push(this.getItem(
 			'/projects',
-			this.props.settings.texts.menu_projects,
+			t(this.props.settings.language, 'menu_projects'),
 			e(ProjectsIcon)
 		))
 		if (this.props.projects.active) {
 			items.push(this.getItem(
 				'/history',
-				this.props.settings.texts.menu_history,
+				t(this.props.settings.language, 'menu_history'),
 				e(HistoryIcon)
 			))
 		}
 		items.push(this.getItem(
 			'/settings',
-			this.props.settings.texts.menu_settings,
+			t(this.props.settings.language, 'menu_settings'),
 			e(SettingsIcon)
 		))
 		return items

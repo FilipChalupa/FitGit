@@ -3,10 +3,10 @@ const RESET_SETTINGS    = 'RESET_SETTINGS'
 const TOGGLE_AUTHOPUSH  = 'TOGGLE_AUTHOPUSH'
 const SET_MERGE_MESSAGE = 'SET_MERGE_MESSAGE'
 
-function setLanguage(language) {
+function setLanguage(code) {
 	return {
 		type: SET_LANGUAGE,
-		payload: language,
+		payload: code,
 	}
 }
 
