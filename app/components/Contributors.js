@@ -38,7 +38,7 @@ class Contributors extends Component {
 			if (commit.parentcount() === 0) {
 				return
 			} else {
-				return commit.getParents()
+				return commit.getParents() // @TODO: tenhle postup zbytečně nekolikrát navštěvuje některé commity
 					.then((parents) => {
 						return Promise.all(parents.map((parent) => {
 							return processCommit(parent)
