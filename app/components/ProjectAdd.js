@@ -214,7 +214,9 @@ class ProjectAdd extends Component {
 					},
 					e(
 						Tabs,
-						null,
+						{
+							initialSelectedIndex: this.state.active === TAB_LOCAL ? 0 : 1,
+						},
 						e(
 							Tab,
 							{
