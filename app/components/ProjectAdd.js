@@ -21,6 +21,7 @@ const dialog = require('electron').remote.dialog
 const path = require('path')
 const fsp = require('fs-promise')
 const nodegit = require('../utils/nodegit').nodegit
+const remoteCallbacks = require('../utils/remoteCallbacks')
 
 const TAB_URL   = 'TAB_URL'
 const TAB_LOCAL = 'TAB_LOCAL'
@@ -168,8 +169,16 @@ class ProjectAdd extends Component {
 	}
 
 
-	prepareUrlProject(project, url) {
-		throw 'Not implemented'
+	prepareUrlProject(path, url) {
+		return Promise.resolve() // @TODO: smarter tests
+			.then(() => nodegit.Clone.clone(url, path, { fetchOpts: remoteCallbacks }))
+			.catch((error) => {
+				console.warn(error)
+				this.props.actions.status.addStatus(
+					'Z URL se nepodařila stáhnout data'
+				)
+				throw new Error('Invalid URL.')
+			})
 	}
 
 
