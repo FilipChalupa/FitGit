@@ -44,7 +44,7 @@ class ProjectAdd extends Component {
 		if (!dialogDirectories) {
 			return
 		}
-		const repoDirectory = dialogDirectories[0] // @TODO: Validate repository exists
+		const repoDirectory = dialogDirectories[0]
 
 		this.handlePathChange(null, repoDirectory)
 	}
