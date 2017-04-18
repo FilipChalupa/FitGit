@@ -19,13 +19,6 @@ module.exports = {
 				return nodegit.Cred.userpassPlaintextNew(name, password)
 			} else {
 				return nodegit.Cred.sshKeyFromAgent(userName)
-				// @TODO: Use agent if possible
-				return nodegit.Cred.sshKeyNew(
-					userName,
-					path.resolve(path.resolve(userHome, '.ssh/id_rsa')),
-					path.resolve(path.resolve(userHome, '.ssh/id_rsa.pub')),
-					''
-				)
 			}
 		}
 	},
