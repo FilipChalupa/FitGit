@@ -239,7 +239,7 @@ class ProjectAdd extends Component {
 							e(
 								'div',
 								null,
-								e('p', null, 'Zvolte adresu, ze které se stáhne existující projekt do místního adresáře.'),
+								e('p', null, 'Zvolte adresu, ze které se stáhne existující projekt do místního adresáře. Stahování může nějakou dobu trvat.'),
 								this.getURLField(),
 								this.getDirectoryField()
 							)
