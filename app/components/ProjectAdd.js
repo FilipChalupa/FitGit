@@ -16,8 +16,11 @@ const Tabs = require('material-ui/Tabs').Tabs
 const Tab = require('material-ui/Tabs').Tab
 const ProjectsActions = require('../actions/projects')
 const StatusActions = require('../actions/status')
+const LoadingActions = require('../actions/loading')
 const dialog = require('electron').remote.dialog
 const path = require('path')
+const fsp = require('fs-promise')
+const nodegit = require('../utils/nodegit').nodegit
 
 const TAB_URL   = 'TAB_URL'
 const TAB_LOCAL = 'TAB_LOCAL'
@@ -114,24 +117,61 @@ class ProjectAdd extends Component {
 	}
 
 	addProject() {
-		const url = this.state.url // @TODO: init empty project if possible
+		const url = this.state.url
 		const localPath = this.state.directoryPath
 		const project = {
 			name: path.basename(localPath),
 			note: localPath,
 			path: localPath,
 		}
-		this.appendProject(project)
 		this.openAddModal(false)
 
-		this.props.actions.status.addStatus(
-			`Byl přidán projekt: ${project.name}`,
-			'Vrátit zpět',
-			() => {
-				this.props.actions.projects.removeProject(project)
-			}
-		)
+		this.props.actions.loading.IncrementLoadingJobs()
+		Promise.resolve()
+			.then(() => {
+				if (this.state.active === TAB_LOCAL) {
+					return this.prepareLocalProject(localPath)
+				} else if (this.state.active === TAB_URL) {
+					return this.prepareUrlProject(localPath, url)
+				}
+			})
+			.then(() => {
+				this.appendProject(project)
+				this.props.actions.status.addStatus(
+					`Byl přidán projekt: ${project.name}`,
+					'Vrátit zpět',
+					() => {
+						this.props.actions.projects.removeProject(project)
+					}
+				)
+			})
+			.catch((error) => {
+				console.error()
+			})
+			.then(() => {
+				this.props.actions.loading.DecrementLoadingJobs()
+			})
 	}
+
+
+	prepareLocalProject(path) {
+		return Promise.resolve()
+			.then(() => fsp.stat(path))
+			.then(() => nodegit.Repository.open(path))
+			.catch((error) => {
+				console.warn(error)
+				this.props.actions.status.addStatus(
+					'Umístění projektu nenalezeno'
+				)
+				throw new Error('Invalid location.')
+			})
+	}
+
+
+	prepareUrlProject(project, url) {
+		throw 'Not implemented'
+	}
+
 
 	render() {
 		const actions = [
@@ -237,6 +277,7 @@ function mapDispatchToProps(dispatch) {
 		actions: {
 			projects: bindActionCreators(ProjectsActions, dispatch),
 			status: bindActionCreators(StatusActions, dispatch),
+			loading: bindActionCreators(LoadingActions, dispatch),
 		}
 	}
 }
