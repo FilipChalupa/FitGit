@@ -19,7 +19,6 @@ const StatusActions = require('../actions/status')
 const dialog = require('electron').remote.dialog
 const path = require('path')
 
-const TAB_NEW   = 'TAB_NEW'
 const TAB_URL   = 'TAB_URL'
 const TAB_LOCAL = 'TAB_LOCAL'
 
@@ -32,7 +31,7 @@ class ProjectAdd extends Component {
 			openAddModal: false,
 			directoryPath: '',
 			url: '',
-			active: TAB_NEW,
+			active: TAB_LOCAL,
 		}
 	}
 
@@ -170,13 +169,13 @@ class ProjectAdd extends Component {
 						e(
 							Tab,
 							{
-								label: "Nový projekt",
-								onActive: () => this.setActiveTab(TAB_NEW),
+								label: "Z adresáře",
+								onActive: () => this.setActiveTab(TAB_LOCAL),
 							},
 							e(
 								'div',
 								null,
-								e('p', null, 'Zvolte adresář, ze kterého se vytvoří nový projekt. Adresář může obsahovat již rozpracované dílo.'),
+								e('p', null, 'Zvolte adresář, který obsahuje již existující projekt.'),
 								this.getDirectoryField()
 							)
 						),
@@ -191,19 +190,6 @@ class ProjectAdd extends Component {
 								null,
 								e('p', null, 'Zvolte adresu, ze které se stáhne existující projekt do místního adresáře.'),
 								this.getURLField(),
-								this.getDirectoryField()
-							)
-						),
-						e(
-							Tab,
-							{
-								label: "Z adresáře",
-								onActive: () => this.setActiveTab(TAB_LOCAL),
-							},
-							e(
-								'div',
-								null,
-								e('p', null, 'Zvolte adresář, který obsahuje již existující projekt.'),
 								this.getDirectoryField()
 							)
 						)
