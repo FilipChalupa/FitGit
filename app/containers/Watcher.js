@@ -11,7 +11,7 @@ const IntegratorActions = require('../actions/integrator')
 const MenuActions = require('../actions/menu')
 const remoteCallbacks = require('../utils/remoteCallbacks')
 const notify = require('../utils/notify')
-const hashHistory = require('react-router').hashHistory
+const redirectWithReload = require('../utils/redirectWithReload')
 
 const CHECK_INTERVAL = 1500
 
@@ -40,7 +40,7 @@ class Watcher extends Component {
 			})
 			.then(() => {
 				notify('Vaše změny byly nasdíleny', 'zobrazit historii', () => {
-					hashHistory.push('/history')
+					redirectWithReload('/history')
 				})
 			})
 			.catch((error) => console.log('push error', error))
