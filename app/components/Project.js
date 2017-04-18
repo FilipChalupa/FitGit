@@ -3,6 +3,7 @@ const e = React.createElement
 const Component = React.Component
 const Branches = require('./Branches')
 const Contributors = require('./Contributors')
+const AuthSetter = require('./AuthSetter')
 
 module.exports = class Project extends Component {
 
@@ -12,6 +13,12 @@ module.exports = class Project extends Component {
 				'div',
 				null,
 				e('h1', null, 'Detail projektu'),
+				e(
+					AuthSetter,
+					{
+						project: this.props.projects.active,
+					}
+				),
 				e(
 					Contributors,
 					{

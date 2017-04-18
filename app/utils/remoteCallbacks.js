@@ -16,7 +16,6 @@ module.exports = {
 				} catch (error) {
 					console.error(error)
 				}
-				// @TODO: Get actual password if not stored
 				return nodegit.Cred.userpassPlaintextNew(name, password)
 			} else {
 				return nodegit.Cred.sshKeyFromAgent(userName)
