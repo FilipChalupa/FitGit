@@ -161,6 +161,7 @@ class ProjectAdd extends Component {
 			.then(() => {
 				return fsp.stat(path)
 					.catch((error) => {
+						console.warn(error)
 						errorMessage = 'Umístění projektu nenalezeno'
 						throw new Error('Location not found.')
 					})
@@ -168,6 +169,7 @@ class ProjectAdd extends Component {
 			.then(() => {
 				return nodegit.Repository.open(path)
 					.catch((error) => {
+						console.warn(error)
 						errorMessage = 'Umístění neobsahuje projekt'
 						throw new Error('Invalid location.')
 					})
@@ -184,13 +186,53 @@ class ProjectAdd extends Component {
 
 
 	prepareUrlProject(path, url) {
-		return Promise.resolve() // @TODO: smarter tests
-			.then(() => nodegit.Clone.clone(url, path, { fetchOpts: remoteCallbacks }))
+		let errorMessage = null
+		const trimmedUrl = url.trim()
+		let repo
+		return Promise.resolve()
+			.then(() => {
+				return fsp.ensureDir(path)
+					.catch((error) => {
+						console.warn(error)
+						errorMessage = 'Umístění nenalezeno'
+						throw new Error('Location not found.')
+					})
+			})
+			.then(() => {
+				return fsp.readdir(path)
+					.then((files) => {
+						if (files.length > 0) {
+							errorMessage = 'Umístění není prázdné'
+							throw new Error('Location not empty.')
+						}
+					})
+			})
+			.then(() => {
+				if (trimmedUrl.length === 0) {
+					errorMessage = 'Url musí být vyplněné'
+					throw new Error('Empty url field.')
+				}
+			})
+			.then(() => {
+				return nodegit.Repository.init(path, 0)
+					.then((r) => repo = r)
+					.then(() => nodegit.Remote.create(repo, 'origin', trimmedUrl))
+					.catch((error) => {
+						console.warn(error)
+						errorMessage = 'Projekt se nepodařilo vytvořit'
+						throw new Error('Unable to init repository.')
+					})
+			})
 			.catch((error) => {
-				this.props.actions.status.addStatus(
-					'Z URL se nepodařila stáhnout data'
-				)
-				throw new Error('Invalid URL.')
+				if (errorMessage) {
+					this.props.actions.status.addStatus(
+						errorMessage
+					)
+				}
+				return fsp.emptyDir(path)
+					.then(() => {
+						throw error
+					})
 			})
 	}
 
