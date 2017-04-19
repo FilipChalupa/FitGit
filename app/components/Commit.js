@@ -79,7 +79,7 @@ class Commit extends Component {
 	stage(path) {
 		this.setUpdating(true)
 		return Promise.resolve()
-			.then(() => exec(`cd ${this.props.projects.active.path} && git add ${path}`))
+			.then(() => exec(`cd ${this.props.projects.active.path} && git add "${path}"`))
 			.catch((error) => {
 				console.error(error)
 			})
@@ -93,7 +93,7 @@ class Commit extends Component {
 	unstage(path) {
 		this.setUpdating(true)
 		return Promise.resolve()
-			.then(() => exec(`cd ${this.props.projects.active.path} && git reset HEAD ${path}`))
+			.then(() => exec(`cd ${this.props.projects.active.path} && git reset HEAD "${path}"`))
 			.catch((error) => {
 				console.error(error)
 			})
