@@ -34,7 +34,7 @@ class Watcher extends Component {
 
 
 	refreshCanCommit(repo) {
-		repo.getStatus()
+		return repo.getStatus()
 			.then((artifacts) => {
 				this.props.actions.menu.canCreateCommit(repo.isDefaultState() && artifacts.length !== 0)
 			})
@@ -74,10 +74,9 @@ class Watcher extends Component {
 		}
 
 		nodegit.Repository.open(this.props.projects.active.path)
-			.then((r) => {
-				repo = r
-				return repo.getCurrentBranch()
-			})
+			.then((r) => repo = r)
+			.then(() => this.refreshCanCommit(repo))
+			.then(() => repo.getCurrentBranch())
 			.then((reference) => {
 				localBranch = reference
 				return repo.getBranchCommit(localBranch)
@@ -126,7 +125,6 @@ class Watcher extends Component {
 					}
 				}
 			})
-			.then(() => this.refreshCanCommit(repo))
 			.catch(() => {
 				// Try to fix repo
 				this.props.actions.loading.IncrementLoadingJobs()
