@@ -360,8 +360,8 @@ class Commit extends Component {
 			.then((parent) => {
 				const author = this.repo.defaultSignature()
 				const parents = []
-				if (head) {
-					parents.push(head)
+				if (parent) {
+					parents.push(parent)
 				}
 				return this.repo.createCommit('HEAD', author, author, this.state.commitMessage, oid, parents)
 			})
