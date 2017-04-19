@@ -45,8 +45,11 @@ class Contributors extends Component {
 			.then(() => repo.getCurrentBranch())
 			.then((reference) => nodegit.Branch.upstream(reference))
 			.then((reference) => repo.getRemote(reference.toString().split('/')[2]))
-			.then((remote) => {
-				const url = remote.url()
+			.catch((error) => {
+				return repo.getRemote('origin')
+			})
+			.then((remote) => remote.url())
+			.then((url) => {
 				if (url.startsWith('http')) {
 					return Promise.resolve()
 						.then(() => credentialManager.fill(url))

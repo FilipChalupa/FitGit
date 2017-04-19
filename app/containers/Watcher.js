@@ -19,6 +19,15 @@ const CHECK_INTERVAL = 1500
 
 class Watcher extends Component {
 
+	constructor(props) {
+		super(props)
+
+		this.lastProblems = {
+			usernamePassword: null,
+		}
+	}
+
+
 	componentDidMount() {
 		this.check()
 	}
@@ -128,6 +137,16 @@ class Watcher extends Component {
 							return repo.fetch('origin', remoteCallbacks)
 								.catch((error) => {
 									console.info('Unable to fetch')
+									return repo.getRemote('origin')
+										.then((remote) => remote.url())
+										.then((url) => {
+											if (url.startsWith('http') && this.lastProblems.usernamePassword !== url) {
+												this.lastProblems.usernamePassword = url
+												notify('Nepodařilo se stáhnout projekt', 'zkuste zkontrolovat přístupové údaje', () => {
+													redirectWithReload('/project')
+												})
+											}
+										})
 									throw error
 								})
 								.then(() => repo.getBranchCommit('origin/master'))
