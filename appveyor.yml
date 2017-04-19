@@ -28,7 +28,7 @@ install:
 test_script:
   - npm run prebuild
   - npm run build-local
-  - SET ARCHIVE=FitGit-win32-%APPVEYOR_REPO_TAG_NAME%.zip
+  - SET ARCHIVE=FitGit-windows-%APPVEYOR_REPO_TAG_NAME%.zip
   - cd dist
   - 7z a ..\%ARCHIVE% *
 
