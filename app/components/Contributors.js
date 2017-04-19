@@ -50,12 +50,14 @@ class Contributors extends Component {
 		nodegit.Repository.open(this.props.project.path)
 			.then((repo) => repo.getHeadCommit())
 			.then((commit) => {
-				return processCommit(commit)
-			})
-			.then(() => {
-				this.setState(Object.assign({}, this.state, {
-					contributors,
-				}))
+				if (commit) {
+					return processCommit(commit)
+						.then(() => {
+							this.setState(Object.assign({}, this.state, {
+								contributors,
+							}))
+						})
+				}
 			})
 			.catch((error) => {
 				console.error(error)
