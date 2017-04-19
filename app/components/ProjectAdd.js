@@ -147,7 +147,7 @@ class ProjectAdd extends Component {
 				)
 			})
 			.catch((error) => {
-				console.error()
+				console.error(error)
 			})
 			.then(() => {
 				this.props.actions.loading.DecrementLoadingJobs()
@@ -156,15 +156,29 @@ class ProjectAdd extends Component {
 
 
 	prepareLocalProject(path) {
+		let errorMessage = null
 		return Promise.resolve()
-			.then(() => fsp.stat(path))
-			.then(() => nodegit.Repository.open(path))
+			.then(() => {
+				return fsp.stat(path)
+					.catch((error) => {
+						errorMessage = 'Umístění projektu nenalezeno'
+						throw new Error('Location not found.')
+					})
+			})
+			.then(() => {
+				return nodegit.Repository.open(path)
+					.catch((error) => {
+						errorMessage = 'Umístění neobsahuje projekt'
+						throw new Error('Invalid location.')
+					})
+			})
 			.catch((error) => {
-				console.warn(error)
-				this.props.actions.status.addStatus(
-					'Umístění projektu nenalezeno'
-				)
-				throw new Error('Invalid location.')
+				if (errorMessage) {
+					this.props.actions.status.addStatus(
+						errorMessage
+					)
+				}
+				throw error
 			})
 	}
 
@@ -173,7 +187,6 @@ class ProjectAdd extends Component {
 		return Promise.resolve() // @TODO: smarter tests
 			.then(() => nodegit.Clone.clone(url, path, { fetchOpts: remoteCallbacks }))
 			.catch((error) => {
-				console.warn(error)
 				this.props.actions.status.addStatus(
 					'Z URL se nepodařila stáhnout data'
 				)
