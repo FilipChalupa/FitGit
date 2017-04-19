@@ -9,9 +9,11 @@ const getCommonTopCommit = n.getCommonTopCommit
 const ProjectsActions = require('../actions/projects')
 const IntegratorActions = require('../actions/integrator')
 const MenuActions = require('../actions/menu')
+const LoadingActions = require('../actions/loading')
 const remoteCallbacks = require('../utils/remoteCallbacks')
 const notify = require('../utils/notify')
 const redirectWithReload = require('../utils/redirectWithReload')
+const exec = require('child-process-promise').exec
 
 const CHECK_INTERVAL = 1500
 
@@ -116,10 +118,42 @@ class Watcher extends Component {
 				}
 			})
 			.then(() => this.refreshCanCommit(repo))
+			.catch(() => {
+				// Try to fix repo
+				this.props.actions.loading.IncrementLoadingJobs()
+				return Promise.resolve()
+					.then(() => {
+						if (!localBranch) {
+							console.info('Local branch unknown')
+							return repo.fetch('origin', remoteCallbacks)
+								.catch((error) => {
+									console.info('Unable to fetch')
+									throw error
+								})
+								.then(() => repo.getBranchCommit('origin/master'))
+								.then((commit) => {
+									if (commit) {
+										return repo.createBranch('master', commit, true)
+											.then(() => nodegit.Reset(repo, commit, nodegit.Reset.TYPE.HARD))
+									}
+								})
+						} else if (!remoteName) {
+							console.info('Remote unknown')
+							return exec(`cd ${this.props.projects.active.path} && git branch --set-upstream-to=origin/master`)
+						}
+					})
+					.catch((error) => {
+						console.error(error)
+					})
+					.then(() => {
+						this.props.actions.loading.DecrementLoadingJobs()
+					})
+			})
 			.catch((error) => {
 				console.error(error)
 			})
 			.then(() => {
+				console.info('Watch job done')
 				setTimeout(() => {
 					this.check()
 				}, CHECK_INTERVAL)
@@ -147,6 +181,7 @@ function mapDispatchToProps(dispatch) {
 			integrator: bindActionCreators(IntegratorActions, dispatch),
 			menu: bindActionCreators(MenuActions, dispatch),
 			projects: bindActionCreators(ProjectsActions, dispatch),
+			loading: bindActionCreators(LoadingActions, dispatch),
 		}
 	}
 }
