@@ -170,7 +170,10 @@ class ProjectAdd extends Component {
 				return nodegit.Repository.open(path)
 					.catch((error) => {
 						console.warn(error)
-						errorMessage = 'Umístění neobsahuje projekt'
+						this.props.actions.status.addStatus(
+							'Umístění neobsahuje projekt'
+						)
+						errorMessage = 'Použijte dřívě vytvořený'
 						throw new Error('Invalid location.')
 					})
 			})
