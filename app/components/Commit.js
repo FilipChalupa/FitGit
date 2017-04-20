@@ -16,18 +16,7 @@ const IntegratorActions = require('../actions/integrator')
 const StatusActions = require('../actions/status')
 const exec = require('child-process-promise').exec
 const Diff = require('./Diff')
-
-const STATUS_UNMODIFIED = 'unmodified'
-const STATUS_ADDED = 'added'
-const STATUS_DELETED = 'deleted'
-const STATUS_MODIFIED = 'modified'
-const STATUS_RENAMED = 'renamed'
-const STATUS_COPIED = 'copied'
-const STATUS_IGNORED = 'ignored'
-const STATUS_UNTRACKED = 'untracked'
-const STATUS_TYPECHANGE = 'typechange'
-const STATUS_UNREADABLE = 'unreadable'
-const STATUS_CONFLICTED = 'conflicted'
+const status = require('../utils/status')
 
 class Commit extends Component {
 
@@ -52,29 +41,29 @@ class Commit extends Component {
 
 
 	getDeltaStatusKey(num) {
-		if (num === nodegit.Diff.DELTA.UNMODIFIED) return STATUS_UNMODIFIED
-		if (num === nodegit.Diff.DELTA.ADDED) return STATUS_ADDED
-		if (num === nodegit.Diff.DELTA.DELETED) return STATUS_DELETED
-		if (num === nodegit.Diff.DELTA.MODIFIED) return STATUS_MODIFIED
-		if (num === nodegit.Diff.DELTA.RENAMED) return STATUS_RENAMED
-		if (num === nodegit.Diff.DELTA.COPIED) return STATUS_COPIED
-		if (num === nodegit.Diff.DELTA.IGNORED) return STATUS_IGNORED
-		if (num === nodegit.Diff.DELTA.UNTRACKED) return STATUS_UNTRACKED
-		if (num === nodegit.Diff.DELTA.TYPECHANGE) return STATUS_TYPECHANGE
-		if (num === nodegit.Diff.DELTA.UNREADABLE) return STATUS_UNREADABLE
-		if (num === nodegit.Diff.DELTA.CONFLICTED) return STATUS_CONFLICTED
+		if (num === nodegit.Diff.DELTA.UNMODIFIED) return status.UNMODIFIED
+		if (num === nodegit.Diff.DELTA.ADDED) return status.ADDED
+		if (num === nodegit.Diff.DELTA.DELETED) return status.DELETED
+		if (num === nodegit.Diff.DELTA.MODIFIED) return status.MODIFIED
+		if (num === nodegit.Diff.DELTA.RENAMED) return status.RENAMED
+		if (num === nodegit.Diff.DELTA.COPIED) return status.COPIED
+		if (num === nodegit.Diff.DELTA.IGNORED) return status.IGNORED
+		if (num === nodegit.Diff.DELTA.UNTRACKED) return status.UNTRACKED
+		if (num === nodegit.Diff.DELTA.TYPECHANGE) return status.TYPECHANGE
+		if (num === nodegit.Diff.DELTA.UNREADABLE) return status.UNREADABLE
+		if (num === nodegit.Diff.DELTA.CONFLICTED) return status.CONFLICTED
 	}
 
 
 	getStatusKeys(artifact) {
 		const keys = []
 
-		if (artifact.isNew()) { keys.push(STATUS_ADDED) }
-		if (artifact.isModified()) { keys.push(STATUS_MODIFIED) }
-		if (artifact.isTypechange()) { keys.push(STATUS_TYPECHANGE) }
-		if (artifact.isRenamed()) { keys.push(STATUS_RENAMED) }
-		if (artifact.isIgnored()) { keys.push(STATUS_IGNORED) }
-		if (artifact.isDeleted()) { keys.push(STATUS_DELETED) }
+		if (artifact.isNew()) { keys.push(status.ADDED) }
+		if (artifact.isModified()) { keys.push(status.MODIFIED) }
+		if (artifact.isTypechange()) { keys.push(status.TYPECHANGE) }
+		if (artifact.isRenamed()) { keys.push(status.RENAMED) }
+		if (artifact.isIgnored()) { keys.push(status.IGNORED) }
+		if (artifact.isDeleted()) { keys.push(status.DELETED) }
 
 		return keys
 	}
@@ -166,7 +155,7 @@ class Commit extends Component {
 									position: 'relative',
 									top: 5,
 									marginRight: 3,
-									opacity: artifact.status.includes(STATUS_ADDED) ? 1 : 0,
+									opacity: artifact.status.includes(status.ADDED) ? 1 : 0,
 								},
 							}
 						),*/
@@ -451,7 +440,7 @@ class Commit extends Component {
 					if (delta.status() === nodegit.Diff.DELTA.UNTRACKED) {
 						untracked.push(this.getArtifactForm(
 							statusPath,
-							STATUS_ADDED
+							status.ADDED
 						))
 					} else {
 						tracked.push(this.getArtifactForm(

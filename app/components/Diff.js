@@ -8,18 +8,7 @@ const nodegit = require('../utils/nodegit').nodegit
 const c = require('material-ui/Card')
 const Card = c.Card
 const CardTitle = c.CardTitle
-
-const STATUS_ADDED = 'added'
-const STATUS_CONFLICTED = 'conflicted'
-const STATUS_COPIED = 'copied'
-const STATUS_DELETED = 'deleted'
-const STATUS_IGNORED = 'ignored'
-const STATUS_MODIFIED = 'modified'
-const STATUS_RENAMED = 'renamed'
-const STATUS_TYPECHANGE = 'typechange'
-const STATUS_UNMODIFIED = 'unmodified'
-const STATUS_UNREADABLE = 'unreadable'
-const STATUS_UNTRACKED = 'untracked'
+const status = require('../utils/status')
 
 class Diff extends Component {
 
@@ -57,17 +46,17 @@ class Diff extends Component {
 	getStatusKeys(patch) {
 		const keys = []
 
-		if (patch.isAdded()) { keys.push(STATUS_ADDED) }
-		if (patch.isConflicted()) { keys.push(STATUS_CONFLICTED) }
-		if (patch.isCopied()) { keys.push(STATUS_COPIED) }
-		if (patch.isDeleted()) { keys.push(STATUS_DELETED) }
-		if (patch.isIgnored()) { keys.push(STATUS_IGNORED) }
-		if (patch.isModified()) { keys.push(STATUS_MODIFIED) }
-		if (patch.isRenamed()) { keys.push(STATUS_RENAMED) }
-		if (patch.isTypeChange()) { keys.push(STATUS_TYPECHANGE) }
-		if (patch.isUnmodified()) { keys.push(STATUS_UNMODIFIED) }
-		if (patch.isUnreadable()) { keys.push(STATUS_UNREADABLE) }
-		if (patch.isUntracked()) { keys.push(STATUS_UNTRACKED) }
+		if (patch.isAdded()) { keys.push(status.ADDED) }
+		if (patch.isConflicted()) { keys.push(status.CONFLICTED) }
+		if (patch.isCopied()) { keys.push(status.COPIED) }
+		if (patch.isDeleted()) { keys.push(status.DELETED) }
+		if (patch.isIgnored()) { keys.push(status.IGNORED) }
+		if (patch.isModified()) { keys.push(status.MODIFIED) }
+		if (patch.isRenamed()) { keys.push(status.RENAMED) }
+		if (patch.isTypeChange()) { keys.push(status.TYPECHANGE) }
+		if (patch.isUnmodified()) { keys.push(status.UNMODIFIED) }
+		if (patch.isUnreadable()) { keys.push(status.UNREADABLE) }
+		if (patch.isUntracked()) { keys.push(status.UNTRACKED) }
 
 		return keys
 	}
