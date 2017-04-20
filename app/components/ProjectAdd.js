@@ -145,6 +145,7 @@ class ProjectAdd extends Component {
 						this.props.actions.projects.removeProject(project)
 					}
 				)
+				this.props.actions.projects.setActiveProject(project)
 			})
 			.catch((error) => {
 				console.error(error)
