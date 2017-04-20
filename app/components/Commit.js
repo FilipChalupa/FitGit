@@ -3,13 +3,13 @@ const e = React.createElement
 const Component = React.Component
 const bindActionCreators = require('redux').bindActionCreators
 const connect = require('react-redux').connect
-const FlatButton = require('material-ui/FlatButton').default
 const RefreshIcon = require('material-ui/svg-icons/navigation/refresh').default
 const NewIcon = require('material-ui/svg-icons/av/fiber-new').default
 const SelectAllIcon = require('material-ui/svg-icons/content/select-all').default
 const nodegit = require('../utils/nodegit').nodegit
 const RaisedButton = require('material-ui/RaisedButton').default
 const TextField = require('material-ui/TextField').default
+const IconButton = require('material-ui/IconButton').default
 const LoadingActions = require('../actions/loading')
 const ProjectsActions = require('../actions/projects')
 const IntegratorActions = require('../actions/integrator')
@@ -254,20 +254,22 @@ class Commit extends Component {
 							},
 						},
 						e(
-							FlatButton,
+							IconButton,
 							{
-								icon: e(SelectAllIcon),
+								tooltip: !this.isAllStaged() ? 'Označit vše' : 'Odznačit vše',
 								onTouchTap: !this.isAllStaged() ? this.selectAll.bind(this) : this.unselectAll.bind(this),
 								disabled: this.state.refreshing || this.state.updating
-							}
+							},
+							e(SelectAllIcon)
 						),
 						e(
-							FlatButton,
+							IconButton,
 							{
-								icon: e(RefreshIcon),
+								tooltip: 'Aktualizovat',
 								onTouchTap: this.refresh.bind(this),
 								disabled: this.state.refreshing || this.state.updating,
-							}
+							},
+							e(RefreshIcon)
 						)
 					),
 
