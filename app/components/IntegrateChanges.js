@@ -4,7 +4,7 @@ const Component = React.Component
 const bindActionCreators = require('redux').bindActionCreators
 const connect = require('react-redux').connect
 const RaisedButton = require('material-ui/RaisedButton').default
-const FlatButton = require('material-ui/FlatButton').default
+const IconButton = require('material-ui/IconButton').default
 const RefreshIcon = require('material-ui/svg-icons/navigation/refresh').default
 const n = require('../utils/nodegit')
 const nodegit = n.nodegit
@@ -202,15 +202,20 @@ class IntegrateChanges extends Component {
 							secondary: true,
 							onTouchTap: this.accept.bind(this),
 							disabled: this.state.updating,
+							style: {
+								position: 'relative',
+								top: -7,
+							}
 						}
 					),
 					e(
-						FlatButton,
+						IconButton,
 						{
-							icon: e(RefreshIcon),
+							tooltip: 'Aktualizovat',
 							onTouchTap: this.refresh.bind(this),
 							disabled: this.state.updating,
-						}
+						},
+						e(RefreshIcon)
 					)
 				),
 				e(
