@@ -77,11 +77,21 @@ class IntegrateChanges extends Component {
 			})
 			.then((commit) => {
 				this.commonTopCommit = commit
-				if (this.commonTopCommit && this.remoteTopCommit) {
-					this.setState(Object.assign({}, this.state, {
-						shaA: this.remoteTopCommit.sha(),
-						shaB: this.commonTopCommit.sha(),
-					}))
+				if (this.remoteTopCommit) {
+					Promise.resolve()
+						.then(() => {
+							if (this.commonTopCommit) {
+								return this.commonTopCommit
+							} else {
+								return null
+							}
+						})
+						.then((secondCommit) => {
+							this.setState(Object.assign({}, this.state, {
+								shaA: this.remoteTopCommit.sha(),
+								shaB: secondCommit && secondCommit.sha(),
+							}))
+						})
 				}
 			})
 			.catch((error) => {
