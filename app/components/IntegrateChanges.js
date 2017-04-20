@@ -14,6 +14,7 @@ const LoadingActions = require('../actions/loading')
 const StatusActions = require('../actions/status')
 const Diff = require('./Diff')
 const hashHistory = require('react-router').hashHistory
+const exec = require('child-process-promise').exec
 
 class IntegrateChanges extends Component {
 
@@ -132,7 +133,24 @@ class IntegrateChanges extends Component {
 		const author = this.repo.defaultSignature()
 		return Promise.resolve()
 			.then((commit) => nodegit.Reset(this.repo, this.localTopCommit, nodegit.Reset.TYPE.MIXED))
-			.then(() => this.repo.mergeBranches(this.localBranch, this.remoteBranch, author))
+			.then(() => {
+				return this.repo.mergeBranches(this.localBranch, this.remoteBranch, author)
+					.catch((error) => {
+						console.warn(error)
+						console.info('Trying to exec `git merge origin/master --allow-unrelated-histories`')
+						return exec(`cd ${this.props.projects.active.path} && git merge origin/master --allow-unrelated-histories`)
+							.catch((error) => {
+								console.info('Exec `git merge ...` has failed. Reverting.')
+								this.props.actions.status.addStatus(
+									'Sloučení změn se kvůli konfliktu nezdařilo'
+								)
+								return exec(`cd ${this.props.projects.active.path} && git merge --abort`)
+									.then(() => {
+										throw error
+									})
+							})
+					})
+			})
 			.then(() => {
 				this.props.actions.status.addStatus(
 					'Nové změny byly začleněny'
