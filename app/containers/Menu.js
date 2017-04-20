@@ -16,7 +16,7 @@ const ProjectsIcon = require('material-ui/svg-icons/device/storage').default
 const ProjectIcon = require('material-ui/svg-icons/action/lightbulb-outline').default
 const HistoryIcon = require('material-ui/svg-icons/action/settings-backup-restore').default
 const IntegrateChangesIcon = require('material-ui/svg-icons/action/get-app').default
-const IntegrateChangesAlertIcon = require('material-ui/svg-icons/av/new-releases').default
+const AlertIcon = require('material-ui/svg-icons/av/new-releases').default
 const FlatButton = require('material-ui/FlatButton').default
 const ProjectsActions = require( '../actions/projects')
 const IntegratorActions = require( '../actions/integrator')
@@ -59,14 +59,15 @@ class Menu extends Component {
 					'/integrateChanges',
 					t(this.props.settings.language, 'menu_integrateChanges'),
 					e(IntegrateChangesIcon),
-					this.props.integrator.notification ? e(IntegrateChangesAlertIcon) : null
+					this.props.integrator.notification ? e(AlertIcon) : null
 				))
 			}
-			if (this.props.menu.canCreateCommit) {
+			if (this.props.integrator.commitAvailable) {
 				items.push(this.getItem(
 					'/commit',
 					t(this.props.settings.language, 'menu_commit'),
-					e(CommitIcon)
+					e(CommitIcon),
+					this.props.integrator.commitNotification ? e(AlertIcon) : null
 				))
 			}
 		}
@@ -108,7 +109,7 @@ class Menu extends Component {
 						onLeftIconButtonTouchTap: this.handleToggle.bind(this),
 						onRightIconButtonTouchTap: this.props.menu.action && (() => hashHistory.push(this.props.menu.action.route)),
 						title: title,
-						iconElementLeft: (this.props.integrator.notification || null) && e(IconButton, null, e(IntegrateChangesAlertIcon)),
+						iconElementLeft: (this.props.integrator.notification || this.props.integrator.commitNotification || null) && e(IconButton, null, e(AlertIcon)),
 						iconElementRight: this.props.menu.action && e(FlatButton, { label: this.props.menu.action.title}),
 					}
 				),

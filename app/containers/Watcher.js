@@ -25,6 +25,8 @@ class Watcher extends Component {
 		this.lastProblems = {
 			usernamePassword: null,
 		}
+
+		this.notifyAboutCommitSuggestion = true
 	}
 
 
@@ -36,7 +38,14 @@ class Watcher extends Component {
 	refreshCanCommit(repo) {
 		return repo.getStatus()
 			.then((artifacts) => {
-				this.props.actions.menu.canCreateCommit(repo.isDefaultState() && artifacts.length !== 0)
+				const available = repo.isDefaultState() && artifacts.length !== 0
+				const notification = this.notifyAboutCommitSuggestion && available && !this.props.integrator.commitNotification // @TODO: chytřejší rozhodování
+				if (notification) {
+					this.notifyAboutCommitSuggestion = false
+				} else if (!available) {
+					this.notifyAboutCommitSuggestion = true
+				}
+				this.props.actions.integrator.setCommitAvailable(available, notification)
 			})
 	}
 

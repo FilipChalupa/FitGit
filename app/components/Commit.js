@@ -12,6 +12,7 @@ const RaisedButton = require('material-ui/RaisedButton').default
 const TextField = require('material-ui/TextField').default
 const LoadingActions = require('../actions/loading')
 const ProjectsActions = require('../actions/projects')
+const IntegratorActions = require('../actions/integrator')
 const StatusActions = require('../actions/status')
 const exec = require('child-process-promise').exec
 
@@ -407,6 +408,7 @@ class Commit extends Component {
 
 	componentDidMount() {
 		this.refresh()
+		this.props.actions.integrator.dismissCommitNotification()
 	}
 
 	getUnstaged(repo) {
@@ -503,6 +505,7 @@ class Commit extends Component {
 
 function mapStateToProps(state) {
 	return {
+		integrator: state.integrator,
 		loading: state.loading,
 		projects: state.projects,
 	}
@@ -511,6 +514,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		actions: {
+			integrator: bindActionCreators(IntegratorActions, dispatch),
 			loading: bindActionCreators(LoadingActions, dispatch),
 			projects: bindActionCreators(ProjectsActions, dispatch),
 			status: bindActionCreators(StatusActions, dispatch),
