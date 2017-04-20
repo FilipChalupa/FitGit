@@ -124,6 +124,7 @@ class CommitDetail extends Component {
 							Time,
 							{
 								date,
+								firstUpper: true,
 							}
 						),
 						avatar: gravatar.url(author.email(), {protocol: 'https', s: '80', r: 'pg', d: 'mm'}),

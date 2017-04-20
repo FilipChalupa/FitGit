@@ -6,6 +6,7 @@ const connect = require('react-redux').connect
 const nodegit = require('../utils/nodegit').nodegit
 const LoadingActions = require('../actions/loading')
 const CircularProgress = require('material-ui/CircularProgress').default
+const Time = require('./Time')
 
 class Contributors extends Component {
 
@@ -36,35 +37,43 @@ class Contributors extends Component {
 	refresh() {
 		const contributors = []
 		const emails = []
+		let commitsPool = []
 		this.setLoading(true)
 
-		const processCommit = (commit) => {
-			const author = commit.author()
+		const processPool = () => {
+			if (commitsPool.length === 0) {
+				return Promise.resolve()
+			}
+
+			const nextCommit = commitsPool.reduce((accumulator, current) => {
+				if (accumulator.timeMs() < current.timeMs()) {
+					return current
+				}
+				return accumulator
+			})
+			commitsPool = commitsPool.filter((commit) => commit.sha() !== nextCommit.sha())
+
+			const author = nextCommit.author()
 			if (emails.indexOf(author.email()) === -1) {
 				emails.push(author.email())
 				contributors.push({
 					email: author.email(),
 					name: author.name(),
+					timestamp: author.when().time(),
 				})
 			}
 
-			if (commit.parentcount() === 0) {
-				return Promise.resolve()
-			} else {
-				return commit.getParents() // @TODO: tenhle postup zbytečně nekolikrát navštěvuje některé commity
-					.then((parents) => {
-						return Promise.all(parents.map((parent) => {
-							return processCommit(parent)
-						}))
-					})
-			}
+			return nextCommit.getParents()
+				.then((parents) => commitsPool = commitsPool.concat(parents))
+				.then(() => processPool())
 		}
 
 		nodegit.Repository.open(this.props.project.path)
 			.then((repo) => repo.getHeadCommit())
 			.then((commit) => {
 				if (commit) {
-					return processCommit(commit)
+					commitsPool.push(commit)
+					return processPool()
 						.then(() => {
 							this.setState(Object.assign({}, this.state, {
 								contributors,
@@ -86,8 +95,35 @@ class Contributors extends Component {
 				'div',
 				{
 					key: contributor.email,
+					className: 'contributors-item',
 				},
-				`${contributor.name} <${contributor.email}>`
+				e(
+					'div',
+					{
+						className: 'contributors-name',
+					},
+					contributor.name
+				),
+				e(
+					'div',
+					{
+						className: 'contributors-email',
+					},
+					contributor.email
+				),
+				e(
+					'div',
+					{
+						className: 'contributors-lastDate',
+					},
+					'Poslední úprava: ',
+					e(
+						Time,
+						{
+							date: new Date(contributor.timestamp * 1000),
+						}
+					)
+				)
 			)
 		})
 	}
@@ -97,7 +133,9 @@ class Contributors extends Component {
 		return (
 			e(
 				'div',
-				null,
+				{
+					className: 'contributors',
+				},
 				e('h2', null, 'Autoři'),
 				this.state.loading ? e(CircularProgress) : this.renderList()
 			)

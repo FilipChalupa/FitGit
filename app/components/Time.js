@@ -33,7 +33,10 @@ class Time extends Component {
 
 
 	firstUpper(text) {
-		return text.charAt(0).toUpperCase() + text.slice(1)
+		if (this.props.firstUpper) {
+			return text.charAt(0).toUpperCase() + text.slice(1)
+		}
+		return text
 	}
 
 
@@ -56,7 +59,7 @@ class Time extends Component {
 
 		return (
 			e(
-				'div',
+				'span',
 				{
 					title: moment(this.props.date).format(),
 				},

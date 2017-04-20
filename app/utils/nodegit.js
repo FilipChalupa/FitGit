@@ -57,12 +57,8 @@ const getCommonTopCommit = function(repo, localTopCommit, remoteTopCommit) {
 		if (commitsPool.length === 0) {
 			return null
 		}
-		const nextCommit = commitsPool.reduce((accumulator, current) => {
-			if (accumulator.commit.timeMs() < current.commit.timeMs()) {
-				return current
-			}
-			return accumulator
-		})
+		const nextCommit = getNewestCommitFromPool(commitsPool)
+
 		commitsPool = commitsPool.filter((commit) => {
 			if (commit.commit.sha() === nextCommit.commit.sha()) {
 				nextCommit.isRemote = nextCommit.isRemote || commit.isRemote
@@ -88,6 +84,16 @@ const getCommonTopCommit = function(repo, localTopCommit, remoteTopCommit) {
 }
 
 
+function getNewestCommitFromPool(pool) {
+	return pool.reduce((accumulator, current) => {
+		if (accumulator.commit.timeMs() < current.commit.timeMs()) {
+			return current
+		}
+		return accumulator
+	})
+}
+
+
 module.exports = {
 	nodegit,
 	getBranches,
@@ -96,4 +102,5 @@ module.exports = {
 	getRemoteBranches,
 	getCurrentBranch,
 	getCommonTopCommit,
+	getNewestCommitFromPool,
 }

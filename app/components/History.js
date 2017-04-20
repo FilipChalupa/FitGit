@@ -4,7 +4,9 @@ const Component = React.Component
 const bindActionCreators = require('redux').bindActionCreators
 const connect = require('react-redux').connect
 const LoadingActions = require('../actions/loading')
-const nodegit = require('../utils/nodegit').nodegit
+const n = require('../utils/nodegit')
+const nodegit = n.nodegit
+const getNewestCommitFromPool = n.getNewestCommitFromPool
 const hashHistory = require('react-router').hashHistory
 const RaisedButton = require('material-ui/RaisedButton').default
 const IconButton = require('material-ui/IconButton').default
@@ -105,15 +107,10 @@ class History extends Component {
 
 		const processPool = () => {
 			if (commitsPool.length === 0 || tree.length === LIMIT) { // @TODO: note to user that limit was reached
-				return
+				return Promise.resolve()
 			}
 
-			const nextCommit = commitsPool.reduce((accumulator, current) => {
-				if (accumulator.commit.timeMs() < current.commit.timeMs()) {
-					return current
-				}
-				return accumulator
-			})
+			const nextCommit = getNewestCommitFromPool(commitsPool)
 
 			commitsPool = commitsPool.filter((commit) => {
 				if (commit.commit.sha() === nextCommit.commit.sha()) {
