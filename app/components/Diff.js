@@ -118,9 +118,12 @@ class Diff extends Component {
 			return hunk.lines()
 				.then((lines) => {
 					artifacts[currentPathIndex].hunks.push(lines.map((line) => {
+						const origin = String.fromCharCode(line.origin())
+						const lineNumber = (line.newLineno() !== -1) ? line.newLineno() : line.oldLineno()
 						return {
-							origin: String.fromCharCode(line.origin()),
+							origin,
 							content: line.content(),
+							line: lineNumber,
 						}
 					}))
 				})
@@ -216,12 +219,32 @@ class Diff extends Component {
 							}
 							return (
 								e(
-									'pre',
+									'div',
 									{
 										key: l,
 										className: classes.join(' '),
 									},
-									line.origin + line.content
+									e(
+										'div',
+										{
+											className: 'diff-line-number',
+										},
+										`${line.line}.`
+									),
+									e(
+										'div',
+										{
+											className: 'diff-line-origin',
+										},
+										line.origin
+									),
+									e(
+										'pre',
+										{
+											className: 'diff-line-code',
+										},
+										line.content
+									)
 								)
 							)
 						})
