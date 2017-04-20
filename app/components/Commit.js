@@ -202,7 +202,9 @@ class Commit extends Component {
 				},
 				e(
 					'h3',
-					null,
+					{
+						className: 'commit-label',
+					},
 					'Zvolené'
 				),
 				trackedStaged.length === 0 ? e(
@@ -218,22 +220,24 @@ class Commit extends Component {
 				},
 				e(
 					'h3',
-					null,
-					'Nezvolené',
-					e(
-						'div',
-						{
-							key: 'trackedUnstaged',
-						},
-						trackedUnstaged
-					),
-					e(
-						'div',
-						{
-							key: 'untracked',
-						},
-						untracked
-					)
+					{
+						className: 'commit-label',
+					},
+					'Nezvolené'
+				),
+				e(
+					'div',
+					{
+						key: 'trackedUnstaged',
+					},
+					trackedUnstaged
+				),
+				e(
+					'div',
+					{
+						key: 'untracked',
+					},
+					untracked
 				)
 			)
 		]
