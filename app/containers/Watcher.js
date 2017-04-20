@@ -15,7 +15,7 @@ const notify = require('../utils/notify')
 const redirectWithReload = require('../utils/redirectWithReload')
 const exec = require('child-process-promise').exec
 
-const CHECK_INTERVAL = 1500
+const CHECK_INTERVAL = 3000
 
 class Watcher extends Component {
 
