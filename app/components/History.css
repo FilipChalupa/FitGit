@@ -97,6 +97,7 @@
 	text-align: left;
 	width: 100%;
 	cursor: pointer;
+	min-height: 40px;
 }
 
 .history-node-in:hover,
