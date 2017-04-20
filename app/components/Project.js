@@ -14,13 +14,13 @@ module.exports = class Project extends Component {
 				null,
 				e('h1', null, 'Detail projektu'),
 				e(
-					AuthSetter,
+					Contributors,
 					{
 						project: this.props.projects.active,
 					}
 				),
 				e(
-					Contributors,
+					AuthSetter,
 					{
 						project: this.props.projects.active,
 					}
