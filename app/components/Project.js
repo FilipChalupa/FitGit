@@ -24,13 +24,13 @@ module.exports = class Project extends Component {
 					{
 						project: this.props.projects.active,
 					}
-				),
+				)/*,
 				e(
 					Branches,
 					{
 						project: this.props.projects.active,
 					}
-				)
+				)*/
 			)
 		)
 	}
