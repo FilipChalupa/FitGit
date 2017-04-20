@@ -136,6 +136,7 @@ class CommitDetail extends Component {
 
 	render() {
 		const message = this.state.mainCommit ? this.state.mainCommit.message().split('\n') : null
+		const commitHash = this.state.mainCommit ? this.state.mainCommit.sha() : null
 		return (
 			e(
 				'div',
@@ -144,6 +145,13 @@ class CommitDetail extends Component {
 					'h1',
 					null,
 					message ? message[0] : 'Detail commitu'
+				),
+				e(
+					'p',
+					{
+						className: 'commitDetail-hash',
+					},
+					`Unikátní identifikátor: ${commitHash}`
 				),
 				(!message || message.length <= 1) ? null : e(
 					'h3',

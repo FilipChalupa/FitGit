@@ -1,3 +1,9 @@
 .commitDetail-note {
 	margin-bottom: 20px;
 }
+
+.commitDetail-hash {
+	opacity: 0.5;
+	font-size: 0.75em;
+	margin-bottom: 20px;
+}
