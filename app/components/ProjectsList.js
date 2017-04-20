@@ -3,7 +3,7 @@ const e = React.createElement
 const Component = React.Component
 const Card = require('material-ui/Card').Card
 const CardActions = require('material-ui/Card').CardActions
-const CardHeader = require('material-ui/Card').CardHeader
+const CardTitle = require('material-ui/Card').CardTitle
 const CardText = require('material-ui/Card').CardText
 const FlatButton = require('material-ui/FlatButton').default
 const RaisedButton = require('material-ui/RaisedButton').default
@@ -32,7 +32,8 @@ module.exports = class ProjectsList extends Component {
 			const style = {
 				marginBottom: '20px',
 			}
-			if (compareProjects(project, this.props.activeProject)) {
+			const isActive = compareProjects(project, this.props.activeProject)
+			if (isActive) {
 				style.backgroundColor = 'rgb(240, 240, 240)'
 			}
 			return (
@@ -43,16 +44,14 @@ module.exports = class ProjectsList extends Component {
 						style: style,
 					},
 					e(
-						CardHeader,
+						CardTitle,
 						{
 							title: project.name,
 							subtitle: project.note,
-							actAsExpander: false,
 							style: {
 								cursor: 'pointer',
 							},
-							//showExpandableButton: true,
-							onTouchTap: () => this.props.setActiveProject(project),
+							onTouchTap: () => this.selectProject(project),
 						}
 					),
 					e(
@@ -61,8 +60,9 @@ module.exports = class ProjectsList extends Component {
 						e(
 							RaisedButton,
 							{
-								label: 'Zvolit',
-								primary: true,
+								label: isActive ? 'Detail' : 'Zvolit',
+								primary: !isActive,
+								secondary: isActive,
 								onTouchTap: () => this.selectProject(project),
 							}
 						),
@@ -74,12 +74,6 @@ module.exports = class ProjectsList extends Component {
 							}
 						)
 					)
-					/*<CardText expandable={true}>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-						Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-						Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-					</CardText>*/
 				)
 			)
 		})
