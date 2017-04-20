@@ -15,6 +15,7 @@ const ProjectsActions = require('../actions/projects')
 const IntegratorActions = require('../actions/integrator')
 const StatusActions = require('../actions/status')
 const exec = require('child-process-promise').exec
+const Diff = require('./Diff')
 
 const STATUS_UNMODIFIED = 'unmodified'
 const STATUS_ADDED = 'added'
@@ -42,6 +43,8 @@ class Commit extends Component {
 			updating: false,
 			commitMessage: '',
 			commiting: false,
+			previewCommit: null,
+			previewParentCommit: null,
 		}
 
 		this.repo = null
@@ -314,6 +317,22 @@ class Commit extends Component {
 								disabled: this.state.commiting || this.isAllUnstaged(),
 							}
 						)
+					),
+					this.state.previewCommit && this.state.previewParentCommit && e(
+						'div',
+						null,
+						e(
+							'h2',
+							null,
+							'Detail zvolených změn'
+						),
+						e(
+							Diff,
+							{
+								shaA: this.state.previewCommit.sha(),
+								shaB: this.state.previewParentCommit.sha(),
+							}
+						)
 					)
 				)
 			)
@@ -475,6 +494,8 @@ class Commit extends Component {
 		this.setRefreshing(true)
 		let staged
 		let unstaged
+		let previewCommit = null
+		let previewParentCommit = null
 		nodegit.Repository.open(this.props.projects.active.path)
 			.then((repo) => this.repo = repo)
 			.then(() => this.getStaged(this.repo))
@@ -488,11 +509,41 @@ class Commit extends Component {
 					untracked: unstaged.untracked,
 				}))
 			})
+			.then(() => {
+				if (!this.isAllUnstaged()) {
+					let oid
+					return this.repo.refreshIndex()
+						.then((index) => index.writeTree())
+						.then((o) => oid = o)
+						.then(() => nodegit.Reference.nameToId(this.repo, 'HEAD'))
+						.then((head) => this.repo.getCommit(head))
+						.then((parent) => {
+							const author = this.repo.defaultSignature()
+							const parents = []
+							if (parent) {
+								previewParentCommit = parent
+								parents.push(parent)
+							}
+							return this.repo.createCommit(null, author, author, '', oid, parents)
+						})
+						.then((commitOid) => {
+							return nodegit.Commit.lookup(this.repo, commitOid)
+								.then((commit) => {
+									if (commit) {
+										previewCommit = commit
+									}
+								})
+						})
+				}
+			})
 			.catch((e) => {
 				console.error(e)
 			})
 			.then(() => {
 				this.setRefreshing(false)
+				if (previewCommit !== this.state.previewCommit) {
+					this.setState(Object.assign({}, this.state, { previewCommit, previewParentCommit }))
+				}
 			})
 	}
 
