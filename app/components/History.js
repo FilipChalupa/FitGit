@@ -7,7 +7,7 @@ const LoadingActions = require('../actions/loading')
 const nodegit = require('../utils/nodegit').nodegit
 const hashHistory = require('react-router').hashHistory
 const RaisedButton = require('material-ui/RaisedButton').default
-const FlatButton = require('material-ui/FlatButton').default
+const IconButton = require('material-ui/IconButton').default
 const RefreshIcon = require('material-ui/svg-icons/navigation/refresh').default
 const remoteCallbacks = require('../utils/remoteCallbacks')
 
@@ -297,12 +297,13 @@ class History extends Component {
 						}
 					),
 					e(
-						FlatButton,
+						IconButton,
 						{
-							icon: e(RefreshIcon),
+							tooltip: 'Aktualizovat',
 							onTouchTap: this.refresh.bind(this),
 							disabled: this.state.refreshing,
-						}
+						},
+						e(RefreshIcon)
 					)
 				),
 				this.renderTree()

@@ -5,6 +5,10 @@
 	clear: both;
 }
 
+.history-tree {
+	margin-top: 30px;
+}
+
 .history-node,
 .history-title {
 	position: relative;
