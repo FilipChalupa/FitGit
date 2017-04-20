@@ -64,8 +64,8 @@ class ProjectAdd extends Component {
 		this.setState(newState)
 	}
 
-	appendProject(project) {
-		const newProjects = this.props.projects.list.concat([project])
+	prependProject(project) {
+		const newProjects = [project].concat(this.props.projects.list)
 		this.props.actions.projects.setProjects(newProjects)
 	}
 
@@ -137,7 +137,7 @@ class ProjectAdd extends Component {
 				}
 			})
 			.then(() => {
-				this.appendProject(project)
+				this.prependProject(project)
 				this.props.actions.status.addStatus(
 					`Byl přidán projekt: ${project.name}`,
 					'Vrátit zpět',
