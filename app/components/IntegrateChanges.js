@@ -135,20 +135,25 @@ class IntegrateChanges extends Component {
 			.then((commit) => nodegit.Reset(this.repo, this.localTopCommit, nodegit.Reset.TYPE.MIXED))
 			.then(() => {
 				return this.repo.mergeBranches(this.localBranch, this.remoteBranch, author)
-					.catch((error) => {
-						console.warn(error)
-						console.info('Trying to exec `git merge origin/master --allow-unrelated-histories`')
-						return exec(`cd ${this.props.projects.active.path} && git merge origin/master --allow-unrelated-histories`)
-							.catch((error) => {
-								console.info('Exec `git merge ...` has failed. Reverting.')
-								this.props.actions.status.addStatus(
-									'Sloučení změn se kvůli konfliktu nezdařilo'
-								)
-								return exec(`cd ${this.props.projects.active.path} && git merge --abort`)
-									.then(() => {
-										throw error
-									})
-							})
+					.catch((index) => {
+						if (typeof index === 'object' && index.hasConflicts && index.hasConflicts()) {
+							return this.solveConflict(index)
+						} else {
+							// Actually it is not an index
+							console.warn(error)
+							console.info('Trying to exec `git merge origin/master --allow-unrelated-histories`')
+							return exec(`cd ${this.props.projects.active.path} && git merge origin/master --allow-unrelated-histories`)
+								.catch((error) => {
+									console.info('Exec `git merge ...` has failed. Reverting.')
+									this.props.actions.status.addStatus(
+										'Sloučení změn se kvůli konfliktu nezdařilo'
+									)
+									return exec(`cd ${this.props.projects.active.path} && git merge --abort`)
+										.then(() => {
+											throw error
+										})
+								})
+						}
 					})
 			})
 			.then(() => {
@@ -156,13 +161,6 @@ class IntegrateChanges extends Component {
 					'Nové změny byly začleněny'
 				)
 				return true
-			})
-			.catch((index) => {
-				if (typeof index === 'object' && index.hasConflicts && index.hasConflicts()) {
-					return this.solveConflict(index)
-				} else {
-					throw index // Actually it is not an index
-				}
 			})
 	}
 
