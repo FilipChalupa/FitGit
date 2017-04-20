@@ -5,6 +5,7 @@ const bindActionCreators = require('redux').bindActionCreators
 const connect = require('react-redux').connect
 const nodegit = require('../utils/nodegit').nodegit
 const LoadingActions = require('../actions/loading')
+const CircularProgress = require('material-ui/CircularProgress').default
 
 class Contributors extends Component {
 
@@ -13,6 +14,7 @@ class Contributors extends Component {
 
 		this.state = {
 			contributors: [],
+			loading: false,
 		}
 	}
 
@@ -20,10 +22,21 @@ class Contributors extends Component {
 		this.refresh()
 	}
 
+
+	setLoading(loading) {
+		this.setState(Object.assign({}, this.state, { loading }))
+		if (loading) {
+			this.props.actions.loading.IncrementLoadingJobs()
+		} else {
+			this.props.actions.loading.DecrementLoadingJobs()
+		}
+	}
+
+
 	refresh() {
 		const contributors = []
 		const emails = []
-		this.props.actions.loading.IncrementLoadingJobs()
+		this.setLoading(true)
 
 		const processCommit = (commit) => {
 			const author = commit.author()
@@ -63,7 +76,7 @@ class Contributors extends Component {
 				console.error(error)
 			})
 			.then(() => {
-				this.props.actions.loading.DecrementLoadingJobs()
+				this.setLoading(false)
 			})
 	}
 
@@ -86,7 +99,7 @@ class Contributors extends Component {
 				'div',
 				null,
 				e('h2', null, 'Autoři'),
-				this.renderList()
+				this.state.loading ? e(CircularProgress) : this.renderList()
 			)
 		)
 	}
