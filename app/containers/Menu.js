@@ -22,6 +22,7 @@ const ProjectsActions = require( '../actions/projects')
 const IntegratorActions = require( '../actions/integrator')
 const hashHistory = require('react-router').hashHistory
 const t = require('../utils/text')
+const ActionCloseIcon = require('material-ui/svg-icons/image/navigate-before').default
 
 class Menu extends Component {
 
@@ -110,7 +111,10 @@ class Menu extends Component {
 						onRightIconButtonTouchTap: this.props.menu.action && (() => hashHistory.push(this.props.menu.action.route)),
 						title: title,
 						iconElementLeft: (this.props.integrator.notification || this.props.integrator.commitNotification || null) && e(IconButton, null, e(AlertIcon)),
-						iconElementRight: this.props.menu.action && e(FlatButton, { label: this.props.menu.action.title}),
+						iconElementRight: this.props.menu.action && e(FlatButton, {
+							label: this.props.menu.action.title,
+							icon: e(ActionCloseIcon),
+						}),
 					}
 				),
 
