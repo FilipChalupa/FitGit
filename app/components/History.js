@@ -291,6 +291,10 @@ class History extends Component {
 							secondary: true,
 							onTouchTap: () => this.push(),
 							disabled: this.state.refreshing,
+							style: {
+								position: 'relative',
+								top: -7,
+							},
 						}
 					),
 					e(
