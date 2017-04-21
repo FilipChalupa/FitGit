@@ -18,18 +18,6 @@
 /* File staged */
 .commit-full {}
 
-.commit-selected {
-	display: inline-block;
-	margin-right: 0.5em;
-	width: 1em;
-	height: 1em;
-	border: 0.1em solid;
-	transition: background-color 0.3s;
-}
-.commit-full .commit-selected {
-	background-color: #00BCD4;
-}
-
 .commit-label {}
 
 .commit-status {

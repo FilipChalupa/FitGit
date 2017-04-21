@@ -4,7 +4,6 @@ const Component = React.Component
 const bindActionCreators = require('redux').bindActionCreators
 const connect = require('react-redux').connect
 const RefreshIcon = require('material-ui/svg-icons/navigation/refresh').default
-const NewIcon = require('material-ui/svg-icons/av/fiber-new').default
 const SelectAllIcon = require('material-ui/svg-icons/content/select-all').default
 const nodegit = require('../utils/nodegit').nodegit
 const RaisedButton = require('material-ui/RaisedButton').default
@@ -18,6 +17,7 @@ const exec = require('child-process-promise').exec
 const Diff = require('./Diff')
 const status = require('../utils/status')
 const t = require('../utils/text')
+const Checkbox = require('material-ui/Checkbox').default
 
 class Commit extends Component {
 
@@ -148,25 +148,23 @@ class Commit extends Component {
 							className: `commit-in ${staged && 'commit-full'}`,
 							onTouchTap: () => clickCallback(artifact.path),
 						},
-						e('span', { className: 'commit-selected' }),
-						/*e(
-							NewIcon,
-							{
-								style: {
-									position: 'relative',
-									top: 5,
-									marginRight: 3,
-									opacity: artifact.status.includes(status.ADDED) ? 1 : 0,
-								},
-							}
-						),*/
-						`${artifact.path} `,
 						e(
-							'span',
+							Checkbox,
 							{
-								className: 'commit-status',
-							},
-							'(' + t(this.props.settings.language, `status_${artifact.status}`) + ')'
+								checked: staged,
+								label: e(
+									'div',
+									null,
+									`${artifact.path} `,
+									e(
+										'span',
+										{
+											className: 'commit-status',
+										},
+										'(' + t(this.props.settings.language, `status_${artifact.status}`) + ')'
+									)
+								)
+							}
 						)
 					)
 				)
