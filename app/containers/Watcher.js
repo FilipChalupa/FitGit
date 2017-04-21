@@ -38,6 +38,9 @@ class Watcher extends Component {
 	refreshCanCommit(repo) {
 		return repo.getStatus()
 			.then((artifacts) => {
+				const stats = this.props.projects.active.stats
+				console.log(stats)
+
 				const available = repo.isDefaultState() && artifacts.length !== 0
 				const notification = this.notifyAboutCommitSuggestion && available && !this.props.integrator.commitNotification // @TODO: chytřejší rozhodování
 				if (notification) {

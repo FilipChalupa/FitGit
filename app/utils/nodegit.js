@@ -94,6 +94,42 @@ function getNewestCommitFromPool(pool) {
 }
 
 
+function countCommitStats(commit) {
+	const stats = {
+		additions: 0,
+		removals: 0,
+		files: 0,
+	}
+	let commitTree
+	return Promise.resolve()
+		.then(() => commit.getTree())
+		.then((tree) => commitTree = tree)
+		.then(() => commit.getParents())
+		.then((parents) => parents[0] && parents[0].getTree())
+		.then((parentTree) => commitTree.diff(parentTree))
+		.then((diffs) => {
+			return diffs.findSimilar({
+				flags: nodegit.Diff.FIND.RENAMES,
+			})
+				.then(() => diffs)
+		})
+		.then((diffs) => diffs.patches())
+		.then((patches) => {
+			patches.forEach((patch) => {
+				const patchStats = patch.lineStats()
+				stats.additions += patchStats.total_additions
+				stats.removals += patchStats.total_deletions
+				stats.files += 1
+			})
+		})
+		.then(() => stats)
+		.catch((error) => {
+			console.error(error)
+			return null
+		})
+}
+
+
 module.exports = {
 	nodegit,
 	getBranches,
@@ -103,4 +139,5 @@ module.exports = {
 	getCurrentBranch,
 	getCommonTopCommit,
 	getNewestCommitFromPool,
+	countCommitStats,
 }

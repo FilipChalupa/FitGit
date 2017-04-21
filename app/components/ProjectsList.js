@@ -30,7 +30,7 @@ module.exports = class ProjectsList extends Component {
 		}
 		return this.props.projects.map((project, i) => {
 			const style = {
-				marginBottom: '20px',
+				marginBottom: 20,
 			}
 			const isActive = compareProjects(project, this.props.activeProject)
 			if (isActive) {

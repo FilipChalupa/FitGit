@@ -124,6 +124,11 @@ class ProjectAdd extends Component {
 			note: localPath,
 			path: localPath,
 			key: Date.now(),
+			stats: {
+				additions: 0,
+				removals: 0,
+				files: 0,
+			},
 		}
 		this.openAddModal(false)
 
