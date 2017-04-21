@@ -18,5 +18,17 @@
 	"status_untracked": "nesledováno",
 	"status_typechange": "změna typu",
 	"status_unreadable": "nečitelné",
-	"status_conflicted": "konfliktní"
+	"status_conflicted": "konfliktní",
+	"commit_nothing_to_do": "Aktuálně nejsou v projektu žádné necommitované změny.",
+	"commit_staged_label": "Zvolené",
+	"commit_unstaged_label": "Nezvolené",
+	"commit_refresh": "Aktualizovat",
+	"commit_message_hint": "Stručný popis změn",
+	"commit_save": "Uložit",
+	"commit_detail": "Detail zvolených změn",
+	"commit_no_project": "Musíte zvolit projekt.",
+	"commit_created": "Commit byl vytvořen",
+	"commit_select_all": "Označit vše",
+	"commit_unselect_all": "Odznačit vše",
+	"": ""
 }

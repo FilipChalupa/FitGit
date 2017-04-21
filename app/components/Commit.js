@@ -187,7 +187,7 @@ class Commit extends Component {
 							textAlign: 'center',
 						},
 					},
-					'Aktuálně nejsou v projektu žádné necommitované změny.'
+					t(this.props.settings.language, 'commit_nothing_to_do')
 				)
 			)
 		}
@@ -203,7 +203,7 @@ class Commit extends Component {
 					{
 						className: 'commit-label',
 					},
-					'Zvolené'
+					t(this.props.settings.language, 'commit_staged_label')
 				),
 				trackedStaged.length === 0 ? e(
 					'div',
@@ -221,7 +221,7 @@ class Commit extends Component {
 					{
 						className: 'commit-label',
 					},
-					'Nezvolené'
+					t(this.props.settings.language, 'commit_unstaged_label')
 				),
 				e(
 					'div',
@@ -258,7 +258,7 @@ class Commit extends Component {
 						e(
 							IconButton,
 							{
-								tooltip: !this.isAllStaged() ? 'Označit vše' : 'Odznačit vše',
+								tooltip: t(this.props.settings.language, !this.isAllStaged() ? 'commit_select_all' : 'commit_unselect_all'),
 								onTouchTap: !this.isAllStaged() ? this.selectAll.bind(this) : this.unselectAll.bind(this),
 								disabled: this.state.refreshing || this.state.updating
 							},
@@ -267,7 +267,7 @@ class Commit extends Component {
 						e(
 							IconButton,
 							{
-								tooltip: 'Aktualizovat',
+								tooltip: t(this.props.settings.language, 'commit_refresh'),
 								onTouchTap: this.refresh.bind(this),
 								disabled: this.state.refreshing || this.state.updating,
 							},
@@ -297,7 +297,7 @@ class Commit extends Component {
 						e(
 							TextField,
 							{
-								hintText: 'Stručný popis změn',
+								hintText: t(this.props.settings.language, 'commit_message_hint'),
 								multiLine: true,
 								onChange: this.handleCommitMessageChange.bind(this),
 								value: this.state.commitMessage,
@@ -306,7 +306,7 @@ class Commit extends Component {
 						e(
 							RaisedButton,
 							{
-								label: 'Uložit',
+								label: t(this.props.settings.language, 'commit_save'),
 								secondary: true,
 								onTouchTap: this.commit.bind(this),
 								disabled: this.state.commiting || this.isAllUnstaged(),
@@ -319,7 +319,7 @@ class Commit extends Component {
 						e(
 							'h2',
 							null,
-							'Detail zvolených změn'
+							t(this.props.settings.language, 'commit_detail')
 						),
 						e(
 							Diff,
@@ -336,7 +336,7 @@ class Commit extends Component {
 				e(
 					'div',
 					null,
-					'Musíte zvolit projekt.'
+					t(this.props.settings.language, 'commit_no_project')
 				)
 			)
 		}
@@ -389,7 +389,9 @@ class Commit extends Component {
 			.then(() => {
 				this.setCommitMesage('')
 				this.refresh()
-				this.props.actions.status.addStatus('Commit byl vytvořen')
+				this.props.actions.status.addStatus(
+					t(this.props.settings.language, 'commit_created')
+				)
 			})
 			.catch((e) => {
 				console.error(e)
