@@ -7,5 +7,16 @@
 	"menu_projects": "Projekty",
 	"menu_history": "Historie",
 	"menu_settings": "Nastavení",
-	"settings_language": "Jazyk"
+	"settings_language": "Jazyk",
+	"status_unmodified": "nezměněno",
+	"status_added": "přidáno",
+	"status_deleted": "smazáno",
+	"status_modified": "upraveno",
+	"status_renamed": "přejmenováno",
+	"status_copied": "zkopírováno",
+	"status_ignored": "ignorováno",
+	"status_untracked": "nesledováno",
+	"status_typechange": "změna typu",
+	"status_unreadable": "nečitelné",
+	"status_conflicted": "konfliktní"
 }

@@ -9,6 +9,7 @@ const c = require('material-ui/Card')
 const Card = c.Card
 const CardTitle = c.CardTitle
 const status = require('../utils/status')
+const t = require('../utils/text')
 
 class Diff extends Component {
 
@@ -167,7 +168,7 @@ class Diff extends Component {
 						CardTitle,
 						{
 							title: name,
-							subtitle: artifact.status.join(', '), // @TODO: translate
+							subtitle: artifact.status.map((k) => t(this.props.settings.language, `status_${k}`)).join(', '),
 						}
 					),
 					e(
@@ -274,6 +275,7 @@ function mapStateToProps(state) {
 	return {
 		loading: state.loading,
 		projects: state.projects,
+		settings: state.settings,
 	}
 }
 

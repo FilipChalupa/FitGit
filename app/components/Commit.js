@@ -17,6 +17,7 @@ const StatusActions = require('../actions/status')
 const exec = require('child-process-promise').exec
 const Diff = require('./Diff')
 const status = require('../utils/status')
+const t = require('../utils/text')
 
 class Commit extends Component {
 
@@ -159,7 +160,14 @@ class Commit extends Component {
 								},
 							}
 						),*/
-						artifact.path + ' ('+artifact.status+')'
+						`${artifact.path} `,
+						e(
+							'span',
+							{
+								className: 'commit-status',
+							},
+							'(' + t(this.props.settings.language, `status_${artifact.status}`) + ')'
+						)
 					)
 				)
 			)
@@ -554,6 +562,7 @@ function mapStateToProps(state) {
 		integrator: state.integrator,
 		loading: state.loading,
 		projects: state.projects,
+		settings: state.settings,
 	}
 }
 
