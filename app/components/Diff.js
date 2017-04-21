@@ -10,6 +10,7 @@ const Card = c.Card
 const CardTitle = c.CardTitle
 const status = require('../utils/status')
 const t = require('../utils/text')
+const CircularProgress = require('material-ui/CircularProgress').default
 
 class Diff extends Component {
 
@@ -251,7 +252,9 @@ class Diff extends Component {
 			const artifacts = this.getArtifacts()
 			if (artifacts.length) {
 				return artifacts
-			} else if (this.state.updating || !this.props.shaA) {
+			} else if (this.state.updating) {
+				return e(CircularProgress)
+			} else if (!this.props.shaA) {
 				return null
 			} else {
 				return e('div', null, 'Bez změn.')
