@@ -203,7 +203,7 @@ class IntegrateChanges extends Component {
 							style: {
 								position: 'relative',
 								top: -7,
-							}
+							},
 						}
 					),
 					e(
