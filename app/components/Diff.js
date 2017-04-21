@@ -251,10 +251,10 @@ class Diff extends Component {
 			const artifacts = this.getArtifacts()
 			if (artifacts.length) {
 				return artifacts
+			} else if (this.state.updating || !this.props.shaA) {
+				return null
 			} else {
-				return (
-					(this.state.updating || (!this.state.shaA && !this.state.shaB)) ? null : e('div', null, 'Žádné změny nejsou k dispozici.')
-				)
+				return e('div', null, 'Bez změn.')
 			}
 
 		}
