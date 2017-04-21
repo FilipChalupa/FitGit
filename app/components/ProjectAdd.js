@@ -123,6 +123,7 @@ class ProjectAdd extends Component {
 			name: path.basename(localPath),
 			note: localPath,
 			path: localPath,
+			key: Date.now(),
 		}
 		this.openAddModal(false)
 
