@@ -4,9 +4,6 @@ const Component = React.Component
 const bindActionCreators = require('redux').bindActionCreators
 const connect = require('react-redux').connect
 const Dialog = require('material-ui/Dialog').default
-const BottomNavigation = require('material-ui/BottomNavigation').BottomNavigation
-const BottomNavigationItem = require('material-ui/BottomNavigation').BottomNavigationItem
-const Paper = require('material-ui/Paper').default
 const RadioButton = require('material-ui/RadioButton').RadioButton
 const RadioButtonGroup = require('material-ui/RadioButton').RadioButtonGroup
 const IconAdd = require('material-ui/svg-icons/content/add-box').default
@@ -22,6 +19,8 @@ const path = require('path')
 const fsp = require('fs-promise')
 const nodegit = require('../utils/nodegit').nodegit
 const remoteCallbacks = require('../utils/remoteCallbacks')
+const FloatingActionButton = require('material-ui/FloatingActionButton').default
+const ContentAdd = require('material-ui/svg-icons/content/add').default
 
 const TAB_URL   = 'TAB_URL'
 const TAB_LOCAL = 'TAB_LOCAL'
@@ -305,30 +304,18 @@ class ProjectAdd extends Component {
 						)
 					)
 				),
-
 				e(
-					Paper,
+					FloatingActionButton,
 					{
+						onTouchTap: () => this.openAddModal(true),
 						style: {
 							position: 'fixed',
-							bottom: 0,
-							left: 0,
-							right: 0,
-							zIndex: 1,
+							right: 50,
+							bottom: 50,
+							zIndex: 2,
 						},
 					},
-					e(
-						BottomNavigation,
-						null,
-						e(
-							BottomNavigationItem,
-							{
-								label: "Přidat",
-								icon: e(IconAdd),
-								onTouchTap: () => this.openAddModal(true),
-							}
-						)
-					)
+					e(ContentAdd)
 				)
 			)
 		)
