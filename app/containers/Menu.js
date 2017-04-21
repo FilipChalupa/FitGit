@@ -124,7 +124,7 @@ class Menu extends Component {
 					e(
 						AppBar,
 						{
-							title: 'Menu',
+							title: t(this.props.settings.language, 'menu_title'),
 							iconElementLeft: (
 								e(
 									IconButton,
