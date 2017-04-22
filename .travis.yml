@@ -54,7 +54,7 @@ script:
 before_deploy:
   - ARCHIVE=FitGit-$TRAVIS_OS_NAME-$TRAVIS_TAG.zip
   - cd $TRAVIS_BUILD_DIR/dist && zip -r $ARCHIVE *
-  - mv $ARCHIVE ../$ARCHIVE
+  - cp $ARCHIVE ../$ARCHIVE
 deploy:
   provider: releases
   api_key:
