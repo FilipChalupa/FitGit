@@ -31,3 +31,4 @@ MIT © [<%= name %>](<%= website %>)
 ## CO je potřeba
 
 - git klient pro příkazovou řádku
+- povolený git credential manager
