@@ -5,6 +5,7 @@ const Menu = require('./Menu')
 const Loading = require('./Loading')
 const Watcher = require('./Watcher')
 const Status = require('./Status')
+const InputContext = require('../components/InputContext')
 
 module.exports = class App extends Component {
 
@@ -25,7 +26,8 @@ module.exports = class App extends Component {
 				),
 				e(Loading),
 				e(Status),
-				e(Watcher)
+				e(Watcher),
+				e(InputContext)
 			)
 		)
 	}
