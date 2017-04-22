@@ -94,19 +94,14 @@ function getNewestCommitFromPool(pool) {
 }
 
 
-function countCommitStats(commit) {
+function countCommitStats(treeA, treeB) {
 	const stats = {
 		additions: 0,
 		removals: 0,
 		files: 0,
 	}
-	let commitTree
 	return Promise.resolve()
-		.then(() => commit.getTree())
-		.then((tree) => commitTree = tree)
-		.then(() => commit.getParents())
-		.then((parents) => parents[0] && parents[0].getTree())
-		.then((parentTree) => commitTree.diff(parentTree))
+		.then((parentTree) => treeA.diff(treeB))
 		.then((diffs) => {
 			return diffs.findSimilar({
 				flags: nodegit.Diff.FIND.RENAMES,

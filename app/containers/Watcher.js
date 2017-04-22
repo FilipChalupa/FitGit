@@ -6,6 +6,7 @@ const bindActionCreators = require('redux').bindActionCreators
 const n = require('../utils/nodegit')
 const nodegit = n.nodegit
 const getCommonTopCommit = n.getCommonTopCommit
+const countCommitStats = n.countCommitStats
 const ProjectsActions = require('../actions/projects')
 const IntegratorActions = require('../actions/integrator')
 const MenuActions = require('../actions/menu')
@@ -35,21 +36,39 @@ class Watcher extends Component {
 	}
 
 
-	refreshCanCommit(repo) {
-		return repo.getStatus()
-			.then((artifacts) => {
-				const stats = this.props.projects.active.stats
-				console.log(stats)
-
-				const available = repo.isDefaultState() && artifacts.length !== 0
-				const notification = this.notifyAboutCommitSuggestion && available && !this.props.integrator.commitNotification // @TODO: chytřejší rozhodování
-				if (notification) {
-					this.notifyAboutCommitSuggestion = false
-				} else if (!available) {
-					this.notifyAboutCommitSuggestion = true
-				}
-				this.props.actions.integrator.setCommitAvailable(available, notification)
-			})
+	refreshCanCommit(repo, localTopCommit) {
+		let index
+		let treeB
+		if (localTopCommit) {
+			return Promise.resolve()
+				.then(() => localTopCommit.getTree())
+				.then((t) => treeB = t)
+				.then((t) => repo.index())
+				.then((i) => index = i)
+				.then(() => index.addAll())
+				.then(() => index.writeTree())
+				.then((oid) => nodegit.Tree.lookup(repo, oid))
+				.then((treeA) => countCommitStats(treeA, treeB))
+				.then((stats) => {
+					let statsBetterOrEqToMedian = 0
+					const statKeys = ['additions', 'removals', 'files']
+					statKeys.forEach((statKey) => {
+						if (stats[statKey] >= this.props.projects.active.stats[statKey]) {
+							statsBetterOrEqToMedian++
+						}
+					})
+					const available = repo.isDefaultState() && stats.files > 0
+					const notification = this.notifyAboutCommitSuggestion && available && !this.props.integrator.commitNotification && statsBetterOrEqToMedian > 1
+					if (notification) {
+						this.notifyAboutCommitSuggestion = false
+					} else if (!available) {
+						this.notifyAboutCommitSuggestion = true
+					}
+					this.props.actions.integrator.setCommitAvailable(available, notification)
+				})
+				.catch((error) => console.error(error))
+				.then(() => console.info(done))
+		}
 	}
 
 
@@ -87,7 +106,6 @@ class Watcher extends Component {
 
 		nodegit.Repository.open(this.props.projects.active.path)
 			.then((r) => repo = r)
-			.then(() => this.refreshCanCommit(repo))
 			.then(() => repo.getCurrentBranch())
 			.then((reference) => {
 				localBranch = reference
@@ -137,6 +155,7 @@ class Watcher extends Component {
 					}
 				}
 			})
+			.then(() => this.refreshCanCommit(repo, localTopCommit))
 			.catch(() => {
 				// Try to fix repo
 				this.props.actions.loading.IncrementLoadingJobs()

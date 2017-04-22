@@ -18,6 +18,7 @@ const Diff = require('./Diff')
 const status = require('../utils/status')
 const t = require('../utils/text')
 const Checkbox = require('material-ui/Checkbox').default
+const hashHistory = require('react-router').hashHistory
 
 class Commit extends Component {
 
@@ -540,6 +541,10 @@ class Commit extends Component {
 				this.setRefreshing(false)
 				if (previewCommit !== this.state.previewCommit) {
 					this.setState(Object.assign({}, this.state, { previewCommit, previewParentCommit }))
+				}
+
+				if (this.state.trackedStaged.length + this.state.trackedUnstaged.length + this.state.untracked.length === 0) {
+					hashHistory.push('/history')
 				}
 			})
 	}

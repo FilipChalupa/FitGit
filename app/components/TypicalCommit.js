@@ -62,7 +62,13 @@ class Contributors extends Component {
 				.then((parents) => {
 					commitsPool = commitsPool.concat(parents)
 					if (parents.length === 1) {
-						return countCommitStats(nextCommit)
+						let treeA
+						return Promise.resolve()
+							.then(() => nextCommit.getTree())
+							.then((tree) => treeA = tree)
+							.then(() => nextCommit.getParents())
+							.then((parents) => parents[0] && parents[0].getTree())
+							.then((treeB) => countCommitStats(treeA, treeB))
 							.then((stats) => {
 								if (stats) {
 									additions.push(stats.additions)
