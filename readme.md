@@ -28,7 +28,7 @@ Builds the app for macOS, Linux, and Windows, using [electron-packager](https://
 
 MIT © [<%= name %>](<%= website %>)
 
-## CO je potřeba
+## Co je potřeba
 
 - git klient pro příkazovou řádku
 - povolený git credential manager
