@@ -32,3 +32,4 @@ MIT © [<%= name %>](<%= website %>)
 
 - git klient pro příkazovou řádku
 - povolený git credential manager
+- nastavený ssh klíč s klientem Pageant
