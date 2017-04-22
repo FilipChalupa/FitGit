@@ -22,7 +22,7 @@ module.exports = function integrator(state = defaultState, action) {
 			}
 			return Object.assign({}, state, {
 				available: action.payload.available,
-				notification: state.notification || action.payload.notify,
+				notification: action.payload.available && (state.notification || action.payload.notify),
 			})
 		case SET_COMMIT_AVAILABLE:
 			if (action.payload.available && !state.commitNotification && action.payload.notify) {
@@ -32,7 +32,7 @@ module.exports = function integrator(state = defaultState, action) {
 			}
 			return Object.assign({}, state, {
 				commitAvailable: action.payload.available,
-				commitNotification: state.commitNotification || action.payload.notify,
+				commitNotification: action.payload.available && (state.commitNotification || action.payload.notify),
 			})
 		case DISMISS_NOTIFICATION:
 			return Object.assign({}, state, {
