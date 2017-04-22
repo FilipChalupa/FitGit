@@ -35,17 +35,20 @@ class ProjectAdd extends Component {
 			directoryPath: '',
 			url: '',
 			active: TAB_LOCAL,
+			directoryModal: false,
 		}
 	}
 
 	getDirectory() {
-		const dialogDirectories = dialog.showOpenDialog({properties: ['openDirectory']})
-		if (!dialogDirectories) {
-			return
-		}
-		const repoDirectory = dialogDirectories[0]
-
-		this.handlePathChange(null, repoDirectory)
+		this.setState(Object.assign({}, this.state, { directoryModal: true }))
+		setTimeout(() => {
+			const dialogDirectories = dialog.showOpenDialog({properties: ['openDirectory']})
+			if (dialogDirectories) {
+				const repoDirectory = dialogDirectories[0]
+				this.handlePathChange(null, repoDirectory)
+			}
+			this.setState(Object.assign({}, this.state, { directoryModal: false }))
+		}, 1)
 	}
 
 	setActiveTab(active) {
@@ -269,6 +272,20 @@ class ProjectAdd extends Component {
 			e(
 				'div',
 				null,
+				this.state.directoryModal ? e(
+					'div',
+					{
+						style: {
+							position: 'fixed',
+							top: 0,
+							left: 0,
+							right: 0,
+							bottom: 0,
+							zIndex: 10000,
+							backgroundColor: 'rgba(0,0,0,0.5)',
+						}
+					}
+				) : null,
 				e(
 					Dialog,
 					{
