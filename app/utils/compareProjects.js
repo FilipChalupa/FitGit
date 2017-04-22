@@ -1,3 +1,7 @@
 module.exports = function compareProjects(a, b) {
-	return JSON.stringify(a) === JSON.stringify(b)
+	if (a && b) {
+		return a.key === b.key
+	} else {
+		return false
+	}
 }
