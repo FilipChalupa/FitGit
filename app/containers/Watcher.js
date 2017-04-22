@@ -98,6 +98,10 @@ class Watcher extends Component {
 		let commonTopCommit
 
 		if (!this.props.projects.active || this.props.loading) {
+			if (!this.props.projects.active) {
+				this.props.actions.integrator.dismissNotification()
+				this.props.actions.integrator.dismissCommitNotification()
+			}
 			setTimeout(() => {
 				this.check()
 			}, CHECK_INTERVAL)
