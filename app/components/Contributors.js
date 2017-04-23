@@ -12,6 +12,11 @@ const c = require('material-ui/Card')
 const Card = c.Card
 const CardTitle = c.CardTitle
 const CardText = c.CardText
+const Avatar = require('material-ui/Avatar').default
+const l = require('material-ui/List')
+const List = l.List
+const ListItem = l.ListItem
+const gravatar = require('gravatar')
 
 class Contributors extends Component {
 
@@ -95,42 +100,37 @@ class Contributors extends Component {
 	}
 
 	renderList() {
-		return this.state.contributors.map((contributor, i) => {
-			return e(
-				'div',
-				{
-					key: contributor.email,
-					className: 'contributors-item',
-				},
-				e(
-					'div',
+		return e(
+			List,
+			null,
+			this.state.contributors.map((contributor, i) => {
+				return e(
+					ListItem,
 					{
-						className: 'contributors-name',
-					},
-					contributor.name
-				),
-				e(
-					'div',
-					{
-						className: 'contributors-email',
-					},
-					contributor.email
-				),
-				e(
-					'div',
-					{
-						className: 'contributors-lastDate',
-					},
-					'Poslední úprava: ',
-					e(
-						Time,
-						{
-							date: new Date(contributor.timestamp * 1000),
-						}
-					)
+						key: contributor.email,
+						disabled: true,
+						primaryText: `${contributor.name} <${contributor.email}>`,
+						secondaryText: e(
+							'div',
+							null,
+							'Poslední úprava: ',
+							e(
+								Time,
+								{
+									date: new Date(contributor.timestamp * 1000),
+								}
+							)
+						),
+						leftAvatar: e(
+							Avatar,
+							{
+								src: gravatar.url(contributor.email, {protocol: 'https', s: '80', r: 'pg', d: 'mm'}),
+							}
+						),
+					}
 				)
-			)
-		})
+			})
+		)
 	}
 
 	render() {
@@ -147,11 +147,11 @@ class Contributors extends Component {
 						title: 'Autoři',
 					}
 				),
-				e(
+				this.state.loading ? e(
 					CardText,
 					null,
-					this.state.loading ? e(CircularProgress) : this.renderList()
-				)
+					e(CircularProgress)
+				) : this.renderList()
 			)
 		)
 	}

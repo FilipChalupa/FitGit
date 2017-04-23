@@ -1,31 +1,3 @@
 .contributors {
 	margin-bottom: 20px;
 }
-
-.contributors-item {
-	display: flex;
-	flex-wrap: wrap;
-}
-
-.contributors-item + .contributors-item {
-	margin-top: 10px;
-}
-
-.contributors-name,
-.contributors-email,
-.contributors-lastDate {
-	padding-right: 10px;
-	min-width: 200px;
-}
-
-.contributors-name {
-	min-width: 150px;
-}
-
-.contributors-email {
-	min-width: 200px;
-}
-
-.contributors-lastDate {
-	flex-grow: 1;
-}
