@@ -1,11 +1,14 @@
 const React = require('react')
 const e = React.createElement
 const Component = React.Component
+const bindActionCreators = require('redux').bindActionCreators
+const connect = require('react-redux').connect
 const electron = require('electron')
 const remote = electron.remote
 const Menu = remote.Menu
+const t = require('../utils/text')
 
-module.exports = class InputContext extends Component {
+class InputContext extends Component {
 
 	constructor(props) {
 		super(props)
@@ -32,26 +35,26 @@ module.exports = class InputContext extends Component {
 
 	getOptions() {
 		return Menu.buildFromTemplate([{
-				label: 'Zpět',
+				label: t(this.props.settings.language, 'input_context_undo'),
 				role: 'undo',
 			}, {
-				label: 'Znovu',
+				label: t(this.props.settings.language, 'input_context_redo'),
 				role: 'redo',
 			}, {
 				type: 'separator',
 			}, {
-				label: 'Vyjmout',
+				label: t(this.props.settings.language, 'input_context_cut'),
 				role: 'cut',
 			}, {
-				label: 'Kopírovat',
+				label: t(this.props.settings.language, 'input_context_copy'),
 				role: 'copy',
 			}, {
-				label: 'Vložit',
+				label: t(this.props.settings.language, 'input_context_paste'),
 				role: 'paste',
 			}, {
 				type: 'separator',
 			}, {
-				label: 'Vybrat vše',
+				label: t(this.props.settings.language, 'input_context_selectall'),
 				role: 'selectall',
 			},
 		])
@@ -77,3 +80,12 @@ module.exports = class InputContext extends Component {
 		return null
 	}
 }
+
+
+module.exports = connect((state) => {
+	return {
+		settings: state.settings,
+	}
+}, (dispatch) => {
+	return {}
+})(InputContext)
