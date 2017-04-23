@@ -101,6 +101,14 @@ class Contributors extends Component {
 	}
 
 	renderList() {
+		if (this.state.contributors.length === 0) {
+			return e(
+				CardText,
+				null,
+				t(this.props.settings.language, 'contributors_no_authors')
+			)
+		}
+
 		return e(
 			List,
 			null,

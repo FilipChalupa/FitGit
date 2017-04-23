@@ -49,6 +49,7 @@
 	"branches_title": "Větve",
 	"contributors_last_edit": "Poslední úprava: ",
 	"contributors_title": "Autoři",
+	"contributors_no_authors": "Tento projekt nemá zatím žádné autory",
 	"diff_nothing": "Bez změn.",
 	"input_context_undo": "Zpět",
 	"input_context_redo": "Znovu",
