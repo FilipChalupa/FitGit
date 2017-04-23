@@ -6,6 +6,7 @@ const connect = require('react-redux').connect
 const Branches = require('./Branches')
 const Contributors = require('./Contributors')
 const AuthSetter = require('./AuthSetter')
+const ProjectUrl = require('./ProjectUrl')
 const TypicalCommit = require('./TypicalCommit')
 const hashHistory = require('react-router').hashHistory
 const t = require('../utils/text')
@@ -24,6 +25,12 @@ class Project extends Component {
 				e('h1', null, t(this.props.settings.language, 'project_title')),
 				e(
 					Contributors,
+					{
+						project: this.props.projects.active,
+					}
+				),
+				e(
+					ProjectUrl,
 					{
 						project: this.props.projects.active,
 					}

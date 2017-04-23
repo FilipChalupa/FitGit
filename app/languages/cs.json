@@ -94,5 +94,7 @@
 	"notification_cancommit_message": "možná je čas udělat commit",
 	"notification_updates_title": "Nové změny k dispozici",
 	"notification_updates_message": "zobrazit",
+	"project_url_title": "Adresa projektu ke sdílení",
+	"project_url_subtitle": "zkopírujte tuto adresu a pošlete ji ostatním autorům",
 	"": ""
 }

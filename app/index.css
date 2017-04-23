@@ -4,6 +4,7 @@
 @import 'components/Contributors.css';
 @import 'components/Diff.css';
 @import 'components/History.css';
+@import 'components/ProjectUrl.css';
 @import 'components/TypicalCommit.css';
 
 body {
