@@ -53,6 +53,10 @@ class Settings extends Component {
 
 
 	getItems() {
+		const languageNames = {
+			cs: 'Česky',
+			en: 'English',
+		}
 		return this.state.languages.map((code) => {
 			return (
 				e(
@@ -60,7 +64,7 @@ class Settings extends Component {
 					{
 						key: code,
 						value: code,
-						primaryText: t(this.props.settings.language, `language_${code}`),
+						primaryText: languageNames[code] || code,
 					}
 				)
 			)
@@ -94,6 +98,11 @@ class Settings extends Component {
 				},
 				e('h1', null, t(this.props.settings.language, 'menu_settings')),
 				e(
+					'p',
+					null,
+					t(this.props.settings.language, 'settings_note')
+				),
+				e(
 					'div',
 					null,
 					e(
@@ -117,7 +126,7 @@ class Settings extends Component {
 				e(
 					Toggle,
 					{
-						label: 'Automaticky sdílet změny',
+						label: t(this.props.settings.language, 'settings_autoshare'),
 						toggled: this.props.settings.autoPush,
 						onToggle: () => this.props.actions.settings.toggleAutoPush(),
 					}
@@ -134,12 +143,12 @@ class Settings extends Component {
 				e(
 					Dialog,
 					{
-						title: "Obnovit nastavení",
+						title:  t(this.props.settings.language, 'settings_reset'),
 						actions: [
 							e(
 								FlatButton,
 								{
-									label: "Zrušit",
+									label: t(this.props.settings.language, 'settings_cancel'),
 									primary: true,
 									onTouchTap: this.closeConfirmReset.bind(this),
 								}
@@ -147,7 +156,7 @@ class Settings extends Component {
 							e(
 								FlatButton,
 								{
-									label: "Potvrdit",
+									label: t(this.props.settings.language, 'settings_accept'),
 									primary: true,
 									keyboardFocused: true,
 									onTouchTap: () => {
@@ -161,7 +170,7 @@ class Settings extends Component {
 						open: this.state.confirmReset,
 						onRequestClose: this.closeConfirmReset.bind(this),
 					},
-					'Opravdu chcete obnovit nastavení?'
+					t(this.props.settings.language, 'settings_reset_prompt')
 				)
 			)
 		)
