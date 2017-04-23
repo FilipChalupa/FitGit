@@ -258,7 +258,7 @@ class Diff extends Component {
 			} else if (!this.props.shaA) {
 				return null
 			} else {
-				return e('div', null, 'Bez změn.')
+				return e('div', null, t(this.props.settings.language, 'diff_nothing'))
 			}
 
 		}
