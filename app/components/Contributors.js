@@ -17,6 +17,7 @@ const l = require('material-ui/List')
 const List = l.List
 const ListItem = l.ListItem
 const gravatar = require('gravatar')
+const t = require('../utils/text')
 
 class Contributors extends Component {
 
@@ -113,7 +114,7 @@ class Contributors extends Component {
 						secondaryText: e(
 							'div',
 							null,
-							'Poslední úprava: ',
+							t(this.props.settings.language, 'contributors_last_edit'),
 							e(
 								Time,
 								{
@@ -144,7 +145,7 @@ class Contributors extends Component {
 				e(
 					CardTitle,
 					{
-						title: 'Autoři',
+						title: t(this.props.settings.language, 'contributors_title'),
 					}
 				),
 				this.state.loading ? e(
@@ -161,6 +162,7 @@ class Contributors extends Component {
 function mapStateToProps(state) {
 	return {
 		loading: state.loading,
+		settings: state.settings,
 	}
 }
 

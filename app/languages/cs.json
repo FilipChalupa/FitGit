@@ -47,5 +47,9 @@
 	"branches_local": "Lokální",
 	"branches_remote": "Vzdálené",
 	"branches_title": "Větve",
+
+	"contributors_last_edit": "Poslední úprava: ",
+	"contributors_title": "Autoři",
+
 	"": ""
 }
