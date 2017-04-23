@@ -108,7 +108,7 @@ class History extends Component {
 		}
 
 		const processPool = () => {
-			if (commitsPool.length === 0 || tree.length === LIMIT) { // @TODO: note to user that limit was reached
+			if (commitsPool.length === 0 || tree.length === LIMIT) {
 				return Promise.resolve()
 			}
 

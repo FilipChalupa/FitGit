@@ -40,7 +40,6 @@ function addStatus(message, buttonText, buttonCallback) {
 			buttonCallback: buttonCallback ? () => {
 				buttonCallback()
 				dispatch(closeStatus())
-				// @TODO: get next immediately
 			} : null,
 		}
 

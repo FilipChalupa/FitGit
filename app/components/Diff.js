@@ -85,7 +85,7 @@ class Diff extends Component {
 			const patch = patches[currentPathIndex++]
 
 			artifacts[currentPathIndex] = {
-				oldName: patch.oldFile().path(), // @TODO: check why oldName = newName always
+				oldName: patch.oldFile().path(),
 				newName: patch.newFile().path(),
 				hunks: [],
 				status: this.getStatusKeys(patch),
