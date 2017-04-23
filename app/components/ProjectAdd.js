@@ -22,6 +22,7 @@ const remoteCallbacks = require('../utils/remoteCallbacks')
 const FloatingActionButton = require('material-ui/FloatingActionButton').default
 const ContentAdd = require('material-ui/svg-icons/content/add').default
 const log = require('../utils/log')
+const t = require('../utils/text')
 
 const TAB_URL   = 'TAB_URL'
 const TAB_LOCAL = 'TAB_LOCAL'
@@ -79,7 +80,7 @@ class ProjectAdd extends Component {
 				{
 					name: 'url',
 					type: 'url',
-					hintText: 'Adresa repozitáře',
+					hintText: t(this.props.settings.language, 'project_add_url'),
 					value: this.state.url,
 					onChange: this.handleURLChange.bind(this),
 				}
@@ -96,7 +97,7 @@ class ProjectAdd extends Component {
 					TextField,
 					{
 						name: 'path',
-						hintText: 'Umístění v tomto zařízení',
+						hintText: t(this.props.settings.language, 'project_add_path'),
 						value: this.state.directoryPath,
 						onChange: this.handlePathChange.bind(this),
 					}
@@ -104,7 +105,7 @@ class ProjectAdd extends Component {
 				e(
 					FlatButton,
 					{
-						label: 'Zvolit adresář',
+						label: t(this.props.settings.language, 'project_add_directory'),
 						style: {
 							verticalAlign: 'middle',
 						},
@@ -148,8 +149,8 @@ class ProjectAdd extends Component {
 			.then(() => {
 				this.prependProject(project)
 				this.props.actions.status.addStatus(
-					`Byl přidán projekt: ${project.name}`,
-					'Vrátit zpět',
+					t(this.props.settings.language, 'project_notification_added').replace('{name}', project.name),
+					t(this.props.settings.language, 'project_notification_revert'),
 					() => {
 						this.props.actions.projects.removeProject(project)
 					}
@@ -172,7 +173,7 @@ class ProjectAdd extends Component {
 				return fsp.stat(path)
 					.catch((error) => {
 						console.warn(error)
-						errorMessage = 'Umístění projektu nenalezeno'
+						errorMessage = t(this.props.settings.language, 'project_error_noproject_location')
 						throw new Error('Location not found.')
 					})
 			})
@@ -181,7 +182,7 @@ class ProjectAdd extends Component {
 					.catch((error) => {
 						console.warn(error)
 						this.props.actions.status.addStatus(
-							'Umístění neobsahuje projekt'
+							t(this.props.settings.language, 'project_error_noproject')
 						)
 						errorMessage = 'Použijte dřívě vytvořený'
 						throw new Error('Invalid location.')
@@ -207,7 +208,7 @@ class ProjectAdd extends Component {
 				return fsp.ensureDir(path)
 					.catch((error) => {
 						console.warn(error)
-						errorMessage = 'Umístění nenalezeno'
+						errorMessage = t(this.props.settings.language, 'project_error_nolocation')
 						throw new Error('Location not found.')
 					})
 			})
@@ -215,14 +216,14 @@ class ProjectAdd extends Component {
 				return fsp.readdir(path)
 					.then((files) => {
 						if (files.length > 0) {
-							errorMessage = 'Umístění není prázdné'
+							errorMessage = t(this.props.settings.language, 'project_error_notempty')
 							throw new Error('Location not empty.')
 						}
 					})
 			})
 			.then(() => {
 				if (trimmedUrl.length === 0) {
-					errorMessage = 'Url musí být vyplněné'
+					errorMessage = t(this.props.settings.language, 'project_error_urlempty')
 					throw new Error('Empty url field.')
 				}
 			})
@@ -232,7 +233,7 @@ class ProjectAdd extends Component {
 					.then(() => nodegit.Remote.create(repo, 'origin', trimmedUrl))
 					.catch((error) => {
 						console.warn(error)
-						errorMessage = 'Projekt se nepodařilo vytvořit'
+						errorMessage = t(this.props.settings.language, 'project_error_creation')
 						throw new Error('Unable to init repository.')
 					})
 			})
@@ -255,7 +256,7 @@ class ProjectAdd extends Component {
 			e(
 				FlatButton,
 				{
-					label: "Přidat",
+					label: t(this.props.settings.language, 'project_add'),
 					primary: true,
 					onTouchTap: this.addProject.bind(this),
 				}
@@ -263,7 +264,7 @@ class ProjectAdd extends Component {
 			e(
 				FlatButton,
 				{
-					label: "Zrušit",
+					label: t(this.props.settings.language, 'project_cancel'),
 					onTouchTap: () => this.openAddModal(false),
 				}
 			),
@@ -302,13 +303,13 @@ class ProjectAdd extends Component {
 						e(
 							Tab,
 							{
-								label: "Z adresáře",
+								label: t(this.props.settings.language, 'project_from_directory'),
 								onActive: () => this.setActiveTab(TAB_LOCAL),
 							},
 							e(
 								'div',
 								null,
-								e('p', null, 'Zvolte adresář, který obsahuje již existující projekt.'),
+								e('p', null, t(this.props.settings.language, 'project_select_directory')),
 								this.getDirectoryField()
 							)
 						),
@@ -321,7 +322,7 @@ class ProjectAdd extends Component {
 							e(
 								'div',
 								null,
-								e('p', null, 'Zvolte adresu, ze které se stáhne existující projekt do místního adresáře. Stahování může nějakou dobu trvat.'),
+								e('p', null, t(this.props.settings.language, 'project_select_url')),
 								this.getURLField(),
 								this.getDirectoryField()
 							)
@@ -350,6 +351,7 @@ class ProjectAdd extends Component {
 function mapStateToProps(state) {
 	return {
 		projects: state.projects,
+		settings: state.settings,
 	}
 }
 

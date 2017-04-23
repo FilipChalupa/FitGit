@@ -63,6 +63,23 @@
 	"integrate_accept": "Přijmout změny",
 	"integrate_refresh": "Aktualizova",
 	"project_title": "Detail projektu",
+	"project_add_url": "Adresa repozitáře",
+	"project_add_path": "Umístění v tomto zařízení",
+	"project_add_directory": "Zvolit adresář",
+	"project_notification_added": "Byl přidán projekt: {name}",
+	"project_notification_revert": "Vrátit zpět",
+	"project_error_noproject_location": "Umístění projektu nenalezeno",
+	"project_error_noproject": "Umístění neobsahuje projekt",
+	"project_error_nolocation": "Umístění nenalezeno",
+	"project_error_notempty": "Umístění není prázdné",
+	"project_error_urlempty": "Url musí být vyplněné",
+	"project_error_creation": "Projekt se nepodařilo vytvořit",
+	"project_add": "Přidat",
+	"project_cancel": "Zrušit",
+	"project_xxx": "Z adresáře",
+	"project_from_directory": "Z adresáře",
+	"project_select_directory": "Zvolte adresář, který obsahuje již existující projekt.",
+	"project_select_url": "Zvolte adresu, ze které se stáhne existující projekt do místního adresáře. Stahování může nějakou dobu trvat.",
 
 	"": ""
 }
