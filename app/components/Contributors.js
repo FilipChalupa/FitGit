@@ -83,7 +83,7 @@ class Contributors extends Component {
 				}
 			})
 			.catch((error) => {
-				log.error(error.toString())
+				log.error(error)
 			})
 			.then(() => {
 				this.setLoading(false)

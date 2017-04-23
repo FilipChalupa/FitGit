@@ -14,5 +14,20 @@ const log = require('simple-node-logger').createSimpleLogger(currentLogFile)
 
 log.logDirectory = LOG_DIRECTORY
 
+function info(input) {
+	console.log(input)
+	log.info(input.toString())
+}
 
-module.exports = log
+
+function error(input) {
+	console.error(input)
+	log.error(input.toString())
+}
+
+
+module.exports = {
+	logDirectory: LOG_DIRECTORY,
+	info,
+	error,
+}

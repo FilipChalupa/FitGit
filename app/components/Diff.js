@@ -146,7 +146,7 @@ class Diff extends Component {
 				return processPatch()
 			})
 			.catch((error) => {
-				log.error(error.toString())
+				log.error(error)
 			})
 			.then(() => {
 				this.setState(Object.assign({}, this.states, { artifacts }))

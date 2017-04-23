@@ -77,7 +77,7 @@ class Commit extends Component {
 		return Promise.resolve()
 			.then(() => exec(`cd ${this.props.projects.active.path} && git add "${path}"`))
 			.catch((error) => {
-				log.error(error.toString())
+				log.error(error)
 			})
 			.then(() => {
 				this.setUpdating(false)
@@ -91,7 +91,7 @@ class Commit extends Component {
 		return Promise.resolve()
 			.then(() => exec(`cd ${this.props.projects.active.path} && git reset HEAD "${path}"`))
 			.catch((error) => {
-				log.error(error.toString())
+				log.error(error)
 			})
 			.then(() => {
 				this.setUpdating(false)
@@ -376,9 +376,14 @@ class Commit extends Component {
 			.then((oidResult) => {
 				oid = oidResult
 				return nodegit.Reference.nameToId(this.repo, 'HEAD')
-			})
-			.then((head) => {
-				return this.repo.getCommit(head)
+					.then((head) => {
+						return this.repo.getCommit(head)
+					})
+					.catch((error) => {
+						log.error(error)
+						log.info('Faking no parent')
+						return null
+					})
 			})
 			.then((parent) => {
 				const author = this.repo.defaultSignature()

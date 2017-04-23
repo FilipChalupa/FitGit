@@ -37,5 +37,5 @@ getStore()
 		)
 	})
 	.catch((error) => {
-		log.error(error.toString())
+		log.error(error)
 	})

@@ -77,7 +77,7 @@ class Watcher extends Component {
 						})
 				}
 			})
-			.catch((error) => log.error(error.toString()))
+			.catch((error) => log.error(error))
 			.then(() => {
 				this.props.actions.integrator.setCommitAvailable(available, notification)
 			})
@@ -85,9 +85,9 @@ class Watcher extends Component {
 
 
 	push(repo, remoteName, localBranchReference) {
+		const refName = localBranchReference.toString()
 		return repo.getRemote(remoteName)
 			.then((remote) => {
-				const refName = localBranchReference.toString()
 				return remote.push([
 					`${refName}:${refName}`
 				], remoteCallbacks)
@@ -206,11 +206,14 @@ class Watcher extends Component {
 							return exec(`cd ${this.props.projects.active.path} && git branch --set-upstream-to=origin/master`)
 								.catch((out) => {
 									log.info(out)
+
+									log.info('Pushing maybe the first commit')
+									return exec(`cd ${this.props.projects.active.path} && git push -u origin master`)
 								})
 						}
 					})
 					.catch((error) => {
-						log.error(error.toString())
+						log.error(error)
 					})
 					.then(() => {
 						this.props.actions.loading.DecrementLoadingJobs()
@@ -218,7 +221,7 @@ class Watcher extends Component {
 			})
 			.then(() => this.refreshCanCommit(repo, localTopCommit))
 			.catch((error) => {
-				log.error(error.toString())
+				log.error(error)
 			})
 			.then(() => {
 				log.info('Watch job done')

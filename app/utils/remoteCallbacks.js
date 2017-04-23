@@ -15,7 +15,7 @@ module.exports = {
 					name = credentials.username
 					password = credentials.password
 				} catch (error) {
-					log.error(error.toString())
+					log.error(error)
 				}
 				return nodegit.Cred.userpassPlaintextNew(name, password)
 			} else {

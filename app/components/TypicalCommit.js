@@ -93,9 +93,9 @@ class Contributors extends Component {
 							additions.sort()
 							removals.sort()
 							files.sort()
-							const additionsMedia = additions[Math.floor(additions.length/2)]
-							const removalsMedia = removals[Math.floor(removals.length/2)]
-							const filesMedia = files[Math.floor(files.length/2)]
+							const additionsMedia = additions[Math.floor(additions.length/2)] || this.state.additions
+							const removalsMedia = removals[Math.floor(removals.length/2)] || this.state.removals
+							const filesMedia = files[Math.floor(files.length/2)] || this.state.files
 							this.props.actions.projects.updateProjectStats(
 								this.props.project,
 								additionsMedia,
@@ -111,7 +111,7 @@ class Contributors extends Component {
 				}
 			})
 			.catch((error) => {
-				log.error(error.toString())
+				log.error(error)
 			})
 			.then(() => {
 				this.setLoading(false)

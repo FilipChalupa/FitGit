@@ -157,7 +157,7 @@ class ProjectAdd extends Component {
 				this.props.actions.projects.setActiveProject(project)
 			})
 			.catch((error) => {
-				log.error(error.toString())
+				log.error(error)
 			})
 			.then(() => {
 				this.props.actions.loading.DecrementLoadingJobs()
