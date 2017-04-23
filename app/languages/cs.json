@@ -36,5 +36,9 @@
 	"commit_created": "Commit byl vytvořen",
 	"commit_select_all": "Označit vše",
 	"commit_unselect_all": "Odznačit vše",
+	"history_shared": "Sdílené změny",
+	"history_shared_not": "Vaše nezazálohované změny",
+	"history_share": "Sdílet změny",
+	"history_refresh": "Aktualizovat",
 	"": ""
 }

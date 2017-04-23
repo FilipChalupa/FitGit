@@ -13,6 +13,7 @@ const IconButton = require('material-ui/IconButton').default
 const RefreshIcon = require('material-ui/svg-icons/navigation/refresh').default
 const remoteCallbacks = require('../utils/remoteCallbacks')
 const log = require('../utils/log')
+const t = require('../utils/text')
 
 const LIMIT = 250
 
@@ -204,14 +205,14 @@ class History extends Component {
 						{
 							className: 'history-title',
 						},
-						'Sdílené změny'
+						t(this.props.settings.language, 'history_shared')
 					),
 					e(
 						'h2',
 						{
 							className: 'history-title',
 						},
-						'Vaše nezazálohované změny'
+						t(this.props.settings.language, 'history_shared_not')
 					)
 				),
 				this.state.tree.map((node, i) => {
@@ -288,7 +289,7 @@ class History extends Component {
 					(this.props.settings.autoPush || this.state.countRemote !== 0 || this.state.countLocal === 0) ? null : e(
 						RaisedButton,
 						{
-							label: 'Sdílet změny',
+							label: t(this.props.settings.language, 'history_share'),
 							secondary: true,
 							onTouchTap: () => this.push(),
 							disabled: this.state.refreshing,
@@ -301,7 +302,7 @@ class History extends Component {
 					e(
 						IconButton,
 						{
-							tooltip: 'Aktualizovat',
+							tooltip: t(this.props.settings.language, 'history_refresh'),
 							onTouchTap: this.refresh.bind(this),
 							disabled: this.state.refreshing,
 						},
