@@ -15,6 +15,7 @@ const getRemoteBranches = n.getRemoteBranches
 const getCurrentBranch = n.getCurrentBranch
 const LoadingActions = require('../actions/loading')
 const log = require('../utils/log')
+const t = require('../utils/text')
 
 const branchColors = [
 	colors.red500,
@@ -157,7 +158,7 @@ class Branches extends Component {
 			e(
 				'div',
 				null,
-				e(Subheader, null, 'Lokální'),
+				e(Subheader, null, t(this.props.settings.language, 'branches_local')),
 				localBranches
 			)
 		) : null
@@ -166,7 +167,7 @@ class Branches extends Component {
 			e(
 				'div',
 				null,
-				e(Subheader, null, 'Vzdálené'),
+				e(Subheader, null, t(this.props.settings.language, 'branches_remote')),
 				remoteBranches
 			)
 		) : null
@@ -175,7 +176,7 @@ class Branches extends Component {
 			e(
 				'div',
 				null,
-				e('h2', null, 'Větve'),
+				e('h2', null, t(this.props.settings.language, 'branches_title')),
 				e(
 					List,
 					null,
@@ -191,6 +192,7 @@ class Branches extends Component {
 function mapStateToProps(state) {
 	return {
 		loading: state.loading,
+		settings: state.settings,
 	}
 }
 

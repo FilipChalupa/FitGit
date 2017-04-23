@@ -40,5 +40,8 @@
 	"history_shared_not": "Vaše nezazálohované změny",
 	"history_share": "Sdílet změny",
 	"history_refresh": "Aktualizovat",
+	"branches_local": "Lokální",
+	"branches_remote": "Vzdálené",
+	"branches_title": "Větve",
 	"": ""
 }
