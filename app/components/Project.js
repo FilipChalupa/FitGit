@@ -1,13 +1,16 @@
 const React = require('react')
 const e = React.createElement
 const Component = React.Component
+const bindActionCreators = require('redux').bindActionCreators
+const connect = require('react-redux').connect
 const Branches = require('./Branches')
 const Contributors = require('./Contributors')
 const AuthSetter = require('./AuthSetter')
 const TypicalCommit = require('./TypicalCommit')
 const hashHistory = require('react-router').hashHistory
+const t = require('../utils/text')
 
-module.exports = class Project extends Component {
+class Project extends Component {
 
 	render() {
 		if (!this.props.projects.active) {
@@ -18,7 +21,7 @@ module.exports = class Project extends Component {
 			e(
 				'div',
 				null,
-				e('h1', null, 'Detail projektu'),
+				e('h1', null, t(this.props.settings.language, 'project_title')),
 				e(
 					Contributors,
 					{
@@ -47,3 +50,12 @@ module.exports = class Project extends Component {
 		)
 	}
 }
+
+
+module.exports = connect((state) => {
+	return {
+		settings: state.settings,
+	}
+}, (dispatch) => {
+	return {}
+})(Project)
