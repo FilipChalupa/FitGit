@@ -14,6 +14,7 @@ const c = require('material-ui/Card')
 const Card = c.Card
 const CardTitle = c.CardTitle
 const CardText = c.CardText
+const t = require('../utils/text')
 
 class Contributors extends Component {
 
@@ -133,7 +134,7 @@ class Contributors extends Component {
 				{
 					className: 'typicalCommit-detail-label',
 				},
-				'Počet přidaných řádků: ',
+				t(this.props.settings.language, 'commit_typical_added'),
 				e(
 					'b',
 					{
@@ -147,7 +148,7 @@ class Contributors extends Component {
 				{
 					className: 'typicalCommit-detail-label',
 				},
-				'Počet odebraných řádků: ',
+				t(this.props.settings.language, 'commit_typical_removed'),
 				e(
 					'b',
 					{
@@ -161,7 +162,7 @@ class Contributors extends Component {
 				{
 					className: 'typicalCommit-detail-label',
 				},
-				'Počet změněných souborů: ',
+				t(this.props.settings.language, 'commit_typical_files'),
 				e(
 					'b',
 					{
@@ -184,8 +185,8 @@ class Contributors extends Component {
 				e(
 					CardTitle,
 					{
-						title: 'Běžný commit',
-						subtitle: 'střední hodnota',
+						title: t(this.props.settings.language, 'commit_typical_title'),
+						subtitle: t(this.props.settings.language, 'commit_typical_subtitle'),
 					}
 				),
 				e(
@@ -202,6 +203,7 @@ class Contributors extends Component {
 function mapStateToProps(state) {
 	return {
 		loading: state.loading,
+		settings: state.settings,
 	}
 }
 

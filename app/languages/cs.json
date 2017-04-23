@@ -85,5 +85,10 @@
 	"projects_action_detail": "Detail",
 	"projects_action_select": "Zvolit",
 	"projects_action_remove": "Odebrat",
+	"commit_typical_added": "Počet přidaných řádků: ",
+	"commit_typical_removed": "Počet odebraných řádků: ",
+	"commit_typical_files": "Počet změněných souborů: ",
+	"commit_typical_title": "Běžný commit",
+	"commit_typical_subtitle": "střední hodnota",
 	"": ""
 }
