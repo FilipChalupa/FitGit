@@ -124,46 +124,46 @@ class Contributors extends Component {
 				className: 'typicalCommit-detail',
 			},
 			e(
-				'h3',
+				'p',
 				{
 					className: 'typicalCommit-detail-title',
 				},
-				'Počet přidaných řádků'
+				'Počet přidaných řádků: ',
+				e(
+					'b',
+					{
+						className: 'typicalCommit-detail-value',
+					},
+					this.state.additions
+				)
 			),
 			e(
 				'p',
 				{
-					className: 'typicalCommit-detail-value',
-				},
-				this.state.additions
-			),
-			e(
-				'h3',
-				{
 					className: 'typicalCommit-detail-title',
 				},
-				'Počet odebraných řádků'
+				'Počet odebraných řádků: ',
+				e(
+					'b',
+					{
+						className: 'typicalCommit-detail-value',
+					},
+					this.state.removals
+				)
 			),
 			e(
 				'p',
 				{
-					className: 'typicalCommit-detail-value',
-				},
-				this.state.removals
-			),
-			e(
-				'h3',
-				{
 					className: 'typicalCommit-detail-title',
 				},
-				'Počet změněných souborů'
-			),
-			e(
-				'p',
-				{
-					className: 'typicalCommit-detail-value',
-				},
-				this.state.files
+				'Počet změněných souborů: ',
+				e(
+					'b',
+					{
+						className: 'typicalCommit-detail-value',
+					},
+					this.state.files
+				)
 			)
 		)
 	}
