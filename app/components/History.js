@@ -12,6 +12,7 @@ const RaisedButton = require('material-ui/RaisedButton').default
 const IconButton = require('material-ui/IconButton').default
 const RefreshIcon = require('material-ui/svg-icons/navigation/refresh').default
 const remoteCallbacks = require('../utils/remoteCallbacks')
+const log = require('../utils/log')
 
 const LIMIT = 250
 
@@ -69,7 +70,7 @@ class History extends Component {
 				], remoteCallbacks)
 			})
 			.catch((error) => {
-				console.error(error)
+				log.error(error)
 			})
 			.then(() => {
 				this.setRefreshing(false)
@@ -163,7 +164,7 @@ class History extends Component {
 			.then((branch) => nodegit.Branch.upstream(branch))
 			.then((reference) => getTopCommit(reference, false, true))
 			.catch((error) => {
-				console.error(error)
+				log.error(error)
 			})
 			.then(() => processPool())
 			.then(() => {
@@ -175,7 +176,7 @@ class History extends Component {
 				}))
 			})
 			.catch((error) => {
-				console.error(error)
+				log.error(error)
 			})
 			.then(() => {
 				this.setRefreshing(false)

@@ -9,6 +9,7 @@ const routes = require('./routes')
 const getStore = require('./store/persistentStore')
 const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default
 const injectTapEventPlugin = require('react-tap-event-plugin')
+const log = require('./utils/log')
 
 injectTapEventPlugin() // http://stackoverflow.com/questions/24335821/can-i-fastclick-reactjs-running-in-cordova/34015469#34015469
 
@@ -36,5 +37,5 @@ getStore()
 		)
 	})
 	.catch((error) => {
-		console.error(error)
+		log.error(error)
 	})

@@ -19,6 +19,7 @@ const status = require('../utils/status')
 const t = require('../utils/text')
 const Checkbox = require('material-ui/Checkbox').default
 const hashHistory = require('react-router').hashHistory
+const log = require('../utils/log')
 
 class Commit extends Component {
 
@@ -76,7 +77,7 @@ class Commit extends Component {
 		return Promise.resolve()
 			.then(() => exec(`cd ${this.props.projects.active.path} && git add "${path}"`))
 			.catch((error) => {
-				console.error(error)
+				log.error(error)
 			})
 			.then(() => {
 				this.setUpdating(false)
@@ -90,7 +91,7 @@ class Commit extends Component {
 		return Promise.resolve()
 			.then(() => exec(`cd ${this.props.projects.active.path} && git reset HEAD "${path}"`))
 			.catch((error) => {
-				console.error(error)
+				log.error(error)
 			})
 			.then(() => {
 				this.setUpdating(false)
@@ -111,7 +112,7 @@ class Commit extends Component {
 				return index.write()
 			})
 			.catch((e) => {
-				console.error(e)
+				log.error(e)
 			})
 			.then(() => {
 				this.setUpdating(false)
@@ -125,7 +126,7 @@ class Commit extends Component {
 				return nodegit.Reset.reset(this.repo, head, nodegit.Reset.TYPE.MIXED)
 			})
 			.catch((e) => {
-				console.error(e)
+				log.error(e)
 			})
 			.then(() => {
 				this.setUpdating(false)
@@ -395,7 +396,7 @@ class Commit extends Component {
 				)
 			})
 			.catch((e) => {
-				console.error(e)
+				log.error(e)
 			})
 			.then(() => {
 				this.setCommiting(false)
@@ -535,7 +536,7 @@ class Commit extends Component {
 				}
 			})
 			.catch((e) => {
-				console.error(e)
+				log.error(e)
 			})
 			.then(() => {
 				this.setRefreshing(false)

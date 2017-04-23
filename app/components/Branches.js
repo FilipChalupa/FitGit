@@ -14,6 +14,7 @@ const getLocalBranches = n.getLocalBranches
 const getRemoteBranches = n.getRemoteBranches
 const getCurrentBranch = n.getCurrentBranch
 const LoadingActions = require('../actions/loading')
+const log = require('../utils/log')
 
 const branchColors = [
 	colors.red500,
@@ -57,7 +58,7 @@ class Branches extends Component {
 				}))
 			})
 			.catch((error) => {
-				console.error(error)
+				log.error(error)
 			})
 			.then(() => {
 				this.props.actions.loading.DecrementLoadingJobs()
@@ -71,7 +72,7 @@ class Branches extends Component {
 				}))
 			})
 			.catch((error) => {
-				console.error(error)
+				log.error(error)
 			})
 			.then(() => {
 				this.props.actions.loading.DecrementLoadingJobs()
@@ -85,7 +86,7 @@ class Branches extends Component {
 				}))
 			})
 			.catch((error) => {
-				console.error(error)
+				log.error(error)
 			})
 			.then(() => {
 				this.props.actions.loading.DecrementLoadingJobs()

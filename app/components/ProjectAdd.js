@@ -21,6 +21,7 @@ const nodegit = require('../utils/nodegit').nodegit
 const remoteCallbacks = require('../utils/remoteCallbacks')
 const FloatingActionButton = require('material-ui/FloatingActionButton').default
 const ContentAdd = require('material-ui/svg-icons/content/add').default
+const log = require('../utils/log')
 
 const TAB_URL   = 'TAB_URL'
 const TAB_LOCAL = 'TAB_LOCAL'
@@ -156,7 +157,7 @@ class ProjectAdd extends Component {
 				this.props.actions.projects.setActiveProject(project)
 			})
 			.catch((error) => {
-				console.error(error)
+				log.error(error)
 			})
 			.then(() => {
 				this.props.actions.loading.DecrementLoadingJobs()

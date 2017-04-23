@@ -9,6 +9,7 @@ const countCommitStats = n.countCommitStats
 const LoadingActions = require('../actions/loading')
 const ProjectsActions = require('../actions/projects')
 const CircularProgress = require('material-ui/CircularProgress').default
+const log = require('../utils/log')
 
 class Contributors extends Component {
 
@@ -110,7 +111,7 @@ class Contributors extends Component {
 				}
 			})
 			.catch((error) => {
-				console.error(error)
+				log.error(error)
 			})
 			.then(() => {
 				this.setLoading(false)

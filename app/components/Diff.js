@@ -11,6 +11,7 @@ const CardTitle = c.CardTitle
 const status = require('../utils/status')
 const t = require('../utils/text')
 const CircularProgress = require('material-ui/CircularProgress').default
+const log = require('../utils/log')
 
 class Diff extends Component {
 
@@ -145,7 +146,7 @@ class Diff extends Component {
 				return processPatch()
 			})
 			.catch((error) => {
-				console.error(error)
+				log.error(error)
 			})
 			.then(() => {
 				this.setState(Object.assign({}, this.states, { artifacts }))

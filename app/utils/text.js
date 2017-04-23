@@ -1,6 +1,7 @@
 const loadJsonFile = require('load-json-file')
 const path = require('path')
 const fsp = require('fs-promise')
+const log = require('./log')
 
 const LANGUAGES_DIR = path.resolve(__dirname, '..', 'languages')
 const DEFAULT_LANGUAGE_CODE = 'cs'
@@ -13,7 +14,7 @@ function getTranslation(code, key) {
 			texts[code] = fsp.readJsonSync(path.resolve(LANGUAGES_DIR, `${code}.json`))
 		} catch (error) {
 			texts[code] = []
-			console.error(error)
+			log.error(error)
 		}
 	}
 	return texts[code][key] || null

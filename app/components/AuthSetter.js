@@ -10,6 +10,7 @@ const Dialog = require('material-ui/Dialog').default
 const FlatButton = require('material-ui/FlatButton').default
 const RaisedButton = require('material-ui/RaisedButton').default
 const TextField = require('material-ui/TextField').default
+const log = require('../utils/log')
 
 class Contributors extends Component {
 
@@ -67,7 +68,7 @@ class Contributors extends Component {
 				}
 			})
 			.catch((error) => {
-				console.error(error)
+				log.error(error)
 			})
 			.then(() => {
 				this.props.actions.loading.DecrementLoadingJobs()
@@ -95,7 +96,7 @@ class Contributors extends Component {
 				password: this.state.password,
 			}))
 			.catch((error) => {
-				console.error(error)
+				log.error(error)
 			})
 			.then(() => {
 				this.props.actions.loading.DecrementLoadingJobs()

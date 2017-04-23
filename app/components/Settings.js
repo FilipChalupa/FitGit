@@ -16,6 +16,7 @@ const LoadingActions = require('../actions/loading')
 const fsp = require('fs-promise')
 const path = require('path')
 const t = require('../utils/text')
+const log = require('../utils/log')
 
 const LANGUAGES_DIR = path.resolve(__dirname, '..', 'languages')
 
@@ -46,7 +47,7 @@ class Settings extends Component {
 				}))
 			})
 			.catch((error) => {
-				console.error(error)
+				log.error(error)
 			})
 	}
 

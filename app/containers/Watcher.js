@@ -15,6 +15,7 @@ const remoteCallbacks = require('../utils/remoteCallbacks')
 const notify = require('../utils/notify')
 const redirectWithReload = require('../utils/redirectWithReload')
 const exec = require('child-process-promise').exec
+const log = require('../utils/log')
 
 const CHECK_INTERVAL = 3000
 
@@ -70,7 +71,7 @@ class Watcher extends Component {
 					}
 
 				})
-				.catch((error) => console.error(error))
+				.catch((error) => log.error(error))
 				.then(() => {
 					this.props.actions.integrator.setCommitAvailable(available, notification)
 				})
@@ -91,7 +92,7 @@ class Watcher extends Component {
 					redirectWithReload('/history')
 				})
 			})
-			.catch((error) => console.log('push error', error))
+			.catch((error) => console.error(error))
 	}
 
 	check() {
@@ -172,10 +173,10 @@ class Watcher extends Component {
 				return Promise.resolve()
 					.then(() => {
 						if (!localBranch || !localBranch.isBranch()) {
-							console.info('Local branch unknown')
+							log.info('Local branch unknown')
 							return repo.fetch('origin', remoteCallbacks)
 								.catch((error) => {
-									console.info('Unable to fetch')
+									log.info('Unable to fetch')
 									return repo.getRemote('origin')
 										.then((remote) => remote.url())
 										.then((url) => {
@@ -197,25 +198,25 @@ class Watcher extends Component {
 									}
 								})
 						} else if (!remoteName) {
-							console.info('Remote unknown')
+							log.info('Remote unknown')
 							return exec(`cd ${this.props.projects.active.path} && git branch --set-upstream-to=origin/master`)
 								.catch((out) => {
-									console.log(out)
+									log.info(out)
 								})
 						}
 					})
 					.catch((error) => {
-						console.error(error)
+						log.error(error)
 					})
 					.then(() => {
 						this.props.actions.loading.DecrementLoadingJobs()
 					})
 			})
 			.catch((error) => {
-				console.error(error)
+				log.error(error)
 			})
 			.then(() => {
-				console.info('Watch job done')
+				log.info('Watch job done')
 				setTimeout(() => {
 					this.check()
 				}, CHECK_INTERVAL)

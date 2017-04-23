@@ -14,6 +14,7 @@ const c = require('material-ui/Card')
 const Card = c.Card
 const CardHeader = c.CardHeader
 const MenuActions = require( '../actions/menu')
+const log = require('../utils/log')
 
 class CommitDetail extends Component {
 
@@ -57,7 +58,7 @@ class CommitDetail extends Component {
 				}))
 			})
 			.catch((error) => {
-				console.error(error)
+				log.error(error)
 			})
 			.then(() => {
 				this.props.actions.loading.DecrementLoadingJobs()

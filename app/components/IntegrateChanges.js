@@ -15,6 +15,7 @@ const StatusActions = require('../actions/status')
 const Diff = require('./Diff')
 const hashHistory = require('react-router').hashHistory
 const exec = require('child-process-promise').exec
+const log = require('../utils/log')
 
 class IntegrateChanges extends Component {
 
@@ -96,7 +97,7 @@ class IntegrateChanges extends Component {
 				}
 			})
 			.catch((error) => {
-				console.error(error)
+				log.error(error)
 			})
 			.then(() => {
 				this.setUpdating(false)
@@ -111,7 +112,7 @@ class IntegrateChanges extends Component {
 		Promise.resolve()
 			.then(() => this.merge())
 			.catch((error) => {
-				console.error(error)
+				log.error(error)
 			})
 			.then((success) => {
 				this.setUpdating(false)

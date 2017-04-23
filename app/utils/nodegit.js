@@ -1,4 +1,5 @@
 const nodegit = require('nodegit')
+const log = require('./log')
 
 const getBranches = function getBranches(path) {
 	return nodegit.Repository.open(path)
@@ -119,7 +120,7 @@ function countCommitStats(treeA, treeB) {
 		})
 		.then(() => stats)
 		.catch((error) => {
-			console.error(error)
+			log.error(error)
 			return null
 		})
 }

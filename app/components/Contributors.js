@@ -7,6 +7,7 @@ const nodegit = require('../utils/nodegit').nodegit
 const LoadingActions = require('../actions/loading')
 const CircularProgress = require('material-ui/CircularProgress').default
 const Time = require('./Time')
+const log = require('../utils/log')
 
 class Contributors extends Component {
 
@@ -82,7 +83,7 @@ class Contributors extends Component {
 				}
 			})
 			.catch((error) => {
-				console.error(error)
+				log.error(error)
 			})
 			.then(() => {
 				this.setLoading(false)
