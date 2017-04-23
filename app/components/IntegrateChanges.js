@@ -16,6 +16,7 @@ const Diff = require('./Diff')
 const hashHistory = require('react-router').hashHistory
 const exec = require('child-process-promise').exec
 const log = require('../utils/log')
+const t = require('../utils/text')
 
 class IntegrateChanges extends Component {
 
@@ -147,7 +148,7 @@ class IntegrateChanges extends Component {
 								.catch((error) => {
 									console.info('Exec `git merge ...` has failed. Reverting.')
 									this.props.actions.status.addStatus(
-										'Sloučení změn se kvůli konfliktu nezdařilo'
+										t(this.props.settings.language, 'integrate_conflict_fail')
 									)
 									return exec(`cd ${this.props.projects.active.path} && git merge --abort`)
 										.then(() => {
@@ -159,7 +160,7 @@ class IntegrateChanges extends Component {
 			})
 			.then(() => {
 				this.props.actions.status.addStatus(
-					'Nové změny byly začleněny'
+					t(this.props.settings.language, 'integrate_merged')
 				)
 				return true
 			})
@@ -174,7 +175,7 @@ class IntegrateChanges extends Component {
 			}))
 			.then((oid) => {
 				this.props.actions.status.addStatus(
-					'Zkontrolujte, že vaše změny nebyly smazány.'
+					t(this.props.settings.language, 'integrate_check_deleted')
 				)
 				return this.repo.getCommit(oid)
 			})
@@ -193,11 +194,11 @@ class IntegrateChanges extends Component {
 				e(
 					'div',
 					null,
-					e('h1', null, 'Začlenit změny'),
+					e('h1', null, t(this.props.settings.language, 'integrate_title')),
 					e(
 						RaisedButton,
 						{
-							label: 'Přijmout změny',
+							label: t(this.props.settings.language, 'integrate_accept'),
 							secondary: true,
 							onTouchTap: this.accept.bind(this),
 							disabled: this.state.updating,
@@ -210,7 +211,7 @@ class IntegrateChanges extends Component {
 					e(
 						IconButton,
 						{
-							tooltip: 'Aktualizovat',
+							tooltip: t(this.props.settings.language, 'integrate_refres'),
 							onTouchTap: this.refresh.bind(this),
 							disabled: this.state.updating,
 						},

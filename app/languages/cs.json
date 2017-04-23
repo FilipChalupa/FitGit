@@ -50,13 +50,18 @@
 	"contributors_last_edit": "Poslední úprava: ",
 	"contributors_title": "Autoři",
 	"diff_nothing": "Bez změn.",
-
 	"input_context_undo": "Zpět",
 	"input_context_redo": "Znovu",
 	"input_context_cut": "Vyjmout",
 	"input_context_copy": "Kopírovat",
 	"input_context_paste": "Vložit",
 	"input_context_selectall": "Vybrat vše",
+	"integrate_conflict_fail": "Sloučení změn se kvůli konfliktu nezdařilo",
+	"integrate_merged": "Nové změny byly začleněny",
+	"integrate_check_deleted": "Zkontrolujte, že vaše změny nebyly smazány",
+	"integrate_title": "Začlenit změny",
+	"integrate_accept": "Přijmout změny",
+	"integrate_refresh": "Aktualizova",
 
 	"": ""
 }
