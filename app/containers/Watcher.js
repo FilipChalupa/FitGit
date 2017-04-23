@@ -39,8 +39,13 @@ class Watcher extends Component {
 	refreshCanCommit(repo, localTopCommit) {
 		let index
 		let treeB
+		let available = false
+		let notification = false
 		if (localTopCommit) {
 			return Promise.resolve()
+				.then(() => repo.getStatus())
+				.then((artifacts) => available = repo.isDefaultState() && artifacts.length !== 0)
+
 				.then(() => localTopCommit.getTree())
 				.then((t) => treeB = t)
 				.then((t) => repo.index())
@@ -57,17 +62,18 @@ class Watcher extends Component {
 							statsBetterOrEqToMedian++
 						}
 					})
-					const available = repo.isDefaultState() && stats.files > 0
-					const notification = this.notifyAboutCommitSuggestion && available && !this.props.integrator.commitNotification && statsBetterOrEqToMedian > 1
+					notification = this.notifyAboutCommitSuggestion && available && !this.props.integrator.commitNotification && statsBetterOrEqToMedian > 1
 					if (notification) {
 						this.notifyAboutCommitSuggestion = false
 					} else if (!available) {
 						this.notifyAboutCommitSuggestion = true
 					}
-					this.props.actions.integrator.setCommitAvailable(available, notification)
+
 				})
 				.catch((error) => console.error(error))
-				.then(() => console.info(done))
+				.then(() => {
+					this.props.actions.integrator.setCommitAvailable(available, notification)
+				})
 		}
 	}
 
