@@ -90,5 +90,9 @@
 	"commit_typical_files": "Počet změněných souborů: ",
 	"commit_typical_title": "Běžný commit",
 	"commit_typical_subtitle": "střední hodnota",
+	"notification_cancommit_title": "Máte nenasdílené změny",
+	"notification_cancommit_message": "možná je čas udělat commit",
+	"notification_updates_title": "Nové změny k dispozici",
+	"notification_updates_message": "zobrazit",
 	"": ""
 }

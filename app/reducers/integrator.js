@@ -12,13 +12,17 @@ const defaultState = Object.freeze({
 	commitNotification: false,
 })
 
+const showNotification = (payload) => {
+	notify(payload.title, payload.message, () => {
+		redirectWithReload(payload.route)
+	})
+}
+
 module.exports = function integrator(state = defaultState, action) {
 	switch (action.type) {
 		case SET_INTEGRATION_AVAILABLE:
 			if (action.payload.available && !state.notification && action.payload.notify) {
-				notify('Nové změny k dispozici', 'zobrazit', () => {
-					redirectWithReload('/integrateChanges')
-				})
+				showNotification(action.payload)
 			}
 			return Object.assign({}, state, {
 				available: action.payload.available,
@@ -26,9 +30,7 @@ module.exports = function integrator(state = defaultState, action) {
 			})
 		case SET_COMMIT_AVAILABLE:
 			if (action.payload.available && !state.commitNotification && action.payload.notify) {
-				notify('Máte nenasdílené změny', 'možná je čas udělat commit', () => {
-					redirectWithReload('/commit')
-				})
+				showNotification(action.payload)
 			}
 			return Object.assign({}, state, {
 				commitAvailable: action.payload.available,

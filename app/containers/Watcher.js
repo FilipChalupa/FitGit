@@ -16,6 +16,7 @@ const notify = require('../utils/notify')
 const redirectWithReload = require('../utils/redirectWithReload')
 const exec = require('child-process-promise').exec
 const log = require('../utils/log')
+const t = require('../utils/text')
 
 const CHECK_INTERVAL = 3000
 
@@ -79,7 +80,13 @@ class Watcher extends Component {
 			})
 			.catch((error) => log.error(error))
 			.then(() => {
-				this.props.actions.integrator.setCommitAvailable(available, notification)
+				this.props.actions.integrator.setCommitAvailable(
+					available,
+					notification,
+					t(this.props.settings.language, 'notification_cancommit_title'),
+					t(this.props.settings.language, 'notification_cancommit_message'),
+					'/commit'
+				)
 			})
 	}
 
@@ -147,7 +154,10 @@ class Watcher extends Component {
 				commonTopCommit = commit
 				this.props.actions.integrator.setIntegrationAvailable(
 					remoteNewTopCommit && (!commonTopCommit || (remoteNewTopCommit.sha() !== commonTopCommit.sha())),
-					remoteNewTopCommit && (!remoteOldTopCommit || (remoteNewTopCommit.sha() !== remoteOldTopCommit.sha()))
+					remoteNewTopCommit && (!remoteOldTopCommit || (remoteNewTopCommit.sha() !== remoteOldTopCommit.sha())),
+					t(this.props.settings.language, 'notification_updates_title'),
+					t(this.props.settings.language, 'notification_updates_message'),
+					'/integrateChanges'
 				)
 
 				const push = () => {

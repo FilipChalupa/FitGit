@@ -3,23 +3,29 @@ const DISMISS_NOTIFICATION        = 'DISMISS_NOTIFICATION'
 const SET_COMMIT_AVAILABLE        = 'SET_COMMIT_AVAILABLE'
 const DISMISS_COMMIT_NOTIFICATION = 'DISMISS_COMMIT_NOTIFICATION'
 
-function setIntegrationAvailable(available, notify) {
+function setIntegrationAvailable(available, notify, title, message, route) {
 	return {
 		type: SET_INTEGRATION_AVAILABLE,
 		payload: {
 			available,
 			notify,
+			title,
+			message,
+			route,
 		},
 	}
 }
 
 
-function setCommitAvailable(available, notify) {
+function setCommitAvailable(available, notify, title, message, route) {
 	return {
 		type: SET_COMMIT_AVAILABLE,
 		payload: {
 			available,
 			notify,
+			title,
+			message,
+			route,
 		},
 	}
 }
