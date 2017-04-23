@@ -58,7 +58,7 @@ class Branches extends Component {
 				}))
 			})
 			.catch((error) => {
-				log.error(error)
+				log.error(error.toString())
 			})
 			.then(() => {
 				this.props.actions.loading.DecrementLoadingJobs()
@@ -72,7 +72,7 @@ class Branches extends Component {
 				}))
 			})
 			.catch((error) => {
-				log.error(error)
+				log.error(error.toString())
 			})
 			.then(() => {
 				this.props.actions.loading.DecrementLoadingJobs()
@@ -86,7 +86,7 @@ class Branches extends Component {
 				}))
 			})
 			.catch((error) => {
-				log.error(error)
+				log.error(error.toString())
 			})
 			.then(() => {
 				this.props.actions.loading.DecrementLoadingJobs()

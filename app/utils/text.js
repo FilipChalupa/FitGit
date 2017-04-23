@@ -14,7 +14,7 @@ function getTranslation(code, key) {
 			texts[code] = fsp.readJsonSync(path.resolve(LANGUAGES_DIR, `${code}.json`))
 		} catch (error) {
 			texts[code] = []
-			log.error(error)
+			log.error(error.toString())
 		}
 	}
 	return texts[code][key] || null

@@ -71,7 +71,7 @@ class Watcher extends Component {
 					}
 
 				})
-				.catch((error) => log.error(error))
+				.catch((error) => log.error(error.toString()))
 				.then(() => {
 					this.props.actions.integrator.setCommitAvailable(available, notification)
 				})
@@ -206,14 +206,14 @@ class Watcher extends Component {
 						}
 					})
 					.catch((error) => {
-						log.error(error)
+						log.error(error.toString())
 					})
 					.then(() => {
 						this.props.actions.loading.DecrementLoadingJobs()
 					})
 			})
 			.catch((error) => {
-				log.error(error)
+				log.error(error.toString())
 			})
 			.then(() => {
 				log.info('Watch job done')

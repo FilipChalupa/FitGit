@@ -68,7 +68,7 @@ class Contributors extends Component {
 				}
 			})
 			.catch((error) => {
-				log.error(error)
+				log.error(error.toString())
 			})
 			.then(() => {
 				this.props.actions.loading.DecrementLoadingJobs()
@@ -96,7 +96,7 @@ class Contributors extends Component {
 				password: this.state.password,
 			}))
 			.catch((error) => {
-				log.error(error)
+				log.error(error.toString())
 			})
 			.then(() => {
 				this.props.actions.loading.DecrementLoadingJobs()

@@ -58,7 +58,7 @@ class CommitDetail extends Component {
 				}))
 			})
 			.catch((error) => {
-				log.error(error)
+				log.error(error.toString())
 			})
 			.then(() => {
 				this.props.actions.loading.DecrementLoadingJobs()

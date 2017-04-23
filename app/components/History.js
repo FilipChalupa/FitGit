@@ -70,7 +70,7 @@ class History extends Component {
 				], remoteCallbacks)
 			})
 			.catch((error) => {
-				log.error(error)
+				log.error(error.toString())
 			})
 			.then(() => {
 				this.setRefreshing(false)
@@ -164,7 +164,7 @@ class History extends Component {
 			.then((branch) => nodegit.Branch.upstream(branch))
 			.then((reference) => getTopCommit(reference, false, true))
 			.catch((error) => {
-				log.error(error)
+				log.error(error.toString())
 			})
 			.then(() => processPool())
 			.then(() => {
@@ -176,7 +176,7 @@ class History extends Component {
 				}))
 			})
 			.catch((error) => {
-				log.error(error)
+				log.error(error.toString())
 			})
 			.then(() => {
 				this.setRefreshing(false)

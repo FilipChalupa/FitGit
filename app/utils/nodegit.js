@@ -120,7 +120,7 @@ function countCommitStats(treeA, treeB) {
 		})
 		.then(() => stats)
 		.catch((error) => {
-			log.error(error)
+			log.error(error.toString())
 			return null
 		})
 }

@@ -97,7 +97,7 @@ class IntegrateChanges extends Component {
 				}
 			})
 			.catch((error) => {
-				log.error(error)
+				log.error(error.toString())
 			})
 			.then(() => {
 				this.setUpdating(false)
@@ -112,7 +112,7 @@ class IntegrateChanges extends Component {
 		Promise.resolve()
 			.then(() => this.merge())
 			.catch((error) => {
-				log.error(error)
+				log.error(error.toString())
 			})
 			.then((success) => {
 				this.setUpdating(false)

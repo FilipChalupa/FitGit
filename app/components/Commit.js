@@ -77,7 +77,7 @@ class Commit extends Component {
 		return Promise.resolve()
 			.then(() => exec(`cd ${this.props.projects.active.path} && git add "${path}"`))
 			.catch((error) => {
-				log.error(error)
+				log.error(error.toString())
 			})
 			.then(() => {
 				this.setUpdating(false)
@@ -91,7 +91,7 @@ class Commit extends Component {
 		return Promise.resolve()
 			.then(() => exec(`cd ${this.props.projects.active.path} && git reset HEAD "${path}"`))
 			.catch((error) => {
-				log.error(error)
+				log.error(error.toString())
 			})
 			.then(() => {
 				this.setUpdating(false)

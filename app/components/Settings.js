@@ -47,7 +47,7 @@ class Settings extends Component {
 				}))
 			})
 			.catch((error) => {
-				log.error(error)
+				log.error(error.toString())
 			})
 	}
 
