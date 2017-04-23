@@ -1,6 +1,8 @@
 const React = require('react')
 const e = React.createElement
 const Component = React.Component
+const bindActionCreators = require('redux').bindActionCreators
+const connect = require('react-redux').connect
 const Card = require('material-ui/Card').Card
 const CardActions = require('material-ui/Card').CardActions
 const CardTitle = require('material-ui/Card').CardTitle
@@ -9,8 +11,9 @@ const FlatButton = require('material-ui/FlatButton').default
 const RaisedButton = require('material-ui/RaisedButton').default
 const compareProjects = require('../utils/compareProjects')
 const hashHistory = require('react-router').hashHistory
+const t = require('../utils/text')
 
-module.exports = class ProjectsList extends Component {
+class ProjectsList extends Component {
 
 
 	selectProject(project) {
@@ -25,7 +28,7 @@ module.exports = class ProjectsList extends Component {
 	renderProjects() {
 		if (this.props.projects.length === 0) {
 			return (
-				e('div', null, 'Zatím nemáte žádný projekt. Nový přidáte tlačítkem plus v dolní části okna.')
+				e('div', null, t(this.props.settings.language, 'projects_list_nothing'))
 			)
 		}
 		return this.props.projects.map((project, i) => {
@@ -60,7 +63,7 @@ module.exports = class ProjectsList extends Component {
 						e(
 							RaisedButton,
 							{
-								label: isActive ? 'Detail' : 'Zvolit',
+								label: isActive ? t(this.props.settings.language, 'projects_action_detail') : t(this.props.settings.language, 'projects_action_select'),
 								primary: !isActive,
 								secondary: isActive,
 								onTouchTap: () => this.selectProject(project),
@@ -69,7 +72,7 @@ module.exports = class ProjectsList extends Component {
 						e(
 							FlatButton,
 							{
-								label: 'Odebrat',
+								label: t(this.props.settings.language, 'projects_action_remove'),
 								onTouchTap: () => this.props.removeProject(project),
 							}
 						)
@@ -91,3 +94,12 @@ module.exports = class ProjectsList extends Component {
 		)
 	}
 }
+
+
+module.exports = connect((state) => {
+	return {
+		settings: state.settings,
+	}
+}, (dispatch) => {
+	return {}
+})(ProjectsList)

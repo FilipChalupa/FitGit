@@ -81,5 +81,9 @@
 	"project_select_directory": "Zvolte adresář, který obsahuje již existující projekt.",
 	"project_select_url": "Zvolte adresu, ze které se stáhne existující projekt do místního adresáře. Stahování může nějakou dobu trvat.",
 	"projects_title": "Projekty",
+	"projects_list_nothing": "Zatím nemáte žádný projekt. Nový přidáte tlačítkem plus v dolní části okna.",
+	"projects_action_detail": "Detail",
+	"projects_action_select": "Zvolit",
+	"projects_action_remove": "Odebrat",
 	"": ""
 }
