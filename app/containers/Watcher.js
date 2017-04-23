@@ -38,44 +38,49 @@ class Watcher extends Component {
 
 
 	refreshCanCommit(repo, localTopCommit) {
+		if (!repo) {
+			return
+		}
 		let index
 		let treeB
 		let available = false
 		let notification = false
-		if (localTopCommit) {
-			return Promise.resolve()
-				.then(() => repo.getStatus())
-				.then((artifacts) => available = repo.isDefaultState() && artifacts.length !== 0)
+		return Promise.resolve()
+			.then(() => repo.getStatus())
+			.then((artifacts) => available = repo.isDefaultState() && artifacts.length !== 0)
+			.then(() => {
+				if (localTopCommit) {
+					return Promise.resolve()
+						.then(() => localTopCommit.getTree())
+						.then((t) => treeB = t)
+						.then((t) => repo.index())
+						.then((i) => index = i)
+						.then(() => index.addAll())
+						.then(() => index.writeTree())
+						.then((oid) => nodegit.Tree.lookup(repo, oid))
+						.then((treeA) => countCommitStats(treeA, treeB))
+						.then((stats) => {
+							let statsBetterOrEqToMedian = 0
+							const statKeys = ['additions', 'removals', 'files']
+							statKeys.forEach((statKey) => {
+								if (stats[statKey] >= this.props.projects.active.stats[statKey]) {
+									statsBetterOrEqToMedian++
+								}
+							})
+							notification = this.notifyAboutCommitSuggestion && available && !this.props.integrator.commitNotification && statsBetterOrEqToMedian > 1
+							if (notification) {
+								this.notifyAboutCommitSuggestion = false
+							} else if (!available) {
+								this.notifyAboutCommitSuggestion = true
+							}
 
-				.then(() => localTopCommit.getTree())
-				.then((t) => treeB = t)
-				.then((t) => repo.index())
-				.then((i) => index = i)
-				.then(() => index.addAll())
-				.then(() => index.writeTree())
-				.then((oid) => nodegit.Tree.lookup(repo, oid))
-				.then((treeA) => countCommitStats(treeA, treeB))
-				.then((stats) => {
-					let statsBetterOrEqToMedian = 0
-					const statKeys = ['additions', 'removals', 'files']
-					statKeys.forEach((statKey) => {
-						if (stats[statKey] >= this.props.projects.active.stats[statKey]) {
-							statsBetterOrEqToMedian++
-						}
-					})
-					notification = this.notifyAboutCommitSuggestion && available && !this.props.integrator.commitNotification && statsBetterOrEqToMedian > 1
-					if (notification) {
-						this.notifyAboutCommitSuggestion = false
-					} else if (!available) {
-						this.notifyAboutCommitSuggestion = true
-					}
-
-				})
-				.catch((error) => log.error(error.toString()))
-				.then(() => {
-					this.props.actions.integrator.setCommitAvailable(available, notification)
-				})
-		}
+						})
+				}
+			})
+			.catch((error) => log.error(error.toString()))
+			.then(() => {
+				this.props.actions.integrator.setCommitAvailable(available, notification)
+			})
 	}
 
 
@@ -166,7 +171,6 @@ class Watcher extends Component {
 					}
 				}
 			})
-			.then(() => this.refreshCanCommit(repo, localTopCommit))
 			.catch(() => {
 				// Try to fix repo
 				this.props.actions.loading.IncrementLoadingJobs()
@@ -212,6 +216,7 @@ class Watcher extends Component {
 						this.props.actions.loading.DecrementLoadingJobs()
 					})
 			})
+			.then(() => this.refreshCanCommit(repo, localTopCommit))
 			.catch((error) => {
 				log.error(error.toString())
 			})
