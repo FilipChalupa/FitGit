@@ -10,6 +10,10 @@ const LoadingActions = require('../actions/loading')
 const ProjectsActions = require('../actions/projects')
 const CircularProgress = require('material-ui/CircularProgress').default
 const log = require('../utils/log')
+const c = require('material-ui/Card')
+const Card = c.Card
+const CardTitle = c.CardTitle
+const CardText = c.CardText
 
 class Contributors extends Component {
 
@@ -127,7 +131,7 @@ class Contributors extends Component {
 			e(
 				'p',
 				{
-					className: 'typicalCommit-detail-title',
+					className: 'typicalCommit-detail-label',
 				},
 				'Počet přidaných řádků: ',
 				e(
@@ -141,7 +145,7 @@ class Contributors extends Component {
 			e(
 				'p',
 				{
-					className: 'typicalCommit-detail-title',
+					className: 'typicalCommit-detail-label',
 				},
 				'Počet odebraných řádků: ',
 				e(
@@ -155,7 +159,7 @@ class Contributors extends Component {
 			e(
 				'p',
 				{
-					className: 'typicalCommit-detail-title',
+					className: 'typicalCommit-detail-label',
 				},
 				'Počet změněných souborů: ',
 				e(
@@ -173,12 +177,22 @@ class Contributors extends Component {
 
 		return (
 			e(
-				'div',
+				Card,
 				{
 					className: 'typicalCommit',
 				},
-				e('h2', null, 'Běžný commit (střední hodnota)'),
-				this.state.loading ? e(CircularProgress) : this.renderDetail()
+				e(
+					CardTitle,
+					{
+						title: 'Běžný commit',
+						subtitle: 'střední hodnota',
+					}
+				),
+				e(
+					CardText,
+					null,
+					this.state.loading ? e(CircularProgress) : this.renderDetail()
+				)
 			)
 		)
 	}

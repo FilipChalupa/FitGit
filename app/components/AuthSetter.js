@@ -11,6 +11,10 @@ const FlatButton = require('material-ui/FlatButton').default
 const RaisedButton = require('material-ui/RaisedButton').default
 const TextField = require('material-ui/TextField').default
 const log = require('../utils/log')
+const c = require('material-ui/Card')
+const Card = c.Card
+const CardTitle = c.CardTitle
+const CardText = c.CardText
 
 class Contributors extends Component {
 
@@ -139,44 +143,55 @@ class Contributors extends Component {
 
 		return (
 			e(
-				'div',
-				null,
-				e('h2', null, 'Nastavení přístupových údajů'),
+				Card,
+				{
+					className: 'authSetter',
+				},
 				e(
-					RaisedButton,
+					CardTitle,
 					{
-						label: 'Změnit',
-						onTouchTap: () => this.setOpen(true),
+						title: 'Nastavení přístupových údajů',
 					}
 				),
 				e(
-					Dialog,
-					{
-						title: 'Změnit přístupové údaje',
-						actions: actions,
-						modal: false,
-						open: this.state.open,
-						onRequestClose: () => this.closeWithoutSave(),
-					},
+					CardText,
+					null,
 					e(
-						TextField,
+						RaisedButton,
 						{
-							value: this.state.username,
-							onChange: (e) => this.handleUsernameChange(e.target.value),
-							floatingLabelText: 'Uživatelské jméno',
-							floatingLabelFixed: true,
+							label: 'Změnit',
+							onTouchTap: () => this.setOpen(true),
 						}
 					),
-					e('br'),
 					e(
-						TextField,
+						Dialog,
 						{
-							value: this.state.password,
-							onChange: (e) => this.handlePasswordChange(e.target.value),
-							floatingLabelText: 'Heslo',
-							floatingLabelFixed: true,
-							type: 'password',
-						}
+							title: 'Změnit přístupové údaje',
+							actions: actions,
+							modal: false,
+							open: this.state.open,
+							onRequestClose: () => this.closeWithoutSave(),
+						},
+						e(
+							TextField,
+							{
+								value: this.state.username,
+								onChange: (e) => this.handleUsernameChange(e.target.value),
+								floatingLabelText: 'Uživatelské jméno',
+								floatingLabelFixed: true,
+							}
+						),
+						e('br'),
+						e(
+							TextField,
+							{
+								value: this.state.password,
+								onChange: (e) => this.handlePasswordChange(e.target.value),
+								floatingLabelText: 'Heslo',
+								floatingLabelFixed: true,
+								type: 'password',
+							}
+						)
 					)
 				)
 			)

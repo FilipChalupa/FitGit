@@ -1,4 +1,6 @@
-.contributors {}
+.contributors {
+	margin-bottom: 20px;
+}
 
 .contributors-item {
 	display: flex;

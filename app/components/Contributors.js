@@ -8,6 +8,10 @@ const LoadingActions = require('../actions/loading')
 const CircularProgress = require('material-ui/CircularProgress').default
 const Time = require('./Time')
 const log = require('../utils/log')
+const c = require('material-ui/Card')
+const Card = c.Card
+const CardTitle = c.CardTitle
+const CardText = c.CardText
 
 class Contributors extends Component {
 
@@ -133,12 +137,21 @@ class Contributors extends Component {
 
 		return (
 			e(
-				'div',
+				Card,
 				{
 					className: 'contributors',
 				},
-				e('h2', null, 'Autoři'),
-				this.state.loading ? e(CircularProgress) : this.renderList()
+				e(
+					CardTitle,
+					{
+						title: 'Autoři',
+					}
+				),
+				e(
+					CardText,
+					null,
+					this.state.loading ? e(CircularProgress) : this.renderList()
+				)
 			)
 		)
 	}
