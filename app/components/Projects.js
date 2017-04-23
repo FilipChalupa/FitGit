@@ -1,10 +1,13 @@
 const React = require('react')
 const e = React.createElement
 const Component = React.Component
+const bindActionCreators = require('redux').bindActionCreators
+const connect = require('react-redux').connect
 const ProjectsList = require('./ProjectsList')
 const ProjectAdd = require('./ProjectAdd')
+const t = require('../utils/text')
 
-module.exports = class Projects extends Component {
+class Projects extends Component {
 
 	render() {
 
@@ -12,7 +15,7 @@ module.exports = class Projects extends Component {
 			e(
 				'div',
 				null,
-				e('h1', null, 'Projekty'),
+				e('h1', null, t(this.props.settings.language, 'projects_title')),
 				e(
 					ProjectsList,
 					{
@@ -28,3 +31,12 @@ module.exports = class Projects extends Component {
 		)
 	}
 }
+
+
+module.exports = connect((state) => {
+	return {
+		settings: state.settings,
+	}
+}, (dispatch) => {
+	return {}
+})(Projects)
