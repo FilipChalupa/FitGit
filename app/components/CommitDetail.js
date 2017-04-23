@@ -15,6 +15,7 @@ const Card = c.Card
 const CardHeader = c.CardHeader
 const MenuActions = require( '../actions/menu')
 const log = require('../utils/log')
+const t = require('../utils/text')
 
 class CommitDetail extends Component {
 
@@ -30,7 +31,10 @@ class CommitDetail extends Component {
 
 	componentDidMount() {
 		this.refresh()
-		this.props.actions.menu.setAction('Historie', '/history')
+		this.props.actions.menu.setAction(
+			t(this.props.settings.language, 'commit_detail_history'),
+			'/history'
+		)
 	}
 
 
@@ -89,7 +93,7 @@ class CommitDetail extends Component {
 						e(
 							'h2',
 							null,
-							`Porovnání s „${parentCommit.message()}“`
+							t(this.props.settings.language, 'commit_detail_compare').replace('{message}', parentCommit.message())
 						),
 						e(
 							Diff,
@@ -146,14 +150,14 @@ class CommitDetail extends Component {
 				e(
 					'h1',
 					null,
-					message ? message[0] : 'Detail commitu'
+					message ? message[0] : t(this.props.settings.language, 'commit_detail_title')
 				),
 				e(
 					'p',
 					{
 						className: 'commitDetail-hash',
 					},
-					`Unikátní identifikátor: ${commitHash}`
+					t(this.props.settings.language, 'commit_detail_hash').replace('{hash}', commitHash)
 				),
 				(!message || message.length <= 1) ? null : e(
 					'h3',
@@ -173,6 +177,7 @@ function mapStateToProps(state) {
 	return {
 		loading: state.loading,
 		projects: state.projects,
+		settings: state.settings,
 	}
 }
 

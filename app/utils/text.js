@@ -17,7 +17,7 @@ function getTranslation(code, key) {
 			log.error(error)
 		}
 	}
-	return texts[code][key] || null
+	return texts[code][key] || ''
 }
 
 function text(code, key) {
