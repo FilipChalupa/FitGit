@@ -1,8 +1,8 @@
 # FitGit
 
-[![Build Status](https://travis-ci.org/Onset/git-latex.svg?branch=master)](https://travis-ci.org/Onset/git-latex)
-[![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/w48htrgwosvd42eq?svg=true)](https://ci.appveyor.com/project/Onset/git-latex)
-[![Dependency Status](https://david-dm.org/Onset/git-latex.svg)](https://david-dm.org/Onset/git-latex)
+[![Build Status](https://travis-ci.org/Onset/FitGit.svg?branch=master)](https://travis-ci.org/Onset/FitGit)
+[![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/w48htrgwosvd42eq?svg=true)](https://ci.appveyor.com/project/Onset/FitGit)
+[![Dependency Status](https://david-dm.org/Onset/FitGit.svg)](https://david-dm.org/Onset/FitGit)
 
 ![](./printscreen-projects.png)
 
