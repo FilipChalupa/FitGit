@@ -32,9 +32,9 @@ $ npm run build
 
 - Windows
 	- [Git client](https://git-scm.com/download/win)
-	- For https repositories: [Credential Storage](https://git-scm.com/book/gr/v2/Git-Tools-Credential-Storage) enabled
+	- For https repositories: [Credential Storage](https://git-scm.com/book/gr/v2/Git-Tools-Credential-Storage) enabled (`git config --global credential.helper`)
 	- For ssh: [Pageant](https://winscp.net/eng/docs/ui_pageant) configured
 
 - Linux
 	- Git client
-	- For https repositories: [Credential Storage](https://git-scm.com/book/gr/v2/Git-Tools-Credential-Storage) enabled
+	- For https repositories: [Credential Storage](https://git-scm.com/book/gr/v2/Git-Tools-Credential-Storage) enabled (`git config --global credential.helper`)
