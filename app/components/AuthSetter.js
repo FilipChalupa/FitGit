@@ -175,7 +175,7 @@ class Contributors extends Component {
 						e(
 							TextField,
 							{
-								value: this.state.username,
+								value: this.state.username || '',
 								onChange: (e) => this.handleUsernameChange(e.target.value),
 								floatingLabelText: 'Uživatelské jméno',
 								floatingLabelFixed: true,
@@ -185,7 +185,7 @@ class Contributors extends Component {
 						e(
 							TextField,
 							{
-								value: this.state.password,
+								value: this.state.password || '',
 								onChange: (e) => this.handlePasswordChange(e.target.value),
 								floatingLabelText: 'Heslo',
 								floatingLabelFixed: true,
