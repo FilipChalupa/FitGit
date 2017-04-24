@@ -1,4 +1,3 @@
-const loadJsonFile = require('load-json-file')
 const path = require('path')
 const fsp = require('fs-promise')
 const log = require('./log')
