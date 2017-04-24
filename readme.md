@@ -38,3 +38,15 @@ $ npm run build
 - Linux
 	- Git client
 	- For https repositories: [Credential Storage](https://git-scm.com/book/gr/v2/Git-Tools-Credential-Storage) enabled (`git config --global credential.helper`)
+
+
+## Issues
+
+- User is `unknown`
+	- Run `git config --global user.name "Your name"`
+
+- E-mail is `unknown@unknown.com`
+	- Run `git config --global user.email "you@example.com"`
+
+- Project won't synchronize with the provided remote server
+	- Run `git fetch` and follow the instructions
