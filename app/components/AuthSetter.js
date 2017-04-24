@@ -15,6 +15,7 @@ const c = require('material-ui/Card')
 const Card = c.Card
 const CardTitle = c.CardTitle
 const CardText = c.CardText
+const t = require('../utils/text')
 
 class Contributors extends Component {
 
@@ -127,7 +128,7 @@ class Contributors extends Component {
 			e(
 				FlatButton,
 				{
-					label: 'Uložit',
+					label: t(this.props.settings.language, 'auth_save'),
 					primary: true,
 					onTouchTap: () => this.save(),
 				}
@@ -135,7 +136,7 @@ class Contributors extends Component {
 			e(
 				FlatButton,
 				{
-					label: 'Zrušit',
+					label: t(this.props.settings.language, 'auth_cancel'),
 					onTouchTap: () => this.closeWithoutSave(),
 				}
 			)
@@ -150,7 +151,7 @@ class Contributors extends Component {
 				e(
 					CardTitle,
 					{
-						title: 'Nastavení přístupových údajů',
+						title: t(this.props.settings.language, 'auth_title'),
 					}
 				),
 				e(
@@ -159,14 +160,14 @@ class Contributors extends Component {
 					e(
 						RaisedButton,
 						{
-							label: 'Změnit',
+							label: t(this.props.settings.language, 'auth_change'),
 							onTouchTap: () => this.setOpen(true),
 						}
 					),
 					e(
 						Dialog,
 						{
-							title: 'Změnit přístupové údaje',
+							title: t(this.props.settings.language, 'auth_dialog_change'),
 							actions: actions,
 							modal: false,
 							open: this.state.open,
@@ -177,7 +178,7 @@ class Contributors extends Component {
 							{
 								value: this.state.username || '',
 								onChange: (e) => this.handleUsernameChange(e.target.value),
-								floatingLabelText: 'Uživatelské jméno',
+								floatingLabelText: t(this.props.settings.language, 'auth_dialog_username'),
 								floatingLabelFixed: true,
 							}
 						),
@@ -187,7 +188,7 @@ class Contributors extends Component {
 							{
 								value: this.state.password || '',
 								onChange: (e) => this.handlePasswordChange(e.target.value),
-								floatingLabelText: 'Heslo',
+								floatingLabelText: t(this.props.settings.language, 'auth_dialog_password'),
 								floatingLabelFixed: true,
 								type: 'password',
 							}
@@ -203,6 +204,7 @@ class Contributors extends Component {
 function mapStateToProps(state) {
 	return {
 		loading: state.loading,
+		settings: state.settings,
 	}
 }
 

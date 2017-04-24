@@ -8,7 +8,7 @@
 	"settings_cancel": "Cancel",
 	"settings_accept": "Accept",
 	"settings_language": "Language",
-	"settings_note": "Note",
+	"settings_note": "",
 	"settings_reset": "Reset settings",
 	"settings_reset_prompt": "Do you really want to reset settings?",
 	"settings_autoshare": "Automatically share changes",
@@ -94,5 +94,12 @@
 	"notification_updates_message": "show",
 	"project_url_title": "Project Url",
 	"project_url_subtitle": "share it with other authors",
+	"auth_save": "Save",
+	"auth_cancel": "Cancel",
+	"auth_title": "Change authentication settings",
+	"auth_change": "Change",
+	"auth_dialog_change": "Change authentication settings",
+	"auth_dialog_username": "Username",
+	"auth_dialog_password": "Password",
 	"": ""
 }

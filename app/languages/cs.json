@@ -94,5 +94,12 @@
 	"notification_updates_message": "zobrazit",
 	"project_url_title": "Adresa projektu ke sdílení",
 	"project_url_subtitle": "zkopírujte tuto adresu a pošlete ji ostatním autorům",
+	"auth_save": "Uložit",
+	"auth_cancel": "Zrušit",
+	"auth_title": "Nastavení přístupových údajů",
+	"auth_change": "Změnit",
+	"auth_dialog_change": "Změnit přístupové údaje",
+	"auth_dialog_username": "Uživatelské jméno",
+	"auth_dialog_password": "Heslo",
 	"": ""
 }
