@@ -1,6 +1,4 @@
 {
-	"language_cs": "Česky",
-	"language_en": "English",
 	"menu_title": "Menu",
 	"menu_integrateChanges": "Začlenit změny",
 	"menu_commit": "Commit",
@@ -77,7 +75,6 @@
 	"project_error_creation": "Projekt se nepodařilo vytvořit",
 	"project_add": "Přidat",
 	"project_cancel": "Zrušit",
-	"project_xxx": "Z adresáře",
 	"project_from_directory": "Z adresáře",
 	"project_select_directory": "Zvolte adresář, který obsahuje již existující projekt.",
 	"project_select_url": "Zvolte adresu, ze které se stáhne existující projekt do místního adresáře. Stahování může nějakou dobu trvat.",

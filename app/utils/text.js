@@ -16,15 +16,15 @@ function getTranslation(code, key) {
 			log.error(error)
 		}
 	}
-	return texts[code][key] || ''
+	return texts[code][key] || null
 }
 
 function text(code, key) {
 	const requestedLanguageText = getTranslation(code, key)
 	if (requestedLanguageText === null) {
-		return getTranslation(DEFAULT_LANGUAGE_CODE, key)
+		return getTranslation(DEFAULT_LANGUAGE_CODE, key) || ''
 	}
-	return requestedLanguageText
+	return requestedLanguageText || ''
 }
 
 
