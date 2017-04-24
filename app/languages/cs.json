@@ -76,6 +76,7 @@
 	"project_add": "Přidat",
 	"project_cancel": "Zrušit",
 	"project_from_directory": "Z adresáře",
+	"project_from_url": "Z URL",
 	"project_select_directory": "Zvolte adresář, který obsahuje již existující projekt.",
 	"project_select_url": "Zvolte adresu, ze které se stáhne existující projekt do místního adresáře. Stahování může nějakou dobu trvat.",
 	"projects_title": "Projekty",

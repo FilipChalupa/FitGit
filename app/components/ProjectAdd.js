@@ -316,7 +316,7 @@ class ProjectAdd extends Component {
 						e(
 							Tab,
 							{
-								label: "Z URL",
+								label: t(this.props.settings.language, 'project_from_url'),
 								onActive: () => this.setActiveTab(TAB_URL),
 							},
 							e(

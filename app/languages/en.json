@@ -76,6 +76,7 @@
 	"project_add": "Add",
 	"project_cancel": "Cancel",
 	"project_from_directory": "From directory",
+	"project_from_url": "From URL",
 	"project_select_directory": "Choose directory with an existing project.",
 	"project_select_url": "Insert Url of a project. Download usually takes some time.",
 	"projects_title": "Projects",
