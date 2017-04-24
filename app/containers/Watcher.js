@@ -234,7 +234,6 @@ class Watcher extends Component {
 				log.error(error)
 			})
 			.then(() => {
-				log.info('Watch job done')
 				setTimeout(() => {
 					this.check()
 				}, CHECK_INTERVAL)
