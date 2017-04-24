@@ -4,7 +4,9 @@
 [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/w48htrgwosvd42eq?svg=true)](https://ci.appveyor.com/project/Onset/FitGit)
 [![Dependency Status](https://david-dm.org/Onset/FitGit.svg)](https://david-dm.org/Onset/FitGit)
 
-![](./printscreen-projects.png)
+![](./printscreen-windows.png)
+
+![](./printscreen-linux.png)
 
 Git UI client featuring notifications about new updates in your git repository.
 
