@@ -1,35 +1,40 @@
-# app [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
+# FitGit
 
-> My superb app
+[![Build Status](https://travis-ci.org/Onset/git-latex.svg?branch=master)](https://travis-ci.org/Onset/git-latex)
+[![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/w48htrgwosvd42eq?svg=true)](https://ci.appveyor.com/project/Onset/git-latex)
+[![Dependency Status](https://david-dm.org/Onset/git-latex.svg)](https://david-dm.org/Onset/git-latex)
 
+![](./printscreen-projects.png)
 
-## Dev
+Git UI client featuring notifications about new updates in your git repository.
 
-```
+## Development
+
+Install [Node.js](https://nodejs.org/) and then
+
+```bash
 $ npm install
 ```
 
 ### Run
 
-```
+```bash
 $ npm start
 ```
 
 ### Build
 
-```
+```bash
 $ npm run build
 ```
 
-Builds the app for macOS, Linux, and Windows, using [electron-packager](https://github.com/electron-userland/electron-packager).
+## Requirements
 
+- Windows
+	- [Git client](https://git-scm.com/download/win)
+	- For https repositories: Git credential manager enabled
+	- For ssh: [Pageant](https://winscp.net/eng/docs/ui_pageant) configured
 
-## License
-
-MIT © [<%= name %>](<%= website %>)
-
-## Co je potřeba
-
-- git klient pro příkazovou řádku
-- povolený git credential manager
-- nastavený ssh klíč s klientem Pageant
+- Linux
+	- Git client
+	- For https repositories: Git credential manager enabled
