@@ -181,7 +181,7 @@ class Watcher extends Component {
 					}
 				}
 			})
-			.catch(() => {
+			.catch((error) => {
 				// Try to fix repo
 				this.props.actions.loading.IncrementLoadingJobs()
 				return Promise.resolve()
@@ -220,6 +220,8 @@ class Watcher extends Component {
 									log.info('Pushing maybe the first commit')
 									return exec(`cd ${this.props.projects.active.path} && git push -u origin master`)
 								})
+						} else {
+							throw error
 						}
 					})
 					.catch((error) => {
