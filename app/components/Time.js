@@ -22,16 +22,19 @@ class Time extends Component {
 	}
 
 
+	// Spustí aktualizaci času
 	tick() {
 		this.updateTime(this.tock)
 	}
 
 
+	// Spustí aktualizaci času
 	tock() {
 		this.updateTime(this.tick)
 	}
 
 
+	// Převede první písmeno na velké
 	firstUpper(text) {
 		if (this.props.firstUpper) {
 			return text.charAt(0).toUpperCase() + text.slice(1)
@@ -40,6 +43,7 @@ class Time extends Component {
 	}
 
 
+	// Aktualizuje čas, pokud je potřeba zobrazit nový text
 	updateTime(beat) {
 		const time = this.firstUpper(moment(this.props.date).fromNow())
 		if (time !== this.state.time) {
@@ -54,6 +58,7 @@ class Time extends Component {
 	componentWillUnmount() {
 		clearTimeout(this.timer)
 	}
+
 
 	render() {
 

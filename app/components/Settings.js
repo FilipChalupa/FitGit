@@ -37,6 +37,7 @@ class Settings extends Component {
 	}
 
 
+	// Načte dostupné jazyky ze složky pro jazyky
 	loadLanguages() {
 		fsp.readdir(LANGUAGES_DIR)
 			.then((files) => {
@@ -52,6 +53,7 @@ class Settings extends Component {
 	}
 
 
+	// Vrátí UI komponentu pro výběr jazyka
 	getItems() {
 		const languageNames = {
 			cs: 'Česky',
@@ -71,21 +73,26 @@ class Settings extends Component {
 		})
 	}
 
+
 	handleLanguageChange(e, i, code) {
 		this.props.actions.settings.setLanguage(code, code)
 	}
+
 
 	handleMergeMessageChange(event) {
 		this.props.actions.settings.setMergeMessage(event.target.value)
 	}
 
+
 	openConfirmReset() {
 		this.setState(Object.assign({}, this.state, { confirmReset: true }))
 	}
 
+
 	closeConfirmReset() {
 		this.setState(Object.assign({}, this.state, { confirmReset: false }))
 	}
+
 
 	render() {
 		return (

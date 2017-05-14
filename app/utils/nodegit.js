@@ -1,6 +1,7 @@
 const nodegit = require('nodegit')
 const log = require('./log')
 
+// Vrátí všechny větve repozitáře na lokální cestě
 const getBranches = function getBranches(path) {
 	return nodegit.Repository.open(path)
 		.then((repo) => {
@@ -8,6 +9,8 @@ const getBranches = function getBranches(path) {
 		})
 }
 
+
+// Vrátí všechny větve s prefixem
 const getPrefixedBranches = function getPrefixedBranches(path, prefix) {
 	return getBranches(path)
 		.then((allBranches) => {
@@ -20,14 +23,20 @@ const getPrefixedBranches = function getPrefixedBranches(path, prefix) {
 		})
 }
 
+
+// Vrátí lokální větve
 const getLocalBranches = function getLocalBranches(path) {
 	return getPrefixedBranches(path, 'refs/heads/')
 }
 
+
+// Vrátí vzdálené větve
 const getRemoteBranches = function getRemoteBranches(path) {
 	return getPrefixedBranches(path, 'refs/remotes/')
 }
 
+
+// Vrátí aktuální větev
 const getCurrentBranch = function getCurrentBranch(path) {
 	return nodegit.Repository.open(path)
 		.then((repo) => {
@@ -42,6 +51,8 @@ const getCurrentBranch = function getCurrentBranch(path) {
 		})
 }
 
+
+// Vrátí nejnovější společný commit
 const getCommonTopCommit = function(repo, localTopCommit, remoteTopCommit) {
 	const makeCommitForPool = (commit, isLocal, isRemote) => {
 		return {
@@ -85,6 +96,7 @@ const getCommonTopCommit = function(repo, localTopCommit, remoteTopCommit) {
 }
 
 
+// Pomocná funkce pro hledání nejnovějšího commitu
 function getNewestCommitFromPool(pool) {
 	return pool.reduce((accumulator, current) => {
 		if (accumulator.commit.timeMs() < current.commit.timeMs()) {
@@ -95,6 +107,7 @@ function getNewestCommitFromPool(pool) {
 }
 
 
+// Spočítá statisktiky mezi dvěma stromy
 function countCommitStats(treeA, treeB) {
 	const stats = {
 		additions: 0,

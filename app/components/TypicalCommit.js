@@ -29,6 +29,7 @@ class Contributors extends Component {
 		}
 	}
 
+
 	componentDidMount() {
 		this.refresh()
 	}
@@ -123,6 +124,7 @@ class Contributors extends Component {
 			})
 	}
 
+
 	renderDetail() {
 		return e(
 			'div',
@@ -173,6 +175,7 @@ class Contributors extends Component {
 			)
 		)
 	}
+
 
 	render() {
 

@@ -22,7 +22,6 @@ module.exports = (
 		},
 		e(IndexRoute, { component: HomePage }),
 		e(Route, { path:'/', component: HomePage }),
-		//e(Route, { path:'/counter', component: CounterPage }),
 		e(Route, { path:'/commit', component: CommitPage }),
 		e(Route, { path:'/projects', component: ProjectsPage }),
 		e(Route, { path:'/history', component: HistoryPage }),

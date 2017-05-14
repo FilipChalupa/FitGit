@@ -79,6 +79,8 @@ class History extends Component {
 			})
 	}
 
+
+	// Odstraní ze stromu dvojí křížení, které vzniká, pokud se větev vícekrát rozdvojuje
 	clearDoubleCrossing(tree) {
 		const top = []
 		const common = []

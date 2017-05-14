@@ -31,6 +31,8 @@ class Menu extends Component {
 		this.state = { open: false }
 	}
 
+
+	// Vrátí UI položku menu
 	getItem(path, title, leftIcon, rightIcon = null) {
 		return (
 			e(
@@ -47,6 +49,8 @@ class Menu extends Component {
 		)
 	}
 
+
+	// Vrátí všechny UI položky menu
 	getItems() {
 		const items = []
 		if (this.props.projects.active) {
@@ -92,9 +96,12 @@ class Menu extends Component {
 		return items
 	}
 
+
 	handleToggle() { this.setState({ open: !this.state.open }) }
 
+
 	handleClose() { this.setState({ open: false }) }
+
 
 	render() {
 		const title = this.props.projects.active ? this.props.projects.active.name : remote.app.getName()

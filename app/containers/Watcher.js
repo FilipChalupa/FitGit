@@ -38,6 +38,7 @@ class Watcher extends Component {
 	}
 
 
+	// Zjistí, jestli je co commitnout
 	refreshCanCommit(repo, localTopCommit) {
 		if (!repo) {
 			return
@@ -91,6 +92,7 @@ class Watcher extends Component {
 	}
 
 
+	// Nahraje nové změny na vzdálený server
 	push(repo, remoteName, localBranchReference) {
 		const refName = localBranchReference.toString()
 		return repo.getRemote(remoteName)
@@ -107,6 +109,8 @@ class Watcher extends Component {
 			.catch((error) => console.error(error))
 	}
 
+
+	// Spustí periodickou kontrolu repozitáře (fetch, push, upozornění na nové změny)
 	check() {
 		let repo
 		let remoteName

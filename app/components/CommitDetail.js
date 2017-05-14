@@ -109,6 +109,7 @@ class CommitDetail extends Component {
 	}
 
 
+	// Vrátí UI komponentu se základními informacemi o commitu
 	getNote() {
 		if (!this.state.mainCommit) {
 			return null

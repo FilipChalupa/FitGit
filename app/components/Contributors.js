@@ -30,6 +30,7 @@ class Contributors extends Component {
 		}
 	}
 
+
 	componentDidMount() {
 		this.refresh()
 	}

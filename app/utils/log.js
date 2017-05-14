@@ -14,12 +14,15 @@ const log = require('simple-node-logger').createSimpleLogger(currentLogFile)
 
 log.logDirectory = LOG_DIRECTORY
 
+
+// Zapíše info zprávu do souboru
 function info(input) {
 	console.log(input)
 	log.info(input.toString())
 }
 
 
+// Zapíše error zprávu do souboru
 function error(input) {
 	console.error(input)
 	log.error(input.toString())

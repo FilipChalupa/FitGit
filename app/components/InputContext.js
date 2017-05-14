@@ -33,6 +33,7 @@ class InputContext extends Component {
 	}
 
 
+	// Volby po kliknutí pravým tlačítkem/kontextové menu
 	getOptions() {
 		return Menu.buildFromTemplate([{
 				label: t(this.props.settings.language, 'input_context_undo'),
@@ -61,12 +62,14 @@ class InputContext extends Component {
 	}
 
 
+	// Přidá listener na zobrazení kontextového menu
 	add() {
 		this.createCallback()
 		document.body.addEventListener('contextmenu', this.contextMenu)
 	}
 
 
+	// Odebere listener, pokud existuje
 	remove() {
 		if (this.contextMenu) {
 			document.body.removeEventListener('contextmenu', this.contextMenu)

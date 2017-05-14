@@ -37,6 +37,7 @@ class IntegrateChanges extends Component {
 		this.commonTopCommit = null
 	}
 
+
 	setUpdating(updating) {
 		this.setState(Object.assign({}, this.state, { updating }))
 		if (updating) {
@@ -46,10 +47,12 @@ class IntegrateChanges extends Component {
 		}
 	}
 
+
 	componentDidMount() {
 		this.refresh()
 		this.props.actions.integrator.dismissNotification()
 	}
+
 
 	refresh() {
 		if (!this.props.projects.active) {
@@ -105,6 +108,8 @@ class IntegrateChanges extends Component {
 			})
 	}
 
+
+	// Spustí merge změn
 	accept() {
 		if (!this.repo || !this.remoteTopCommit) {
 			return
@@ -131,6 +136,7 @@ class IntegrateChanges extends Component {
 	}
 
 
+	// Pokusí se provést merge
 	merge() {
 		const author = this.repo.defaultSignature()
 		return Promise.resolve()
@@ -167,6 +173,7 @@ class IntegrateChanges extends Component {
 	}
 
 
+	// Pokusí se automaticky vyřešit konflikty
 	solveConflict(index) {
 		const author = this.repo.defaultSignature()
 		return Promise.resolve()

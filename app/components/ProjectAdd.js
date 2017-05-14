@@ -41,6 +41,8 @@ class ProjectAdd extends Component {
 		}
 	}
 
+
+	// Zobrazí okno pro výběr adresáře
 	getDirectory() {
 		this.setState(Object.assign({}, this.state, { directoryModal: true }))
 		setTimeout(() => {
@@ -53,26 +55,32 @@ class ProjectAdd extends Component {
 		}, 1)
 	}
 
+
 	setActiveTab(active) {
 		const newState = Object.assign({}, this.state, { active })
 		this.setState(newState)
 	}
+
 
 	handlePathChange(e, value) {
 		const newState = Object.assign({}, this.state, { directoryPath: value })
 		this.setState(newState)
 	}
 
+
 	handleURLChange(e, value) {
 		const newState = Object.assign({}, this.state, { url: value })
 		this.setState(newState)
 	}
+
 
 	prependProject(project) {
 		const newProjects = [project].concat(this.props.projects.list)
 		this.props.actions.projects.setProjects(newProjects)
 	}
 
+
+	// Vrátí UI komponentu pro uživatelský vstup, URL
 	getURLField() {
 		return (
 			e(
@@ -88,6 +96,8 @@ class ProjectAdd extends Component {
 		)
 	}
 
+
+	// Vrátí UI komponentu pro uživatelský vstup, adresář
 	getDirectoryField() {
 		return (
 			e(
@@ -116,11 +126,15 @@ class ProjectAdd extends Component {
 		)
 	}
 
+
+	// Zobrazí modální okno
 	openAddModal(open) {
 		const newState = Object.assign({}, this.state, { openAddModal: open })
 		this.setState(newState)
 	}
 
+
+	// Přidá nový projekt podle uživatelského vstupu
 	addProject() {
 		const url = this.state.url
 		const localPath = this.state.directoryPath
@@ -166,6 +180,7 @@ class ProjectAdd extends Component {
 	}
 
 
+	// Pokusí se přidat již lokálně existující projekt
 	prepareLocalProject(path) {
 		let errorMessage = null
 		return Promise.resolve()
@@ -199,6 +214,7 @@ class ProjectAdd extends Component {
 	}
 
 
+	// Pokusí se přidat projekt z URL
 	prepareUrlProject(path, url) {
 		let errorMessage = null
 		const trimmedUrl = url.trim()

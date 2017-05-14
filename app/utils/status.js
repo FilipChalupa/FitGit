@@ -1,3 +1,4 @@
+// Mapa statusů
 module.exports = Object.freeze({
 	UNMODIFIED: 'unmodified',
 	ADDED: 'added',

@@ -24,6 +24,7 @@ class Diff extends Component {
 		}
 	}
 
+
 	setUpdating(updating) {
 		this.setState(Object.assign({}, this.state, { updating }))
 		if (updating) {
@@ -46,6 +47,7 @@ class Diff extends Component {
 	}
 
 
+	// Mapuje NodeGit status na FitGit status
 	getStatusKeys(patch) {
 		const keys = []
 

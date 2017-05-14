@@ -26,6 +26,7 @@ class ProjectUrl extends Component {
 		}
 	}
 
+
 	componentDidMount() {
 		this.refresh()
 	}
@@ -64,6 +65,7 @@ class ProjectUrl extends Component {
 			})
 	}
 
+
 	renderUrl() {
 		return e(
 			TextField,
@@ -74,6 +76,7 @@ class ProjectUrl extends Component {
 			}
 		)
 	}
+
 
 	render() {
 		if (this.state.failed) {

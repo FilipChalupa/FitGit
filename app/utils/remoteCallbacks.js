@@ -4,6 +4,8 @@ const credentialManager = require('git-credential-node')
 const nodegit = require('../utils/nodegit').nodegit
 const log = require('./log')
 
+
+// Callback pro ověření uživatele
 module.exports = {
 	callbacks: {
 		credentials: (url, userName) => {

@@ -16,6 +16,7 @@ const t = require('../utils/text')
 class ProjectsList extends Component {
 
 
+	// Nastaví aktivní projekt
 	selectProject(project) {
 		if (compareProjects(project, this.props.activeProject)) {
 			hashHistory.push('/project')

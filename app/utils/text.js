@@ -3,10 +3,12 @@ const fsp = require('fs-promise')
 const log = require('./log')
 
 const LANGUAGES_DIR = path.resolve(__dirname, '..', 'languages')
-const DEFAULT_LANGUAGE_CODE = 'cs'
+const DEFAULT_LANGUAGE_CODE = 'cs' // Defaultní jazyk
 
 const texts = {}
 
+
+// Vrátí text, kde code je dvoupísmenný kód jazyka a key je klíč konkrétního překladu
 function getTranslation(code, key) {
 	if (!texts[code]) {
 		try {
@@ -19,6 +21,8 @@ function getTranslation(code, key) {
 	return texts[code][key] || null
 }
 
+
+// Vrátí text s fallbackem na defaultní jazyk
 function text(code, key) {
 	const requestedLanguageText = getTranslation(code, key)
 	if (requestedLanguageText === null) {

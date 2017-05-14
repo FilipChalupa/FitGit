@@ -42,7 +42,7 @@ class Commit extends Component {
 		this.repo = null
 	}
 
-
+	// Mapuje NodeGit status je FitGit status
 	getDeltaStatusKey(num) {
 		if (num === nodegit.Diff.DELTA.UNMODIFIED) return status.UNMODIFIED
 		if (num === nodegit.Diff.DELTA.ADDED) return status.ADDED
@@ -72,6 +72,7 @@ class Commit extends Component {
 	}
 
 
+	// Přidá na stage podle cesty
 	stage(path) {
 		this.setUpdating(true)
 		return Promise.resolve()
@@ -86,6 +87,7 @@ class Commit extends Component {
 	}
 
 
+	// Odebere ze stage podle cesty
 	unstage(path) {
 		this.setUpdating(true)
 		return Promise.resolve()
@@ -100,6 +102,7 @@ class Commit extends Component {
 	}
 
 
+	// Přidá na stage vše
 	selectAll() {
 		let index
 		this.setUpdating(true)
@@ -120,6 +123,8 @@ class Commit extends Component {
 			})
 	}
 
+
+	// Odebere ze stage vše
 	unselectAll() {
 		this.repo.getHeadCommit()
 			.then((head) => {
@@ -135,6 +140,7 @@ class Commit extends Component {
 	}
 
 
+	// Vrátí položky pro grafické rozhraní (pokud staged === true, pak vrátí ty, co jsou na stage)
 	renderItems(artifacts, staged, clickCallback) {
 		return artifacts.map((artifact, i) => {
 			return (
@@ -175,6 +181,7 @@ class Commit extends Component {
 	}
 
 
+	// Vrátí všechny položky pro UI rozdělené do dvou seznamů
 	renderArtifacts() {
 		const trackedStaged = this.renderItems(this.state.trackedStaged, true, this.unstage.bind(this))
 		const trackedUnstaged = this.renderItems(this.state.trackedUnstaged, false, this.stage.bind(this))
@@ -242,6 +249,7 @@ class Commit extends Component {
 			)
 		]
 	}
+
 
 	getBody() {
 		if (this.props.projects.active) {
@@ -366,6 +374,8 @@ class Commit extends Component {
 		}))
 	}
 
+
+	// Vytvoří nový commit
 	commit() {
 		this.setCommiting(true)
 		let oid
@@ -408,6 +418,7 @@ class Commit extends Component {
 			})
 	}
 
+
 	setRefreshing(refreshing) {
 		this.setState(Object.assign({}, this.state, { refreshing }))
 		if (refreshing) {
@@ -416,6 +427,7 @@ class Commit extends Component {
 			this.props.actions.loading.DecrementLoadingJobs()
 		}
 	}
+
 
 	setCommiting(commiting) {
 		this.setState(Object.assign({}, this.state, { commiting }))
@@ -426,6 +438,7 @@ class Commit extends Component {
 		}
 	}
 
+
 	setUpdating(updating) {
 		this.setState(Object.assign({}, this.state, { updating }))
 		if (updating) {
@@ -435,11 +448,14 @@ class Commit extends Component {
 		}
 	}
 
+
 	componentDidMount() {
 		this.refresh()
 		this.props.actions.integrator.dismissCommitNotification()
 	}
 
+
+	// Vrátí položky, které nejsou na stage
 	getUnstaged(repo) {
 		return nodegit.Diff.indexToWorkdir(repo, null, {
 			flags: nodegit.Diff.OPTION.SHOW_UNTRACKED_CONTENT,
@@ -472,6 +488,7 @@ class Commit extends Component {
 	}
 
 
+	// Vrátí artefakt v jednotné podobě
 	getArtifactForm(path, status) {
 		return {
 			path,
@@ -480,6 +497,7 @@ class Commit extends Component {
 	}
 
 
+	// Vrátí všechny soubory na stage
 	getStaged(repo) {
 		return repo.getStatus()
 			.then((artifacts) => {
@@ -493,6 +511,7 @@ class Commit extends Component {
 					})
 			})
 	}
+
 
 	refresh() {
 		this.setRefreshing(true)
@@ -554,6 +573,7 @@ class Commit extends Component {
 				}
 			})
 	}
+
 
 	render() {
 		return (
