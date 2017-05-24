@@ -91,7 +91,7 @@
 	"commit_typical_subtitle": "median",
 	"notification_cancommit_title": "You have some unshared changes",
 	"notification_cancommit_message": "maybe it's time to commit",
-	"notification_updates_title": "Now changes available",
+	"notification_updates_title": "New changes available",
 	"notification_updates_message": "show",
 	"project_url_title": "Project Url",
 	"project_url_subtitle": "share it with other authors",
